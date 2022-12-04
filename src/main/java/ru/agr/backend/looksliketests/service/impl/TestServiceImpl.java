@@ -1,8 +1,9 @@
 package ru.agr.backend.looksliketests.service.impl;
 
 import org.springframework.stereotype.Service;
-import ru.agr.backend.looksliketests.entity.main.Test;
-import ru.agr.backend.looksliketests.repository.TestRepository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.agr.backend.looksliketests.db.entity.main.Test;
+import ru.agr.backend.looksliketests.db.repository.TestRepository;
 import ru.agr.backend.looksliketests.service.TestService;
 
 import java.util.Optional;
@@ -24,6 +25,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    @Transactional
     public Test save(Test test) {
         return testRepository.save(test);
     }

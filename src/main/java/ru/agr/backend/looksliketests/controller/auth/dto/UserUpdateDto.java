@@ -1,6 +1,6 @@
 package ru.agr.backend.looksliketests.controller.auth.dto;
 
-import jakarta.validation.constraints.Email;
+import javax.validation.constraints.Email;
 import lombok.Data;
 
 

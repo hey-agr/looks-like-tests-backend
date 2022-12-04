@@ -1,19 +1,18 @@
 package ru.agr.backend.looksliketests.controller.exception;
 
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
-import ru.agr.backend.looksliketests.config.security.UserNotActivatedException;
 
 import java.time.LocalDateTime;
 
@@ -33,6 +32,11 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public ResponseEntity<ErrorMessage> httpMessageNotReadableException(HttpMessageNotReadableException e, ServletWebRequest request) {
+        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(MethodArgumentNotValidException e, ServletWebRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
     }
 

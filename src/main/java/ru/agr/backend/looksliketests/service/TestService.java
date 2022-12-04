@@ -1,6 +1,6 @@
 package ru.agr.backend.looksliketests.service;
 
-import ru.agr.backend.looksliketests.entity.main.Test;
+import ru.agr.backend.looksliketests.db.entity.main.Test;
 
 import java.util.Optional;
 

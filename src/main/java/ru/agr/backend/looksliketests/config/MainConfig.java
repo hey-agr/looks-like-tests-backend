@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @author Arslan Rabadanov
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "ru.agr.backend.looksliketests.repository")
+@EnableJpaRepositories(basePackages = "ru.agr.backend.looksliketests.db.repository")
 public class MainConfig {
 }

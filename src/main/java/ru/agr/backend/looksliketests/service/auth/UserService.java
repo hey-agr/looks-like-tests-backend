@@ -3,8 +3,8 @@ package ru.agr.backend.looksliketests.service.auth;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agr.backend.looksliketests.config.security.SecurityUtils;
-import ru.agr.backend.looksliketests.entity.auth.User;
-import ru.agr.backend.looksliketests.repository.auth.UserRepository;
+import ru.agr.backend.looksliketests.db.entity.auth.User;
+import ru.agr.backend.looksliketests.db.repository.auth.UserRepository;
 
 import java.util.Optional;
 

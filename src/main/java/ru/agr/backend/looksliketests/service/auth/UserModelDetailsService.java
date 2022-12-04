@@ -9,9 +9,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agr.backend.looksliketests.config.security.UserNotActivatedException;
-import ru.agr.backend.looksliketests.entity.auth.User;
-import ru.agr.backend.looksliketests.repository.auth.UserRepository;
+import ru.agr.backend.looksliketests.config.security.exception.UserNotActivatedException;
+import ru.agr.backend.looksliketests.db.entity.auth.User;
+import ru.agr.backend.looksliketests.db.repository.auth.UserRepository;
 
 import java.util.List;
 import java.util.Locale;
