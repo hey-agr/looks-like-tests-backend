@@ -18,7 +18,7 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
 
     @Override
-    public List<Question> findByTestId(@NonNull Long testId) {
-        return questionRepository.findAllByTestId(testId);
+    public List<Question> findByTestIds(@NonNull Long... testIds) {
+        return questionRepository.findAllByTestIdIn(testIds);
     }
 }

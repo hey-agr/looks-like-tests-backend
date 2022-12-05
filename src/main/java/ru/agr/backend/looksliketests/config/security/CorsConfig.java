@@ -5,7 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
+
+import javax.validation.constraints.NotNull;
 
 @Configuration
 public class CorsConfig {
@@ -21,6 +25,20 @@ public class CorsConfig {
 
       source.registerCorsConfiguration(ApiVersion.API_V1+"/**", config);
       return new CorsFilter(source);
+   }
+
+   @Bean
+   public WebMvcConfigurer corsConfigurer() {
+      return new WebMvcConfigurer() {
+         @Override
+         public void addCorsMappings(@NotNull CorsRegistry registry) {
+            registry.addMapping("/**")
+                    .allowedMethods("*")
+                    .allowedOrigins("*")
+                    .allowedHeaders("*")
+                    .maxAge(3600);
+         }
+      };
    }
 
 }

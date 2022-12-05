@@ -11,5 +11,5 @@ import java.util.List;
  */
 @Repository
 public interface QuestionRepository extends CrudRepository<Question, Long> {
-    List<Question> findAllByTestId(Long testId);
+    List<Question> findAllByTestIdIn(Long... testIds);
 }

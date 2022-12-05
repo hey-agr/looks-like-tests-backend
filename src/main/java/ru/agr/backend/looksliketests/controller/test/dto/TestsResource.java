@@ -1,6 +1,7 @@
 package ru.agr.backend.looksliketests.controller.test.dto;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
  */
 @Jacksonized
 @Builder
+@Getter
 public class TestsResource {
     private final List<TestResource> tests;
 }
