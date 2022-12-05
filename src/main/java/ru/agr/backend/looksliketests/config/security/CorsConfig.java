@@ -28,18 +28,4 @@ public class CorsConfig {
       return new CorsFilter(source);
    }
 
-   @Bean
-   public WebMvcConfigurer corsConfigurer() {
-      return new WebMvcConfigurer() {
-         @Override
-         public void addCorsMappings(@NotNull CorsRegistry registry) {
-            registry.addMapping("/**")
-                    .allowedMethods("*")
-                    .allowedOrigins("*")
-                    .allowedHeaders("*")
-                    .maxAge(3600);
-         }
-      };
-   }
-
 }
