@@ -1,7 +1,8 @@
 package ru.agr.backend.looksliketests.db.entity.main;
 
-import javax.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Getter
 @Setter

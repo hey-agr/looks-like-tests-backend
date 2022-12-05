@@ -14,6 +14,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
    Optional<User> findOneWithAuthoritiesByUsername(String username);
 
    @EntityGraph(attributePaths = "authorities")
+   Optional<User> findOneWithAuthoritiesByEmail(String email);
+
+   @EntityGraph(attributePaths = "authorities")
    Optional<User> findOneWithAuthoritiesByEmailIgnoreCase(String email);
 
 }

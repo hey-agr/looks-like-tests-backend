@@ -6,6 +6,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserCreateDto;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserResource;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
+import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
+import ru.agr.backend.looksliketests.service.auth.AuthorityService;
+
+import java.util.stream.Collectors;
 
 /**
  * @author Arslan Rabadanov
@@ -14,6 +18,8 @@ import ru.agr.backend.looksliketests.db.entity.auth.User;
 public abstract class UserMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
+    @Autowired
+    protected AuthorityService authorityService;
 
     @Mappings(
             @Mapping(target = "password", ignore = true)
@@ -23,6 +29,14 @@ public abstract class UserMapper {
     @AfterMapping
     protected void toEntityAfterMapping(UserCreateDto userCreateDto, @MappingTarget User user) {
         user.setPassword(passwordEncoder.encode(userCreateDto.password()));
+        user.setAuthorities(userCreateDto.authorities().stream()
+                .map(authorityName ->
+                        UserAuthority.builder()
+                                .user(user)
+                                .name(authorityName)
+                                .build())
+                .collect(Collectors.toList())
+        );
     }
 
     public abstract UserResource toUserResource(User user);

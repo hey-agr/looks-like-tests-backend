@@ -1,15 +1,16 @@
 package ru.agr.backend.looksliketests.db.entity.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
+import lombok.ToString;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,28 +32,31 @@ public class User {
    private String password;
 
    @Column(name = "first_name", length = 50)
-   @Size(min = 4, max = 50)
+   @Size(min = 1, max = 100)
    private String firstName;
 
    @Column(name = "last_name", length = 50)
-   @Size(min = 4, max = 50)
+   @Size(min = 1, max = 100)
    private String lastName;
 
+   @Column(name = "middle_name", length = 50)
+   @Size(min = 1, max = 100)
+   private String middleName;
+
    @Column(name = "email", length = 50)
-   @Size(min = 4, max = 50)
+   @Email
    private String email;
+
+   @Column(name = "phone", length = 50)
+   private String phone;
 
    @JsonIgnore
    @Column(name = "activated")
    @NotNull
    private boolean activated;
 
-   @ManyToMany
-   @JoinTable(
-      name = "user_authority",
-      schema = "auth",
-      joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-      inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
-   @BatchSize(size = 20)
-   private Set<Authority> authorities = new HashSet<>();
+   @EqualsAndHashCode.Exclude
+   @ToString.Exclude
+   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+   private List<UserAuthority> authorities;
 }

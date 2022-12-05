@@ -1,6 +1,5 @@
 package ru.agr.backend.looksliketests.controller.test;
 
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +11,8 @@ import ru.agr.backend.looksliketests.controller.test.dto.TestResource;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
 import ru.agr.backend.looksliketests.service.TestService;
+
+import javax.validation.Valid;
 
 
 /**

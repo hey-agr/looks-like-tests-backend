@@ -7,7 +7,7 @@ import ru.agr.backend.looksliketests.db.entity.auth.User;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-04T19:47:56+0100",
+    date = "2022-12-05T17:23:47+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.4 (Azul Systems, Inc.)"
 )
 @Component
@@ -25,11 +25,14 @@ public class UserMergerMapperImpl extends UserMergerMapper {
         if ( userUpdateDto.getLastName() != null ) {
             user.setLastName( userUpdateDto.getLastName() );
         }
+        if ( userUpdateDto.getMiddleName() != null ) {
+            user.setMiddleName( userUpdateDto.getMiddleName() );
+        }
         if ( userUpdateDto.getEmail() != null ) {
             user.setEmail( userUpdateDto.getEmail() );
         }
-        if ( userUpdateDto.getActivated() != null ) {
-            user.setActivated( userUpdateDto.getActivated() );
+        if ( userUpdateDto.getPhone() != null ) {
+            user.setPhone( userUpdateDto.getPhone() );
         }
 
         toEntityAfterMapping( userUpdateDto, user );

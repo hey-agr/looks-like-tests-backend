@@ -14,7 +14,9 @@ public class UserResource {
     String username;
     String firstName;
     String lastName;
+    String middleName;
     String email;
+    String phone;
     boolean activated;
     Set<AuthorityResource> authorities;
 }

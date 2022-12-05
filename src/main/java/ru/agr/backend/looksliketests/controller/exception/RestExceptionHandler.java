@@ -1,6 +1,5 @@
 package ru.agr.backend.looksliketests.controller.exception;
 
-import javax.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 
 import static java.util.Objects.isNull;

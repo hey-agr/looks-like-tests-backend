@@ -1,5 +1,6 @@
 package ru.agr.backend.looksliketests.service.auth;
 
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agr.backend.looksliketests.config.security.SecurityUtils;
@@ -26,6 +27,14 @@ public class UserService {
    @Transactional(readOnly = true)
    public Optional<User> findById(Long id) {
       return userRepository.findById(id);
+   }
+
+   public Optional<User> findByUsername(@NonNull String username) {
+      return userRepository.findOneWithAuthoritiesByUsername(username);
+   }
+
+   public Optional<User> findByEmail(@NonNull String email) {
+      return userRepository.findOneWithAuthoritiesByEmail(email);
    }
 
    public User save(User user) {
