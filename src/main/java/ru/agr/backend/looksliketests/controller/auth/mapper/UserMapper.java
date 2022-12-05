@@ -33,7 +33,7 @@ public abstract class UserMapper {
                 .map(authorityName ->
                         UserAuthority.builder()
                                 .user(user)
-                                .name(authorityName)
+                                .name(UserAuthority.AuthorityName.valueOf(authorityName.name()))
                                 .build())
                 .collect(Collectors.toList())
         );

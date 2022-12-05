@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
+import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateEmailException;
+import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateUsernameException;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -37,6 +39,16 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorMessage> methodArgumentNotValidException(MethodArgumentNotValidException e, ServletWebRequest request) {
+        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {DuplicateEmailException.class})
+    public ResponseEntity<ErrorMessage> duplicateEmailException(DuplicateEmailException e, ServletWebRequest request) {
+        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {DuplicateUsernameException.class})
+    public ResponseEntity<ErrorMessage> duplicateUsernameException(DuplicateUsernameException e, ServletWebRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
     }
 

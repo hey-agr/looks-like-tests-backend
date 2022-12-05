@@ -8,6 +8,7 @@ import javax.annotation.processing.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.agr.backend.looksliketests.controller.auth.dto.AuthorityResource;
+import ru.agr.backend.looksliketests.controller.auth.dto.UserAuthorityName;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserCreateDto;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserResource;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
@@ -15,7 +16,7 @@ import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-05T17:23:47+0100",
+    date = "2022-12-05T17:41:39+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.4 (Azul Systems, Inc.)"
 )
 @Component
@@ -38,7 +39,7 @@ public class UserMapperImpl extends UserMapper {
         user.setMiddleName( userCreateDto.middleName() );
         user.setEmail( userCreateDto.email() );
         user.setPhone( userCreateDto.phone() );
-        user.setAuthorities( authorityNameSetToUserAuthorityList( userCreateDto.authorities() ) );
+        user.setAuthorities( userAuthorityNameSetToUserAuthorityList( userCreateDto.authorities() ) );
 
         toEntityAfterMapping( userCreateDto, user );
 
@@ -65,8 +66,8 @@ public class UserMapperImpl extends UserMapper {
         return userResource.build();
     }
 
-    protected UserAuthority authorityNameToUserAuthority(UserAuthority.AuthorityName authorityName) {
-        if ( authorityName == null ) {
+    protected UserAuthority userAuthorityNameToUserAuthority(UserAuthorityName userAuthorityName) {
+        if ( userAuthorityName == null ) {
             return null;
         }
 
@@ -75,14 +76,14 @@ public class UserMapperImpl extends UserMapper {
         return userAuthority.build();
     }
 
-    protected List<UserAuthority> authorityNameSetToUserAuthorityList(Set<UserAuthority.AuthorityName> set) {
+    protected List<UserAuthority> userAuthorityNameSetToUserAuthorityList(Set<UserAuthorityName> set) {
         if ( set == null ) {
             return null;
         }
 
         List<UserAuthority> list = new ArrayList<UserAuthority>( set.size() );
-        for ( UserAuthority.AuthorityName authorityName : set ) {
-            list.add( authorityNameToUserAuthority( authorityName ) );
+        for ( UserAuthorityName userAuthorityName : set ) {
+            list.add( userAuthorityNameToUserAuthority( userAuthorityName ) );
         }
 
         return list;

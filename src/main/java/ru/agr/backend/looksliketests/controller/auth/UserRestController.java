@@ -47,7 +47,10 @@ public class UserRestController {
       if (nonNull(userCreateDto.email()) && userService.findByEmail(userCreateDto.email()).isPresent()) {
          throw new DuplicateEmailException("User with email: '"+userCreateDto.email()+"' already exists");
       }
-      var savedUser = userService.save(userMapper.toEntity(userCreateDto));
+      // user active
+      var userToSave = userMapper.toEntity(userCreateDto);
+      userToSave.setActivated(true);
+      var savedUser = userService.save(userToSave);
       return ResponseEntity.ok(
               userMapper.toUserResource(savedUser)
       );

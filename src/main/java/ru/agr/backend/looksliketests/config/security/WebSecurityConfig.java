@@ -19,6 +19,7 @@ import ru.agr.backend.looksliketests.config.security.jwt.JwtAccessDeniedHandler;
 import ru.agr.backend.looksliketests.config.security.jwt.JwtAuthenticationEntryPoint;
 import ru.agr.backend.looksliketests.config.security.jwt.TokenProvider;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
+import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -95,6 +96,8 @@ public class WebSecurityConfig {
                  .mvcMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
                  .mvcMatchers(ACTUATOR_WHITELIST).permitAll()
                  .mvcMatchers(SWAGGER_WHITELIST).permitAll()
+                 .mvcMatchers(HttpMethod.POST, ApiVersion.API_V1+"/tests")
+                 .hasAnyAuthority(UserAuthority.AuthorityName.TEACHER.name(), UserAuthority.AuthorityName.ADMIN.name())
                  .anyRequest().authenticated()
                  .and()
                  .apply(securityConfigurerAdapter());

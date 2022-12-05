@@ -14,7 +14,7 @@ import ru.agr.backend.looksliketests.db.entity.main.Question;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-05T17:23:47+0100",
+    date = "2022-12-05T17:41:39+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.4 (Azul Systems, Inc.)"
 )
 @Component

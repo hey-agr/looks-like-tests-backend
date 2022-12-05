@@ -1,7 +1,5 @@
 package ru.agr.backend.looksliketests.controller.auth.dto;
 
-import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,5 +16,5 @@ public record UserCreateDto(
         String middleName,
         @Email String email,
         String phone,
-        @NotNull Set<UserAuthority.AuthorityName> authorities) {
+        @NotNull Set<UserAuthorityName> authorities) {
 }
