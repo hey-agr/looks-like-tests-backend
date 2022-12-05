@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Configuration
 public class CorsConfig {
@@ -19,7 +20,7 @@ public class CorsConfig {
       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
       CorsConfiguration config = new CorsConfiguration();
       config.setAllowCredentials(true);
-      config.addAllowedOrigin("*");
+      config.setAllowedOriginPatterns(List.of("*"));
       config.addAllowedHeader("*");
       config.addAllowedMethod("*");
 
