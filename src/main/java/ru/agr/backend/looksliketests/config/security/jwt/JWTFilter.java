@@ -1,33 +1,29 @@
 package ru.agr.backend.looksliketests.config.security.jwt;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
 import ru.agr.backend.looksliketests.config.security.SecurityConstants;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-
 @Slf4j
-public class JWTFilter extends GenericFilterBean {
+@Component
+@RequiredArgsConstructor
+public class JWTFilter implements WebFilter {
    private final TokenProvider tokenProvider;
 
-   public JWTFilter(TokenProvider tokenProvider) {
-      this.tokenProvider = tokenProvider;
-   }
-
    @Override
-   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-      throws IOException, ServletException {
-      HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-      String jwt = resolveToken(httpServletRequest);
-      String requestURI = httpServletRequest.getRequestURI();
+   public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+      var request = exchange.getRequest();
+      var jwt = resolveToken(request);
+      var requestURI = request.getURI().toString();
 
       if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
          Authentication authentication = tokenProvider.getAuthentication(jwt);
@@ -37,11 +33,11 @@ public class JWTFilter extends GenericFilterBean {
          log.debug("no valid JWT token found, uri: {}", requestURI);
       }
 
-      filterChain.doFilter(servletRequest, servletResponse);
+      return chain.filter(exchange);
    }
 
-   private String resolveToken(HttpServletRequest request) {
-      String bearerToken = request.getHeader(SecurityConstants.AUTHORIZATION_HEADER);
+   private String resolveToken(ServerHttpRequest request) {
+      String bearerToken = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_HEADER);
       if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
          return bearerToken.substring(7);
       }

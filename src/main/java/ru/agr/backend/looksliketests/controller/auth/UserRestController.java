@@ -1,9 +1,9 @@
 package ru.agr.backend.looksliketests.controller.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 import ru.agr.backend.looksliketests.config.security.exception.UserNotFoundException;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserCreateDto;
@@ -33,14 +33,14 @@ public class UserRestController {
 
 
    @GetMapping
-   public ResponseEntity<UserResource> getCurrent() {
+   public Mono<UserResource> getCurrent() {
       final var user = userService.getUserWithAuthorities()
               .orElseThrow(() -> new UserNotFoundException("User doesn't exist"));
-      return ResponseEntity.ok(userMapper.toUserResource(user));
+      return Mono.just(userMapper.toUserResource(user));
    }
 
    @PostMapping
-   public ResponseEntity<UserResource> register(@RequestBody @Valid UserCreateDto userCreateDto) throws DuplicationException {
+   public Mono<UserResource> register(@RequestBody @Valid UserCreateDto userCreateDto) throws DuplicationException {
       if (userService.findByUsername(userCreateDto.username()).isPresent()) {
          throw new DuplicateUsernameException("User with login: '"+userCreateDto.username()+"' already exists");
       }
@@ -51,13 +51,11 @@ public class UserRestController {
       var userToSave = userMapper.toEntity(userCreateDto);
       userToSave.setActivated(true);
       var savedUser = userService.save(userToSave);
-      return ResponseEntity.ok(
-              userMapper.toUserResource(savedUser)
-      );
+      return Mono.just(userMapper.toUserResource(savedUser));
    }
 
    @PatchMapping("/{id}")
-   public ResponseEntity<UserResource> update(@PathVariable Long id,
+   public Mono<UserResource> update(@PathVariable Long id,
                                               @RequestBody @Valid UserUpdateDto userUpdateDto) throws DuplicationException {
       var user = userService.findById(id)
               .orElseThrow(() -> new UserNotFoundException("User doesn't exist"));
@@ -68,6 +66,6 @@ public class UserRestController {
          }
       }
       var updatedUser = userService.save(userMergerMapper.toEntity(userUpdateDto, user));
-      return ResponseEntity.ok(userMapper.toUserResource(updatedUser));
+      return Mono.just(userMapper.toUserResource(updatedUser));
    }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
 import ru.agr.backend.looksliketests.controller.exception.ResourceNotFoundException;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestDto;
@@ -30,20 +31,20 @@ public class TestsController {
     private final TestResourceService testResourceService;
 
     @GetMapping("/{testId}")
-    public ResponseEntity<TestResource> getById(@PathVariable Long testId) throws ResourceNotFoundException {
+    public Mono<ResponseEntity<TestResource>> getById(@PathVariable Long testId) throws ResourceNotFoundException {
         final var test = testService.findById(testId)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found test with id="+testId));
-        return ResponseEntity.ok(testResourceService.prepareTestResource(test));
+        return Mono.just(ResponseEntity.ok(testResourceService.prepareTestResource(test)));
     }
 
     @GetMapping
-    public ResponseEntity<TestsResource> getAll(Pageable pageable) {
+    public Mono<ResponseEntity<TestsResource>> getAll(Pageable pageable) {
         var testsPage = testService.findPageable(pageable);
-        return ResponseEntity.ok(testResourceService.prepareTestsResource(testsPage, pageable));
+        return Mono.just(ResponseEntity.ok(testResourceService.prepareTestsResource(testsPage, pageable)));
     }
 
     @PostMapping
-    public ResponseEntity<TestResource> createTest(@RequestBody @Valid CreateTestDto createTestDto) {
+    public Mono<ResponseEntity<TestResource>> createTest(@RequestBody @Valid CreateTestDto createTestDto) {
         final var savedTest = testService.save(testMapper.toEntity(createTestDto));
         try {
             return getById(savedTest.getId());

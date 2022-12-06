@@ -3,33 +3,31 @@ package ru.agr.backend.looksliketests.config.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.CorsFilter;
-import ru.agr.backend.looksliketests.config.security.jwt.JWTConfigurer;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import ru.agr.backend.looksliketests.config.security.jwt.JWTFilter;
 import ru.agr.backend.looksliketests.config.security.jwt.JwtAccessDeniedHandler;
 import ru.agr.backend.looksliketests.config.security.jwt.JwtAuthenticationEntryPoint;
-import ru.agr.backend.looksliketests.config.security.jwt.TokenProvider;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
 import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
 @Configuration
 public class WebSecurityConfig {
-   private final TokenProvider tokenProvider;
-   private final CorsFilter corsFilter;
+   private final CorsWebFilter corsFilter;
+   private final JWTFilter jwtFilter;
    private final JwtAuthenticationEntryPoint authenticationErrorHandler;
    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
@@ -50,13 +48,12 @@ public class WebSecurityConfig {
    };
 
    public WebSecurityConfig(
-      TokenProvider tokenProvider,
-      CorsFilter corsFilter,
+      CorsWebFilter corsFilter,
+      JWTFilter jwtFilter,
       JwtAuthenticationEntryPoint authenticationErrorHandler,
-      JwtAccessDeniedHandler jwtAccessDeniedHandler
-   ) {
-      this.tokenProvider = tokenProvider;
+      JwtAccessDeniedHandler jwtAccessDeniedHandler) {
       this.corsFilter = corsFilter;
+      this.jwtFilter = jwtFilter;
       this.authenticationErrorHandler = authenticationErrorHandler;
       this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
    }
@@ -75,38 +72,30 @@ public class WebSecurityConfig {
    }
 
    @Bean
-   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-      return http.authorizeHttpRequests(this::authorizeHttpRequestsConfiguration)
+   public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
+      return http.authorizeExchange(this::authorizeHttpRequestsConfiguration)
               .httpBasic(withDefaults())
               .build();
    }
 
-   private void authorizeHttpRequestsConfiguration(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authz) {
+   private void authorizeHttpRequestsConfiguration(ServerHttpSecurity.AuthorizeExchangeSpec authz) {
       try {
          authz.and().csrf().disable()
-                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                 .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                 .addFilterBefore(corsFilter, SecurityWebFiltersOrder.CORS)
                  .exceptionHandling()
                  .authenticationEntryPoint(authenticationErrorHandler)
                  .accessDeniedHandler(jwtAccessDeniedHandler)
                  .and()
-                 .sessionManagement()
-                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                 .and()
-                 .authorizeHttpRequests()
-                 .mvcMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
-                 .mvcMatchers(ACTUATOR_WHITELIST).permitAll()
-                 .mvcMatchers(SWAGGER_WHITELIST).permitAll()
-                 .mvcMatchers(HttpMethod.POST, ApiVersion.API_V1+"/tests")
+                 .authorizeExchange()
+                 .pathMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
+                 .pathMatchers(ACTUATOR_WHITELIST).permitAll()
+                 .pathMatchers(SWAGGER_WHITELIST).permitAll()
+                 .pathMatchers(HttpMethod.POST, ApiVersion.API_V1+"/tests")
                  .hasAnyAuthority(UserAuthority.AuthorityName.TEACHER.name(), UserAuthority.AuthorityName.ADMIN.name())
-                 .anyRequest().authenticated()
-                 .and()
-                 .apply(securityConfigurerAdapter());
+                 .anyExchange().authenticated();
       } catch (Exception e) {
          throw new RuntimeException(e);
       }
-   }
-
-   private JWTConfigurer securityConfigurerAdapter() {
-      return new JWTConfigurer(tokenProvider);
    }
 }

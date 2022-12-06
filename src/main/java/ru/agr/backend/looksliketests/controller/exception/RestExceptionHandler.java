@@ -6,12 +6,11 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.ServletWebRequest;
 import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateEmailException;
 import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateUsernameException;
 
@@ -23,57 +22,57 @@ import static java.util.Objects.isNull;
 @RestControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(value = {ResourceNotFoundException.class})
-    public ResponseEntity<ErrorMessage> notFoundEntity(EntityNotFoundException e, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessage> notFoundEntity(EntityNotFoundException e, ServerHttpRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = {AuthenticationException.class})
-    public ResponseEntity<ErrorMessage> authenticationException(AuthenticationException e, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessage> authenticationException(AuthenticationException e, ServerHttpRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
-    public ResponseEntity<ErrorMessage> httpMessageNotReadableException(HttpMessageNotReadableException e, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessage> httpMessageNotReadableException(HttpMessageNotReadableException e, ServerHttpRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(MethodArgumentNotValidException e, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(MethodArgumentNotValidException e, ServerHttpRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {DuplicateEmailException.class})
-    public ResponseEntity<ErrorMessage> duplicateEmailException(DuplicateEmailException e, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessage> duplicateEmailException(DuplicateEmailException e, ServerHttpRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {DuplicateUsernameException.class})
-    public ResponseEntity<ErrorMessage> duplicateUsernameException(DuplicateUsernameException e, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessage> duplicateUsernameException(DuplicateUsernameException e, ServerHttpRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {HttpMediaTypeNotSupportedException.class})
-    public ResponseEntity<ErrorMessage> httpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e, ServletWebRequest request) {
-        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(value = {HttpMediaTypeNotSupportedException.class})
+//    public ResponseEntity<ErrorMessage> httpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e, ServerHttpRequest request) {
+//        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
+//    }
 
     @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<ErrorMessage> otherException(Exception e, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessage> otherException(Exception e, ServerHttpRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ResponseEntity<ErrorMessage> getErrorMessageResponseEntity(Exception e, ServletWebRequest request, HttpStatus httpStatus) {
+    private ResponseEntity<ErrorMessage> getErrorMessageResponseEntity(Exception e, ServerHttpRequest request, HttpStatus httpStatus) {
         ErrorMessage errorMessage = getErrorMessage(e, request, httpStatus);
         return new ResponseEntity<>(errorMessage, httpStatus);
     }
 
-    private ErrorMessage getErrorMessage(Exception e, ServletWebRequest request, HttpStatus httpStatus) {
+    private ErrorMessage getErrorMessage(Exception e, ServerHttpRequest request, HttpStatus httpStatus) {
         return ErrorMessage.builder()
                 .timestamp(LocalDateTime.now())
                 .message(isNull(e.getMessage()) ? e.getClass().getName() : e.getMessage())
                 .status(httpStatus.value())
                 .error(httpStatus.getReasonPhrase())
-                .path(request.getRequest().getRequestURI())
+                .path(request.getURI().toString())
                 .build();
     }
 

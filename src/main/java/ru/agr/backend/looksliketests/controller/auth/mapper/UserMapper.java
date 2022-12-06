@@ -7,7 +7,6 @@ import ru.agr.backend.looksliketests.controller.auth.dto.UserCreateDto;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserResource;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
 import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
-import ru.agr.backend.looksliketests.service.auth.AuthorityService;
 
 import java.util.stream.Collectors;
 
@@ -18,8 +17,6 @@ import java.util.stream.Collectors;
 public abstract class UserMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
-    @Autowired
-    protected AuthorityService authorityService;
 
     @Mappings(
             @Mapping(target = "password", ignore = true)
