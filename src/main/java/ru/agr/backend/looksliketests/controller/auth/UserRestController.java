@@ -57,7 +57,7 @@ public class UserRestController {
    }
 
    @PatchMapping
-   public ResponseEntity<UserResource> patchCurentUser(@RequestBody @Valid UserUpdateDto userUpdateDto) throws DuplicationException {
+   public ResponseEntity<UserResource> patchCurrentUser(@RequestBody @Valid UserUpdateDto userUpdateDto) throws DuplicationException {
       var user = userService.getUserWithAuthorities()
               .orElseThrow(() -> new UserNotFoundException("User doesn't exist"));
       if (nonNull(userUpdateDto.getEmail())) {
