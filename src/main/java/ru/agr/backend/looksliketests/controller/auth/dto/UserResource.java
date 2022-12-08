@@ -11,6 +11,7 @@ import java.util.Set;
 @Value
 @Builder
 public class UserResource {
+    Long id;
     String username;
     String firstName;
     String lastName;

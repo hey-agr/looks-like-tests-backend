@@ -20,8 +20,7 @@ public abstract class TestMapper {
     public abstract TestResource toResource(Test test);
 
     @Mappings({
-            @Mapping(source = "minRightAnswers", target = "minCorrectAnswers"),
-            @Mapping(source = "isNeedVerify", target = "needVerification")
+            @Mapping(source = "minRightAnswers", target = "minCorrectAnswers")
     })
     public abstract Test toEntity(CreateTestDto createTestDto);
 

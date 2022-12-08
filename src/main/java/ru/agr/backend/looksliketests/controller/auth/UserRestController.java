@@ -56,14 +56,13 @@ public class UserRestController {
       );
    }
 
-   @PatchMapping("/{id}")
-   public ResponseEntity<UserResource> update(@PathVariable Long id,
-                                              @RequestBody @Valid UserUpdateDto userUpdateDto) throws DuplicationException {
-      var user = userService.findById(id)
+   @PatchMapping
+   public ResponseEntity<UserResource> patchCurentUser(@RequestBody @Valid UserUpdateDto userUpdateDto) throws DuplicationException {
+      var user = userService.getUserWithAuthorities()
               .orElseThrow(() -> new UserNotFoundException("User doesn't exist"));
       if (nonNull(userUpdateDto.getEmail())) {
          var userByEmail = userService.findByEmail(userUpdateDto.getEmail()).orElse(null);
-         if (nonNull(userByEmail) && !userByEmail.getId().equals(id)) {
+         if (nonNull(userByEmail) && !userByEmail.getId().equals(user.getId())) {
             throw new DuplicateEmailException("User with email: '"+userUpdateDto.getEmail()+"' already exists");
          }
       }

@@ -19,9 +19,8 @@ import java.util.List;
 public class CreateTestDto {
     @NotEmpty String name;
     String description;
-    String duration;
+    Integer duration; // sec
     Integer minRightAnswers;
     @Min(1) Integer attempts;
-    @NotNull Boolean isNeedVerify;
     @Valid List<CreateQuestionDto> questions;
 }

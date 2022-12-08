@@ -97,7 +97,7 @@ public class WebSecurityConfig {
                  .mvcMatchers(ACTUATOR_WHITELIST).permitAll()
                  .mvcMatchers(SWAGGER_WHITELIST).permitAll()
                  .mvcMatchers(HttpMethod.POST, ApiVersion.API_V1+"/tests")
-                 .hasAnyAuthority(UserAuthority.AuthorityName.TEACHER.name(), UserAuthority.AuthorityName.ADMIN.name())
+                 .hasAnyAuthority(UserAuthority.AuthorityName.ADMIN.name())
                  .anyRequest().authenticated()
                  .and()
                  .apply(securityConfigurerAdapter());

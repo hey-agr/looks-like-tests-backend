@@ -27,7 +27,7 @@ public class Test {
     private String description;
 
     @Column(name = "duration")
-    private String duration;
+    private Integer duration;
 
     @Column(name = "min_correct_answers")
     private Integer minCorrectAnswers;
