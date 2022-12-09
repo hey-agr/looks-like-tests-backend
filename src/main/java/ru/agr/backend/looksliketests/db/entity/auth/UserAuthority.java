@@ -1,6 +1,7 @@
 package ru.agr.backend.looksliketests.db.entity.auth;
 
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldNameConstants
 @IdClass(UserAuthority.UserAuthorityKey.class)
 @Entity
 @Table(name = "user_authority", schema = "auth")
@@ -26,6 +28,7 @@ public class UserAuthority {
    @EqualsAndHashCode.Exclude
    @ToString.Exclude
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
    protected User user;
 
    @Builder

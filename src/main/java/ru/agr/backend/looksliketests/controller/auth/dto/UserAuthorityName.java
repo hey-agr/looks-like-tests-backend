@@ -6,5 +6,6 @@ package ru.agr.backend.looksliketests.controller.auth.dto;
 public enum UserAuthorityName {
     TEACHER,
     STUDENT,
+    SUPERVISOR,
     ADMIN
 }

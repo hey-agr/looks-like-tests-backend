@@ -1,11 +1,15 @@
 package ru.agr.backend.looksliketests.service.auth;
 
 import lombok.NonNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agr.backend.looksliketests.config.security.SecurityUtils;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
 import ru.agr.backend.looksliketests.db.repository.auth.UserRepository;
+import ru.agr.backend.looksliketests.db.repository.filter.UserSpecificationFilter;
+import ru.agr.backend.looksliketests.db.repository.specification.UserSpecification;
 
 import java.util.Optional;
 
@@ -39,5 +43,9 @@ public class UserService {
 
    public User save(User user) {
       return userRepository.save(user);
+   }
+
+   public Page<User> findAllFiltered(UserSpecificationFilter filter, Pageable pageable) {
+      return userRepository.findAll(new UserSpecification(filter), pageable);
    }
 }

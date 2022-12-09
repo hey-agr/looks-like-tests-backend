@@ -8,11 +8,9 @@ CREATE TABLE main.student_to_teacher_assignation
     CONSTRAINT student_to_teacher_assignation_student_id_fk FOREIGN KEY (student_id)
         REFERENCES auth."user" (id) MATCH SIMPLE
         ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID,
+        ON DELETE CASCADE,
     CONSTRAINT student_to_teacher_assignation_teacher_id_fk FOREIGN KEY (teacher_id)
         REFERENCES auth."user" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID
 );

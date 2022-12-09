@@ -17,6 +17,7 @@ import ru.agr.backend.looksliketests.controller.resources.StudentToTeacherAssign
 import ru.agr.backend.looksliketests.controller.resources.StudentToTestAssignationResource;
 import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 import ru.agr.backend.looksliketests.service.AssignationService;
+import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.auth.UserService;
 
 import javax.validation.Valid;
@@ -36,6 +37,7 @@ public class AssignationController {
     private final StudentToTeacherResourceMapper studentToTeacherResourceMapper;
     private final StudentToTestResourceMapper studentToTestResourceMapper;
     private final UserService userService;
+    private final TestService testService;
 
     @PostMapping("/student-to-teacher")
     public ResponseEntity<StudentToTeacherAssignationResource> createStudentToTeacherAssign(
