@@ -1,7 +1,8 @@
-package ru.agr.backend.looksliketests.controller.auth.dto;
+package ru.agr.backend.looksliketests.controller.resources;
 
 import lombok.Builder;
 import lombok.Value;
+import ru.agr.backend.looksliketests.controller.auth.dto.UserAuthorityName;
 
 import java.util.Set;
 
@@ -19,5 +20,5 @@ public class UserResource {
     String email;
     String phone;
     boolean activated;
-    Set<AuthorityResource> authorities;
+    Set<UserAuthorityName> authorities;
 }

@@ -3,8 +3,8 @@ package ru.agr.backend.looksliketests.controller.test.service;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ru.agr.backend.looksliketests.controller.test.dto.TestResource;
-import ru.agr.backend.looksliketests.controller.test.dto.TestsResource;
+import ru.agr.backend.looksliketests.controller.resources.TestResource;
+import ru.agr.backend.looksliketests.controller.resources.TestsResource;
 import ru.agr.backend.looksliketests.db.entity.main.Test;
 
 /**

@@ -1,4 +1,4 @@
-package ru.agr.backend.looksliketests.controller.dto;
+package ru.agr.backend.looksliketests.controller.resources;
 
 import lombok.Builder;
 import lombok.Value;

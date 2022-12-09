@@ -5,5 +5,6 @@ package ru.agr.backend.looksliketests.db.entity.main;
  */
 public enum QuestionType {
     OPTIONS,
+    OPTIONS_MULTIPLY,
     WRITING
 }

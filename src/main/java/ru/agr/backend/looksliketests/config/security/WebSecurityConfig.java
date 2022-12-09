@@ -83,6 +83,8 @@ public class WebSecurityConfig {
 
    private void authorizeHttpRequestsConfiguration(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authz) {
       try {
+         var adminAuthority = UserAuthority.AuthorityName.ADMIN.name();
+
          authz.and().csrf().disable()
                  .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                  .exceptionHandling()
@@ -96,8 +98,7 @@ public class WebSecurityConfig {
                  .mvcMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
                  .mvcMatchers(ACTUATOR_WHITELIST).permitAll()
                  .mvcMatchers(SWAGGER_WHITELIST).permitAll()
-                 .mvcMatchers(HttpMethod.POST, ApiVersion.API_V1+"/tests")
-                 .hasAnyAuthority(UserAuthority.AuthorityName.ADMIN.name())
+                 //.mvcMatchers(HttpMethod.POST, ApiVersion.API_V1+"/tests").hasAnyAuthority(adminAuthority)
                  .anyRequest().authenticated()
                  .and()
                  .apply(securityConfigurerAdapter());

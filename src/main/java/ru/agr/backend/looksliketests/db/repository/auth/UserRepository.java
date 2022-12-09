@@ -19,4 +19,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
    @EntityGraph(attributePaths = "authorities")
    Optional<User> findOneWithAuthoritiesByEmailIgnoreCase(String email);
 
+   @EntityGraph(attributePaths = "authorities")
+   Optional<User> findOneWithAuthoritiesById(Long id);
+
 }

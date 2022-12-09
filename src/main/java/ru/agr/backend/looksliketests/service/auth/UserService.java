@@ -26,7 +26,7 @@ public class UserService {
 
    @Transactional(readOnly = true)
    public Optional<User> findById(Long id) {
-      return userRepository.findById(id);
+      return userRepository.findOneWithAuthoritiesById(id);
    }
 
    public Optional<User> findByUsername(@NonNull String username) {

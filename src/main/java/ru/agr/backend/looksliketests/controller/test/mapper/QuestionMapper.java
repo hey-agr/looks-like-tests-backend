@@ -3,7 +3,7 @@ package ru.agr.backend.looksliketests.controller.test.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import ru.agr.backend.looksliketests.controller.dto.QuestionResource;
+import ru.agr.backend.looksliketests.controller.resources.QuestionResource;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateQuestionDto;
 import ru.agr.backend.looksliketests.db.entity.main.Question;
 

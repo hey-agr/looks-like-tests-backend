@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateEmailException;
 import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateUsernameException;
+import ru.agr.backend.looksliketests.controller.test.exception.TestValidationException;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -54,6 +55,11 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(value = {HttpMediaTypeNotSupportedException.class})
     public ResponseEntity<ErrorMessage> httpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e, ServletWebRequest request) {
+        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {TestValidationException.class})
+    public ResponseEntity<ErrorMessage> testValidationException(TestValidationException e, ServletWebRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
     }
 

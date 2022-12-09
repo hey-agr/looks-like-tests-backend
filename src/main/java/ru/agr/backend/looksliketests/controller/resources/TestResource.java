@@ -1,9 +1,8 @@
-package ru.agr.backend.looksliketests.controller.test.dto;
+package ru.agr.backend.looksliketests.controller.resources;
 
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
-import ru.agr.backend.looksliketests.controller.dto.QuestionResource;
 
 import java.util.List;
 

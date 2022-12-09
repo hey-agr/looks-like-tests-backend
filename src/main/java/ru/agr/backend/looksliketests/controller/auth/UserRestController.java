@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import ru.agr.backend.looksliketests.config.security.exception.UserNotFoundException;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserCreateDto;
-import ru.agr.backend.looksliketests.controller.auth.dto.UserResource;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserUpdateDto;
 import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateEmailException;
 import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateUsernameException;
 import ru.agr.backend.looksliketests.controller.auth.exception.DuplicationException;
 import ru.agr.backend.looksliketests.controller.auth.mapper.UserMapper;
 import ru.agr.backend.looksliketests.controller.auth.mapper.UserMergerMapper;
+import ru.agr.backend.looksliketests.controller.resources.UserResource;
 import ru.agr.backend.looksliketests.service.auth.UserService;
 
 import javax.validation.Valid;

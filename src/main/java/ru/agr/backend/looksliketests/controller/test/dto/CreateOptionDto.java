@@ -12,4 +12,5 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 public class CreateOptionDto {
     String name;
+    boolean rightAnswer;
 }

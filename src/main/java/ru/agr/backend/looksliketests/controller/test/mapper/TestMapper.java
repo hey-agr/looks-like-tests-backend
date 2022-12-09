@@ -2,8 +2,8 @@ package ru.agr.backend.looksliketests.controller.test.mapper;
 
 import org.hibernate.Hibernate;
 import org.mapstruct.*;
+import ru.agr.backend.looksliketests.controller.resources.TestResource;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestDto;
-import ru.agr.backend.looksliketests.controller.test.dto.TestResource;
 import ru.agr.backend.looksliketests.db.entity.main.Test;
 
 import static java.util.Objects.nonNull;

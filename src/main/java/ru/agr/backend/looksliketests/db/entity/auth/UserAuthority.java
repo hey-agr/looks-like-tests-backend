@@ -42,6 +42,7 @@ public class UserAuthority {
    public enum AuthorityName {
       ADMIN,
       TEACHER,
+      SUPERVISOR,
       STUDENT
    }
 }

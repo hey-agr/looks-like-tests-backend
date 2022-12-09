@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import ru.agr.backend.looksliketests.controller.test.dto.TestResource;
-import ru.agr.backend.looksliketests.controller.test.dto.TestsResource;
+import ru.agr.backend.looksliketests.controller.resources.TestResource;
+import ru.agr.backend.looksliketests.controller.resources.TestsResource;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
 import ru.agr.backend.looksliketests.db.entity.main.Question;
@@ -35,7 +35,7 @@ public class TestResourceServiceImpl implements TestResourceService {
                 .toArray(Long[]::new);
         final var testQuestions = questionService.findByTestIds(testIds);
         final var testQuestionsMap = testQuestions.stream()
-                .collect(Collectors.groupingBy(Question::getTestId));
+                .collect(Collectors.groupingBy(question -> question.getTest().getId()));
         final var questionIds = testQuestions.stream()
                 .map(Question::getId)
                 .collect(Collectors.toSet());

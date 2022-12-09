@@ -7,11 +7,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
 import ru.agr.backend.looksliketests.controller.exception.ResourceNotFoundException;
+import ru.agr.backend.looksliketests.controller.resources.TestResource;
+import ru.agr.backend.looksliketests.controller.resources.TestsResource;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestDto;
-import ru.agr.backend.looksliketests.controller.test.dto.TestResource;
-import ru.agr.backend.looksliketests.controller.test.dto.TestsResource;
+import ru.agr.backend.looksliketests.controller.test.exception.TestValidationException;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
+import ru.agr.backend.looksliketests.controller.test.service.TestValidationService;
 import ru.agr.backend.looksliketests.service.TestService;
 
 import javax.validation.Valid;
@@ -28,6 +30,7 @@ public class TestsController {
     private final TestService testService;
     private final TestMapper testMapper;
     private final TestResourceService testResourceService;
+    private final TestValidationService testValidationService;
 
     @GetMapping("/{testId}")
     public ResponseEntity<TestResource> getById(@PathVariable Long testId) throws ResourceNotFoundException {
@@ -43,7 +46,8 @@ public class TestsController {
     }
 
     @PostMapping
-    public ResponseEntity<TestResource> createTest(@RequestBody @Valid CreateTestDto createTestDto) {
+    public ResponseEntity<TestResource> createTest(@RequestBody @Valid CreateTestDto createTestDto) throws TestValidationException {
+        testValidationService.validate(createTestDto);
         final var savedTest = testService.save(testMapper.toEntity(createTestDto));
         try {
             return getById(savedTest.getId());

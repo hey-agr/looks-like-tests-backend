@@ -16,5 +16,5 @@ public record UserCreateDto(
         String middleName,
         @Email String email,
         String phone,
-        @NotNull Set<UserAuthorityName> authorities) {
+        @NotNull Set<UserCreateAuthorityName> authorities) {
 }
