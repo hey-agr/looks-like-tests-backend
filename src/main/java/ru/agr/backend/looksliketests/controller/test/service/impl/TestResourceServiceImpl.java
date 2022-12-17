@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.agr.backend.looksliketests.controller.resources.TestResource;
 import ru.agr.backend.looksliketests.controller.resources.TestsResource;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestMapper;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * @author Arslan Rabadanov
  */
-@Component
+@Service
 @RequiredArgsConstructor
 public class TestResourceServiceImpl implements TestResourceService {
     private final QuestionService questionService;
