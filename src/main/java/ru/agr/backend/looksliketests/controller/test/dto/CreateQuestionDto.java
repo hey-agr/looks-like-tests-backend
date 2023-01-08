@@ -19,5 +19,6 @@ import java.util.List;
 public class CreateQuestionDto {
     @NotEmpty String name;
     @NotNull QuestionType type;
+    @Valid List<CreateQuestionImageDto> images;
     @Valid List<CreateOptionDto> answers;
 }

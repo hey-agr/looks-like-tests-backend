@@ -19,9 +19,6 @@ public class QuestionImage {
     @Column(name = "url", nullable = false)
     private String url;
 
-    @Column(name = "question_id", insertable = false, updatable = false)
-    private Long questionId;
-
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)

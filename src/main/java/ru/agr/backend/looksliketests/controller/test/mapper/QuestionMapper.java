@@ -10,7 +10,7 @@ import ru.agr.backend.looksliketests.db.entity.main.Question;
 /**
  * @author Arslan Rabadanov
  */
-@Mapper(componentModel = "spring", uses = OptionMapper.class)
+@Mapper(componentModel = "spring", uses = {OptionMapper.class, QuestionImageMapper.class})
 public abstract class QuestionMapper {
     @Mappings({
             @Mapping(source = "options", target = "answers")
