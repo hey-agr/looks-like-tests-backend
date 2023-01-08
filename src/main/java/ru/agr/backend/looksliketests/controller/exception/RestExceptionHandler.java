@@ -3,6 +3,7 @@ package ru.agr.backend.looksliketests.controller.exception;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateEmailException;
 import ru.agr.backend.looksliketests.controller.auth.exception.DuplicateUsernameException;
+import ru.agr.backend.looksliketests.controller.test.exception.TestProgressValidationException;
 import ru.agr.backend.looksliketests.controller.test.exception.TestValidationException;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 
 import static java.util.Objects.isNull;
@@ -24,7 +25,7 @@ import static java.util.Objects.isNull;
 @RestControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(value = {ResourceNotFoundException.class})
-    public ResponseEntity<ErrorMessage> notFoundEntity(EntityNotFoundException e, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessage> resourceNotFoundException(ResourceNotFoundException e, ServletWebRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.NOT_FOUND);
     }
 
@@ -58,8 +59,23 @@ public class RestExceptionHandler {
         return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = {PropertyReferenceException.class})
+    public ResponseEntity<ErrorMessage> propertyReferenceException(PropertyReferenceException e, ServletWebRequest request) {
+        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(value = {TestValidationException.class})
     public ResponseEntity<ErrorMessage> testValidationException(TestValidationException e, ServletWebRequest request) {
+        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {MaxTestAttemptsExceededException.class})
+    public ResponseEntity<ErrorMessage> maxTestAttemptsExceededException(MaxTestAttemptsExceededException e, ServletWebRequest request) {
+        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {TestProgressValidationException.class})
+    public ResponseEntity<ErrorMessage> testProgressValidationException(TestProgressValidationException e, ServletWebRequest request) {
         return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
     }
 

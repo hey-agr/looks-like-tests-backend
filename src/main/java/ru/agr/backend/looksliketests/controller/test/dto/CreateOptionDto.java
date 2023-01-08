@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * @author Arslan Rabadanov
  */
@@ -11,6 +13,6 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @Builder
 public class CreateOptionDto {
-    String name;
-    boolean rightAnswer;
+    @NotEmpty String name;
+    Boolean rightAnswer;
 }

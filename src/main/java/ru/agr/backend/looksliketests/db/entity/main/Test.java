@@ -4,15 +4,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
+@FieldNameConstants
 @Entity
 @Table(name = "test", schema = "main")
 public class Test {
@@ -38,6 +42,20 @@ public class Test {
     @Column(name = "attempts")
     private Integer attempts;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "test", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Question> questions;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Test test = (Test) o;
+        return id != null && Objects.equals(id, test.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

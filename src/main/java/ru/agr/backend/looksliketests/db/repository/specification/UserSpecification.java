@@ -1,5 +1,6 @@
 package ru.agr.backend.looksliketests.db.repository.specification;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
@@ -24,7 +25,7 @@ public class UserSpecification implements Specification<User> {
     private final UserSpecificationFilter filter;
 
     @Override
-    public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(@NonNull Root<User> root, @NonNull CriteriaQuery<?> query, @NonNull CriteriaBuilder builder) {
         List<Predicate> predicates = new ArrayList<>();
         if (nonNull(filter)) {
             Optional.ofNullable(filter.getAuthorities())

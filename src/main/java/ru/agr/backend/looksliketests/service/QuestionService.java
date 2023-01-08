@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface QuestionService {
     List<Question> findByTestIds(@NonNull Long... testIds);
+    boolean hasWritingQuestions(@NonNull List<Question> questions);
 }

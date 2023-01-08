@@ -27,4 +27,9 @@ public class AssignationServiceImpl implements AssignationService {
     public StudentToTestAssignation save(@NonNull StudentToTestAssignation studentToTestAssignation) {
         return studentToTestAssignationRepository.save(studentToTestAssignation);
     }
+
+    @Override
+    public boolean isStudentAssignedToTest(@NonNull Long studentId, @NonNull Long testId) {
+        return studentToTestAssignationRepository.findFirstByStudentIdAndTestId(studentId, testId).isPresent();
+    }
 }

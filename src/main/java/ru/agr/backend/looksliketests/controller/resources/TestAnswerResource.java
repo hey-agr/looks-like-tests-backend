@@ -12,8 +12,8 @@ import lombok.extern.jackson.Jacksonized;
 @Value
 public class TestAnswerResource {
     Long id;
-    TestProgressResource testProgress;
+    Long testProgressId;
     QuestionResource question;
-    OptionResource option;
+    Long optionId;
     String textAnswer;
 }

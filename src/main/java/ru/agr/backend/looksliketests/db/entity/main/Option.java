@@ -19,6 +19,9 @@ public class Option {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "right_answer", columnDefinition = "boolean default false")
+    private Boolean rightAnswer;
+
     @Column(name = "question_id", insertable = false, updatable = false)
     private Long questionId;
 

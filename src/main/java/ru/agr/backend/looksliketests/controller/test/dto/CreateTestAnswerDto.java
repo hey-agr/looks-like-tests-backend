@@ -5,6 +5,7 @@ import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author Arslan Rabadanov
@@ -14,6 +15,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class CreateTestAnswerDto {
     @NotNull Long questionId;
-    Long optionId;
+    List<Long> optionIds;
     String textAnswer;
 }

@@ -6,5 +6,9 @@ package ru.agr.backend.looksliketests.db.entity.main;
 public enum QuestionType {
     OPTIONS,
     OPTIONS_MULTIPLY,
-    WRITING
+    WRITING;
+
+    public boolean isOption() {
+        return this == OPTIONS || this == OPTIONS_MULTIPLY;
+    }
 }

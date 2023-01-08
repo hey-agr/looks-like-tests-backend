@@ -1,7 +1,7 @@
 package ru.agr.backend.looksliketests.controller.resources;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
@@ -10,8 +10,8 @@ import java.util.List;
  * @author Arslan Rabadanov
  */
 @Jacksonized
-@Builder
+@SuperBuilder
 @Getter
-public class TestsResource {
+public class TestsResource extends PageableResource {
     private final List<TestResource> tests;
 }

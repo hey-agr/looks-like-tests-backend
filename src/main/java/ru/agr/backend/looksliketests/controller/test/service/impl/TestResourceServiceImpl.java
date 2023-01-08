@@ -52,6 +52,11 @@ public class TestResourceServiceImpl implements TestResourceService {
         final var tests = testsPage.getContent();
         populateTest(tests.toArray(new Test[0]));
         return TestsResource.builder()
+                .pageNumber(pageable.getPageNumber())
+                .pageSize(pageable.getPageSize())
+                .size(tests.size())
+                .totalSize(testsPage.getTotalElements())
+                .totalPages(testsPage.getTotalPages())
                 .tests(tests.stream().map(testMapper::toResource).toList())
                 .build();
     }

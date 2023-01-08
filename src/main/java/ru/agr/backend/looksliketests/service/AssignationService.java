@@ -10,4 +10,5 @@ import ru.agr.backend.looksliketests.db.entity.main.StudentToTestAssignation;
 public interface AssignationService {
     StudentToTeacherAssignation save(@NonNull StudentToTeacherAssignation studentToTeacherAssignation);
     StudentToTestAssignation save(@NonNull StudentToTestAssignation studentToTestAssignation);
+    boolean isStudentAssignedToTest(@NonNull Long studentId, @NonNull Long testId);
 }
