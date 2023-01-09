@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
-import java.util.List;
-
 /**
  * @author Arslan Rabadanov
  */
@@ -14,10 +12,8 @@ import java.util.List;
 @Builder
 @Value
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QuestionResource {
+public class QuestionImageResource {
     Long id;
-    String name;
-    QuestionTypeResource type;
-    List<QuestionImageResource> images;
-    List<OptionResource> answers;
+    String url;
+    Long questionId;
 }
