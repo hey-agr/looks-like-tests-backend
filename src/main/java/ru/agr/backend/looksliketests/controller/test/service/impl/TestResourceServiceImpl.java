@@ -5,18 +5,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationsResource;
+import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationCollectionResource;
+import ru.agr.backend.looksliketests.controller.resources.StudentTestHistoryCollectionResource;
+import ru.agr.backend.looksliketests.controller.resources.TestCollectionResource;
 import ru.agr.backend.looksliketests.controller.resources.TestResource;
-import ru.agr.backend.looksliketests.controller.resources.TestsResource;
+import ru.agr.backend.looksliketests.controller.test.mapper.StudentTestHistoryMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestProgressMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestResultMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
-import ru.agr.backend.looksliketests.db.entity.main.Question;
-import ru.agr.backend.looksliketests.db.entity.main.Test;
-import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
-import ru.agr.backend.looksliketests.db.entity.main.TestResult;
+import ru.agr.backend.looksliketests.db.entity.main.*;
 import ru.agr.backend.looksliketests.service.OptionService;
 import ru.agr.backend.looksliketests.service.QuestionService;
 import ru.agr.backend.looksliketests.service.TestProgressService;
@@ -24,6 +23,7 @@ import ru.agr.backend.looksliketests.service.TestResultService;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +39,7 @@ public class TestResourceServiceImpl implements TestResourceService {
     private final TestResultService testResultService;
     private final TestResultMapper testResultMapper;
     private final TestProgressMapper testProgressMapper;
+    private final StudentTestHistoryMapper studentTestHistoryMapper;
 
     @Override
     public void populateTest(@NonNull Test... tests) {
@@ -61,10 +62,10 @@ public class TestResourceServiceImpl implements TestResourceService {
     }
 
     @Override
-    public TestsResource prepareTestsResource(@NonNull Page<Test> testsPage, @NonNull Pageable pageable) {
+    public TestCollectionResource prepareTestsResource(@NonNull Page<Test> testsPage, @NonNull Pageable pageable) {
         final var tests = testsPage.getContent();
         populateTest(tests.toArray(new Test[0]));
-        return TestsResource.builder()
+        return TestCollectionResource.builder()
                 .pageNumber(pageable.getPageNumber())
                 .pageSize(pageable.getPageSize())
                 .size(tests.size())
@@ -75,9 +76,9 @@ public class TestResourceServiceImpl implements TestResourceService {
     }
 
     @Override
-    public StudentTestAssignationsResource prepareStudentTestAssignationsResource(@NonNull User user,
-                                                                                  @NonNull Page<Test> testsPage,
-                                                                                  @NonNull Pageable pageable) {
+    public StudentTestAssignationCollectionResource prepareStudentTestAssignationsResource(@NonNull User user,
+                                                                                           @NonNull Page<Test> testsPage,
+                                                                                           @NonNull Pageable pageable) {
         final var tests = testsPage.getContent();
         populateTest(tests.toArray(new Test[0]));
         final var testIds = tests.stream()
@@ -96,30 +97,42 @@ public class TestResourceServiceImpl implements TestResourceService {
 
         final var testResources = tests.stream()
                 .map(testMapper::toStudentTestAssignedResource)
-                .map(resource -> {
-                    final var testProgresses = testProgressesMap.get(resource.getTestId()).stream()
-                            .map(testProgressMapper::toResource)
-                            .map(testProgressResource -> {
-                                final var testProgressResult = testResultsMap.get(testProgressResource.getId()).stream()
-                                        .map(testResultMapper::toResource)
-                                        .findFirst()
-                                        .orElse(null);
-                                testProgressResource.setTestResult(testProgressResult);
-                                return testProgressResource;
-                            })
-                            .toList();
-                    resource.setTestProgresses(testProgresses);
-                    return resource;
-                })
                 .toList();
+        testResources.forEach(resource -> {
+            final var testProgresses = testProgressesMap.getOrDefault(resource.getTestId(), Collections.emptyList()).stream()
+                    .map(testProgressMapper::toResource)
+                    .toList();
+            testProgresses.forEach(testProgressResource -> {
+                final var testProgressResult = testResultsMap.getOrDefault(testProgressResource.getId(), Collections.emptyList()).stream()
+                        .map(testResultMapper::toResource)
+                        .findFirst()
+                        .orElse(null);
+                testProgressResource.setTestResult(testProgressResult);
+            });
+            resource.setTestProgresses(testProgresses);
+        });
 
-        return StudentTestAssignationsResource.builder()
+        return StudentTestAssignationCollectionResource.builder()
                 .pageNumber(pageable.getPageNumber())
                 .pageSize(pageable.getPageSize())
                 .size(tests.size())
                 .totalSize(testsPage.getTotalElements())
                 .totalPages(testsPage.getTotalPages())
                 .tests(testResources)
+                .build();
+    }
+
+    @Override
+    public StudentTestHistoryCollectionResource prepareStudentTestHistoryCollectionResource(@NonNull Page<StudentTestHistory> studentTestHistoryPage, @NonNull Pageable pageable) {
+        final var tests = studentTestHistoryPage.getContent();
+
+        return StudentTestHistoryCollectionResource.builder()
+                .pageNumber(pageable.getPageNumber())
+                .pageSize(pageable.getPageSize())
+                .size(tests.size())
+                .totalSize(studentTestHistoryPage.getTotalElements())
+                .totalPages(studentTestHistoryPage.getTotalPages())
+                .tests(tests.stream().map(studentTestHistoryMapper::toResource).collect(Collectors.toList()))
                 .build();
     }
 

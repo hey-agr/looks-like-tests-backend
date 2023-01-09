@@ -2,10 +2,7 @@ package ru.agr.backend.looksliketests.db.entity.main;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -40,5 +37,6 @@ public class TestResult implements Serializable {
     private Boolean expired;
 
     @Column(name = "test_result_status")
+    @Enumerated(EnumType.STRING)
     private TestResultStatus testResultStatus;
 }

@@ -7,8 +7,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
 import ru.agr.backend.looksliketests.controller.exception.ResourceNotFoundException;
+import ru.agr.backend.looksliketests.controller.resources.TestCollectionResource;
 import ru.agr.backend.looksliketests.controller.resources.TestResource;
-import ru.agr.backend.looksliketests.controller.resources.TestsResource;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestDto;
 import ru.agr.backend.looksliketests.controller.test.exception.TestValidationException;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestMapper;
@@ -41,7 +41,7 @@ public class TestsController {
     }
 
     @GetMapping
-    public ResponseEntity<TestsResource> getAll(Pageable pageable) {
+    public ResponseEntity<TestCollectionResource> getAll(Pageable pageable) {
         var testsPage = testService.findPageable(pageable);
         return ResponseEntity.ok(testResourceService.prepareTestsResource(testsPage, pageable));
     }

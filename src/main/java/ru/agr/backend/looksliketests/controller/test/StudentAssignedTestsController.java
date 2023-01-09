@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.agr.backend.looksliketests.config.security.exception.UserNotFoundException;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
-import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationsResource;
+import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationCollectionResource;
+import ru.agr.backend.looksliketests.controller.resources.StudentTestHistoryCollectionResource;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
-import ru.agr.backend.looksliketests.service.TestProgressService;
-import ru.agr.backend.looksliketests.service.TestResultService;
+import ru.agr.backend.looksliketests.service.StudentTestHistoryService;
 import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.auth.UserService;
+import ru.agr.backend.looksliketests.service.filter.StudentTestHistoryFilter;
 import ru.agr.backend.looksliketests.service.filter.TestFilter;
 
 import java.util.Collections;
@@ -30,14 +31,13 @@ import java.util.Collections;
 @RequestMapping(ApiVersion.API_V1 + "/students")
 public class StudentAssignedTestsController {
     private final TestService testService;
-    private final TestProgressService testProgressService;
-    private final TestResultService testResultService;
+    private final StudentTestHistoryService studentTestHistoryService;
     private final TestResourceService testResourceService;
     private final UserService userService;
 
     @GetMapping("/tests/assignations")
-    public ResponseEntity<StudentTestAssignationsResource> getAll(Pageable pageable,
-                                                                  @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<StudentTestAssignationCollectionResource> getAssignations(Pageable pageable,
+                                                                                    @AuthenticationPrincipal UserDetails userDetails) {
         final var user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         final var filter = TestFilter.builder()
@@ -45,5 +45,17 @@ public class StudentAssignedTestsController {
                 .build();
         final var testsPage = testService.findFiltered(filter, pageable);
         return ResponseEntity.ok(testResourceService.prepareStudentTestAssignationsResource(user, testsPage, pageable));
+    }
+
+    @GetMapping("/tests/results")
+    public ResponseEntity<StudentTestHistoryCollectionResource> getResults(Pageable pageable,
+                                                                           @AuthenticationPrincipal UserDetails userDetails) {
+        final var user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        final var filter = StudentTestHistoryFilter.builder()
+                .studentIds(Collections.singletonList(user.getId()))
+                .build();
+        final var testsHistotyPage = studentTestHistoryService.findFiltered(filter, pageable);
+        return ResponseEntity.ok(testResourceService.prepareStudentTestHistoryCollectionResource(testsHistotyPage, pageable));
     }
 }

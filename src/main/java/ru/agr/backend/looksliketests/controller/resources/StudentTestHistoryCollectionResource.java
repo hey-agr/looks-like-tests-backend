@@ -15,6 +15,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Getter
-public class TestsResource extends PageableResource {
-    private final List<TestResource> tests;
+public class StudentTestHistoryCollectionResource extends PageableResource {
+    List<StudentTestHistoryResource> tests;
 }

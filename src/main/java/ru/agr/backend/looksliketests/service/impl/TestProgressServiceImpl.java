@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 import ru.agr.backend.looksliketests.db.repository.TestProgressRepository;
 import ru.agr.backend.looksliketests.service.TestProgressService;
-import ru.agr.backend.looksliketests.service.TestResultService;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -21,9 +20,9 @@ import java.util.Optional;
 @Service
 public class TestProgressServiceImpl implements TestProgressService {
     private final TestProgressRepository testProgressRepository;
-    private final TestResultService testResultService;
 
     @Override
+    @Transactional
     public TestProgress save(@NonNull TestProgress testProgress) {
         return testProgressRepository.save(testProgress);
     }

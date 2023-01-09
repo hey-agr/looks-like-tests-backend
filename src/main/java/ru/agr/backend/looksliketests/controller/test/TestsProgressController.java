@@ -64,6 +64,9 @@ public class TestsProgressController {
         final var testProgress = testProgressService.save(
                 testProgressMapper.toEntity(test, user)
         );
+        testResultService.save(
+                testResultService.calculateTestResult(testProgress)
+        );
         return ResponseEntity.ok(
                 testProgressMapper.toResource(testProgress)
         );

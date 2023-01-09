@@ -21,6 +21,7 @@ public class TestResultResource {
     TestResultStatusResource testResultStatus;
 
     public enum TestResultStatusResource {
+        IN_PROGRESS,
         PASSED,
         PENDING,
         FAILED;

@@ -3,6 +3,7 @@ package ru.agr.backend.looksliketests.service.impl;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.agr.backend.looksliketests.db.entity.main.*;
 import ru.agr.backend.looksliketests.db.repository.TestResultRepository;
 import ru.agr.backend.looksliketests.service.RightAnswerCalculateService;
@@ -11,6 +12,8 @@ import ru.agr.backend.looksliketests.service.TestResultService;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 /**
  * @author Arslan Rabadanov
@@ -23,17 +26,20 @@ public class TestResultServiceImpl implements TestResultService {
     private final RightAnswerCalculateService rightAnswerCalculateService;
 
     @Override
+    @Transactional
     public TestResult save(@NonNull TestResult testResult) {
         return testResultRepository.save(testResult);
     }
 
     @Override
     public TestResult calculateTestResult(@NonNull TestProgress testProgress) {
+        return nonNull(testProgress.getDateFinished())
+                ? calculateFinishedTestResult(testProgress)
+                : calculateProgressTestResult(testProgress);
+    }
+
+    private TestResult calculateFinishedTestResult(@NonNull TestProgress testProgress) {
         final var test = testProgress.getTest();
-
-        final var resultQuestionAnswersMap = testAnswerService.findByTestProgressId(testProgress.getId()).stream()
-                .collect(Collectors.groupingBy(TestAnswer::getQuestion));
-
         final var testDateStarted = testProgress.getDateStarted();
         final var testDateFinished = testProgress.getDateFinished();
 
@@ -42,6 +48,9 @@ public class TestResultServiceImpl implements TestResultService {
                 : testDateFinished;
 
         final var expired = testDateFinished.isAfter(testDeadline);
+
+        final var resultQuestionAnswersMap = testAnswerService.findByTestProgressId(testProgress.getId()).stream()
+                .collect(Collectors.groupingBy(TestAnswer::getQuestion));
 
         final var questionCount = Long.valueOf(test.getQuestions().size());
         final var rightAnswersCount = resultQuestionAnswersMap.entrySet().stream()
@@ -62,6 +71,20 @@ public class TestResultServiceImpl implements TestResultService {
                 .pendingAnswersCount(pendingAnswersCount)
                 .expired(expired)
                 .testResultStatus(processTestResultStatus(test, expired, rightAnswersCount))
+                .build();
+    }
+
+    private TestResult calculateProgressTestResult(@NonNull TestProgress testProgress) {
+        final var test = testProgress.getTest();
+        final var questionCount = Long.valueOf(test.getQuestions().size());
+        return TestResult.builder()
+                .testProgressId(testProgress.getId())
+                .questionCount(questionCount)
+                .rightAnswersCount(0L)
+                .wrongAnswersCount(0L)
+                .pendingAnswersCount(0L)
+                .expired(false)
+                .testResultStatus(TestResultStatus.IN_PROGRESS)
                 .build();
     }
 
