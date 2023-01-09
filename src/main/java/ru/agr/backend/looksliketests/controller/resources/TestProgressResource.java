@@ -3,7 +3,6 @@ package ru.agr.backend.looksliketests.controller.resources;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
 import java.time.ZonedDateTime;

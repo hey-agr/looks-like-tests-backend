@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.agr.backend.looksliketests.config.security.exception.UserNotFoundException;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
-import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationResource;
 import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationsResource;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
-import ru.agr.backend.looksliketests.db.entity.main.Test;
-import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 import ru.agr.backend.looksliketests.service.TestProgressService;
 import ru.agr.backend.looksliketests.service.TestResultService;
 import ru.agr.backend.looksliketests.service.TestService;
@@ -23,7 +20,6 @@ import ru.agr.backend.looksliketests.service.auth.UserService;
 import ru.agr.backend.looksliketests.service.filter.TestFilter;
 
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 /**
  * @author Arslan Rabadanov

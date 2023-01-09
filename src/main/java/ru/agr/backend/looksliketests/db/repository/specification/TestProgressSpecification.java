@@ -3,7 +3,6 @@ package ru.agr.backend.looksliketests.db.repository.specification;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
-import ru.agr.backend.looksliketests.db.entity.main.Test;
 import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 import ru.agr.backend.looksliketests.db.repository.filter.TestProgressSpecificationFilter;
 

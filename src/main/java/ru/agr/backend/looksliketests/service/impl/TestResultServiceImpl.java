@@ -48,7 +48,7 @@ public class TestResultServiceImpl implements TestResultService {
                 .filter(entry -> rightAnswerCalculateService.isRightAnswer(entry.getKey(), entry.getValue()))
                 .count();
         final var wrongAnswersCount = resultQuestionAnswersMap.entrySet().stream()
-                .filter(entry -> !rightAnswerCalculateService.isRightAnswer(entry.getKey(), entry.getValue()))
+                .filter(entry -> !entry.getKey().getType().isCheckRequired() && !rightAnswerCalculateService.isRightAnswer(entry.getKey(), entry.getValue()))
                 .count();
         final var pendingAnswersCount = resultQuestionAnswersMap.keySet().stream()
                 .filter(question -> question.getType().isCheckRequired())

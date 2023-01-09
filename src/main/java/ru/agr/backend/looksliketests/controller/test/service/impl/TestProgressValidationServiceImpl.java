@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestAnswersDto;
 import ru.agr.backend.looksliketests.controller.test.exception.TestProgressValidationException;
 import ru.agr.backend.looksliketests.controller.test.service.TestProgressValidationService;
+import ru.agr.backend.looksliketests.db.entity.main.QuestionType;
 import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 import ru.agr.backend.looksliketests.service.TestProgressService;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +40,13 @@ public class TestProgressValidationServiceImpl implements TestProgressValidation
                 if (!answer.getOptionIds().isEmpty()) {
                     if (answer.getOptionIds().size() != options.size())
                         throw new TestProgressValidationException("Not found option ids: " + answer.getOptionIds() + " in the question with id: " + question.getId());
+                }
+            } else if (question.getType() == QuestionType.WRITING) {
+                if (Objects.nonNull(answer.getOptionIds()) && !answer.getOptionIds().isEmpty()) {
+                    throw new TestProgressValidationException("Question with with id="+question.getId()+" and type WRITING shouldn't have options");
+                }
+                if (Objects.isNull(answer.getTextAnswer()) || answer.getTextAnswer().isBlank()) {
+                    throw new TestProgressValidationException("Text answer is empty for the question with id="+question.getId());
                 }
             }
         }

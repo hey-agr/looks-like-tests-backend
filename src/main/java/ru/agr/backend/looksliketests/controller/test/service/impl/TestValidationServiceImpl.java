@@ -12,6 +12,8 @@ import ru.agr.backend.looksliketests.db.entity.main.QuestionType;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Objects.nonNull;
+
 /**
  * @author Arslan Rabadanov
  */
@@ -36,18 +38,26 @@ public class TestValidationServiceImpl implements TestValidationService {
             validateQuestionOptionType(createQuestionDto.getAnswers());
         } else if (createQuestionDto.getType() == QuestionType.OPTIONS_MULTIPLY) {
             validateQuestionOptionMultiplyType(createQuestionDto.getAnswers());
+        } else if (createQuestionDto.getType() == QuestionType.WRITING) {
+            validateQuestionWriting(createQuestionDto);
         }
     }
 
     private void validateQuestionOptionType(@NonNull List<CreateOptionDto> answers) throws TestValidationException {
-        if (answers.stream().filter(answer->Objects.nonNull(answer.getRightAnswer())).filter(CreateOptionDto::getRightAnswer).count() != 1) {
+        if (answers.stream().filter(answer-> nonNull(answer.getRightAnswer())).filter(CreateOptionDto::getRightAnswer).count() != 1) {
             throw new TestValidationException("Question with type OPTIONS must have one right answer");
         }
     }
 
     private void validateQuestionOptionMultiplyType(@NonNull List<CreateOptionDto> answers) throws TestValidationException {
-        if (answers.stream().filter(answer->Objects.nonNull(answer.getRightAnswer())).filter(CreateOptionDto::getRightAnswer).count() <= 1) {
+        if (answers.stream().filter(answer-> nonNull(answer.getRightAnswer())).filter(CreateOptionDto::getRightAnswer).count() <= 1) {
             throw new TestValidationException("Question with type OPTIONS_MULTIPLY must have at least two right answers");
+        }
+    }
+
+    private void validateQuestionWriting(@NonNull CreateQuestionDto createQuestionDto) throws TestValidationException {
+        if (nonNull(createQuestionDto.getAnswers()) && !createQuestionDto.getAnswers().isEmpty()) {
+            throw new TestValidationException("Question with type WRITING shouldn't have answers");
         }
     }
 }
