@@ -2,9 +2,12 @@ package ru.agr.backend.looksliketests.controller.test.mapper;
 
 import org.hibernate.Hibernate;
 import org.mapstruct.*;
+import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationResource;
 import ru.agr.backend.looksliketests.controller.resources.TestResource;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestDto;
 import ru.agr.backend.looksliketests.db.entity.main.Test;
+
+import javax.validation.constraints.NotNull;
 
 import static java.util.Objects.nonNull;
 
@@ -40,4 +43,11 @@ public abstract class TestMapper {
             });
         }
     }
+
+    @Mappings({
+            @Mapping(source = "id", target = "testId"),
+            @Mapping(source = "needVerification", target = "isNeedVerify"),
+            @Mapping(target = "questionsCount", expression = "java(test.getQuestions() != null ? Long.valueOf(test.getQuestions().size()) : 0L)")
+    })
+    public abstract StudentTestAssignationResource toStudentTestAssignedResource(@NotNull Test test);
 }

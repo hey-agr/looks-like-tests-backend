@@ -9,6 +9,7 @@ import ru.agr.backend.looksliketests.service.RightAnswerCalculateService;
 import ru.agr.backend.looksliketests.service.TestAnswerService;
 import ru.agr.backend.looksliketests.service.TestResultService;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -37,21 +38,36 @@ public class TestResultServiceImpl implements TestResultService {
         final var testDateFinished = testProgress.getDateFinished();
 
         final var testDeadline = test.getDuration() != 0
-                ? testDateStarted.plusSeconds(test.getDuration().longValue())
+                ? testDateStarted.plusSeconds(test.getDuration())
                 : testDateFinished;
 
         final var expired = testDateFinished.isAfter(testDeadline);
+
+        final var questionCount = Long.valueOf(test.getQuestions().size());
         final var rightAnswersCount = resultQuestionAnswersMap.entrySet().stream()
                 .filter(entry -> rightAnswerCalculateService.isRightAnswer(entry.getKey(), entry.getValue()))
+                .count();
+        final var wrongAnswersCount = resultQuestionAnswersMap.entrySet().stream()
+                .filter(entry -> !rightAnswerCalculateService.isRightAnswer(entry.getKey(), entry.getValue()))
+                .count();
+        final var pendingAnswersCount = resultQuestionAnswersMap.keySet().stream()
+                .filter(question -> question.getType().isCheckRequired())
                 .count();
 
         return TestResult.builder()
                 .testProgressId(testProgress.getId())
-                .questionCount((long) test.getQuestions().size())
+                .questionCount(questionCount)
                 .rightAnswersCount(rightAnswersCount)
+                .wrongAnswersCount(wrongAnswersCount)
+                .pendingAnswersCount(pendingAnswersCount)
                 .expired(expired)
                 .testResultStatus(processTestResultStatus(test, expired, rightAnswersCount))
                 .build();
+    }
+
+    @Override
+    public List<TestResult> findByTestProgressIds(@NonNull Long... testProgressIds) {
+        return testResultRepository.findAllByTestProgressIdIn(testProgressIds);
     }
 
     private TestResultStatus processTestResultStatus(Test test, boolean expired, long rightAnswersCount) {

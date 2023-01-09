@@ -34,8 +34,8 @@ public class TestProgressServiceImpl implements TestProgressService {
     }
 
     @Override
-    public List<TestProgress> findAllByTestIdAndUserId(@NonNull Long testId, @NonNull Long userId) {
-        return testProgressRepository.findAllByTestIdAndUserId(testId, userId);
+    public List<TestProgress> findAllByUserIdAndTestIds(@NonNull Long userId, @NonNull Long... testId) {
+        return testProgressRepository.findAllByUserIdAndTestIds(userId, testId);
     }
 
     @Override

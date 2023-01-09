@@ -30,6 +30,12 @@ public class TestResult implements Serializable {
     @Column(name = "right_answers_count")
     private Long rightAnswersCount;
 
+    @Column(name = "pending_answers_count")
+    private Long pendingAnswersCount;
+
+    @Column(name = "wrong_answers_count")
+    private Long wrongAnswersCount;
+
     @Column(name = "expired")
     private Boolean expired;
 

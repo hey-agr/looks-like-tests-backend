@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import ru.agr.backend.looksliketests.controller.resources.TestAnswerResource;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestAnswerDto;
+import ru.agr.backend.looksliketests.db.entity.main.QuestionType;
 import ru.agr.backend.looksliketests.db.entity.main.TestAnswer;
 import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 
@@ -27,7 +28,7 @@ public abstract class TestAnswerMapper {
                 .findFirst();
         if (questionOpt.isPresent()) {
             final var question = questionOpt.get();
-            if (question.getType().isOption()) {
+            if (nonNull(question.getType()) && question.getType().isOption()) {
                 for (Long optionId : createTestAnswerDto.getOptionIds()) {
                     final var optionOpt = question.getOptions().stream()
                             .filter(opt -> opt.getId().equals(optionId))
@@ -41,7 +42,7 @@ public abstract class TestAnswerMapper {
                         resultAnswers.add(testAnswer);
                     }
                 }
-            } else {
+            } else if (QuestionType.WRITING == question.getType()) {
                 var testAnswer = TestAnswer.builder()
                         .testProgress(testProgress)
                         .textAnswer(createTestAnswerDto.getTextAnswer())

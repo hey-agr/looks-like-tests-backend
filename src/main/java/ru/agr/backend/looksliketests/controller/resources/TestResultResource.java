@@ -13,8 +13,10 @@ import lombok.extern.jackson.Jacksonized;
 @Value
 public class TestResultResource {
     Long testProgressId;
-    Integer questionCount;
-    Integer rightAnswersCount;
+    Long questionCount;
+    Long rightAnswersCount;
+    Long pendingAnswersCount;
+    Long wrongAnswersCount;
     Boolean expired;
     TestResultStatusResource testResultStatus;
 

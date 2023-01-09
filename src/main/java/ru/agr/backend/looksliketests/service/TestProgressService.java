@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface TestProgressService {
     TestProgress save(@NonNull TestProgress testProgress);
     Optional<TestProgress> findById(@NonNull Long id);
-    List<TestProgress> findAllByTestIdAndUserId(@NonNull Long testId, @NonNull Long userId);
+    List<TestProgress> findAllByUserIdAndTestIds(@NonNull Long userId, @NonNull Long... testId);
     TestProgress finishProgress(@NonNull TestProgress testProgress);
     boolean isFinished(@NonNull TestProgress testProgress);
 }

@@ -84,6 +84,11 @@ public class RestExceptionHandler {
         return getErrorMessageResponseEntity(e, request, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(value = {StudentNotAssignedToTestException.class})
+    public ResponseEntity<ErrorMessage> studentNotAssignedToTestException(StudentNotAssignedToTestException e, ServletWebRequest request) {
+        return getErrorMessageResponseEntity(e, request, HttpStatus.BAD_REQUEST);
+    }
+
     private ResponseEntity<ErrorMessage> getErrorMessageResponseEntity(Exception e, ServletWebRequest request, HttpStatus httpStatus) {
         ErrorMessage errorMessage = getErrorMessage(e, request, httpStatus);
         return new ResponseEntity<>(errorMessage, httpStatus);

@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.agr.backend.looksliketests.config.security.exception.UserNotFoundException;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
-import ru.agr.backend.looksliketests.controller.resources.TestsResource;
+import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationResource;
+import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationsResource;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
+import ru.agr.backend.looksliketests.db.entity.main.Test;
+import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
+import ru.agr.backend.looksliketests.service.TestProgressService;
+import ru.agr.backend.looksliketests.service.TestResultService;
 import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.auth.UserService;
 import ru.agr.backend.looksliketests.service.filter.TestFilter;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * @author Arslan Rabadanov
@@ -25,21 +31,23 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Validated
 @RestController
-@RequestMapping(ApiVersion.API_V1 + "/students/assignations")
+@RequestMapping(ApiVersion.API_V1 + "/students")
 public class StudentAssignedTestsController {
     private final TestService testService;
+    private final TestProgressService testProgressService;
+    private final TestResultService testResultService;
     private final TestResourceService testResourceService;
     private final UserService userService;
 
-    @GetMapping("/tests")
-    public ResponseEntity<TestsResource> getAll(Pageable pageable,
-                                                @AuthenticationPrincipal UserDetails userDetails) {
+    @GetMapping("/tests/assignations")
+    public ResponseEntity<StudentTestAssignationsResource> getAll(Pageable pageable,
+                                                                  @AuthenticationPrincipal UserDetails userDetails) {
         final var user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         final var filter = TestFilter.builder()
                 .studentId(Collections.singletonList(user.getId()))
                 .build();
         final var testsPage = testService.findFiltered(filter, pageable);
-        return ResponseEntity.ok(testResourceService.prepareTestsResource(testsPage, pageable));
+        return ResponseEntity.ok(testResourceService.prepareStudentTestAssignationsResource(user, testsPage, pageable));
     }
 }

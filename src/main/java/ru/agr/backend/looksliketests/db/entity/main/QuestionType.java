@@ -11,4 +11,8 @@ public enum QuestionType {
     public boolean isOption() {
         return this == OPTIONS || this == OPTIONS_MULTIPLY;
     }
+
+    public boolean isCheckRequired() {
+        return this == WRITING;
+    }
 }

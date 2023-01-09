@@ -1,4 +1,4 @@
-package ru.agr.backend.looksliketests.controller.resources;
+package ru.agr.backend.looksliketests.controller.resources.base;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;

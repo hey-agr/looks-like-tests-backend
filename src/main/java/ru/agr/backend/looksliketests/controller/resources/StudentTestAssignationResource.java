@@ -1,7 +1,7 @@
 package ru.agr.backend.looksliketests.controller.resources;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
@@ -11,14 +11,15 @@ import java.util.List;
  */
 @Jacksonized
 @Builder
-@Value
-public class TestResource {
-    Long id;
+@Data
+public class StudentTestAssignationResource {
+    Long testId;
     String name;
     String description;
+    Long minCorrectAnswers;
+    Long questionsCount;
+    Integer attempts;
     Long duration;
-    Long minRightAnswers;
-    Long attempts;
     Boolean isNeedVerify;
-    List<QuestionResource> questions;
+    List<TestProgressResource> testProgresses;
 }

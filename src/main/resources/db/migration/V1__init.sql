@@ -6,9 +6,9 @@ CREATE TABLE IF NOT EXISTS main.test
     name text,
     description text,
     duration bigint,
-    min_correct_answers integer,
+    min_correct_answers bigint,
     need_verification boolean,
-    attempts integer,
+    attempts bigint,
     CONSTRAINT test_id_pkey PRIMARY KEY (id)
 );
 

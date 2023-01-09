@@ -2,6 +2,7 @@ package ru.agr.backend.looksliketests.controller.resources;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
@@ -12,12 +13,13 @@ import java.time.ZonedDateTime;
  */
 @Jacksonized
 @Builder
-@Value
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TestProgressResource {
-    Long id;
-    UserResource user;
-    TestResource test;
-    ZonedDateTime dateStarted;
-    ZonedDateTime dateFinished;
+    private Long id;
+    private Long userId;
+    private Long testId;
+    private ZonedDateTime dateStarted;
+    private ZonedDateTime dateFinished;
+    private TestResultResource testResult;
 }

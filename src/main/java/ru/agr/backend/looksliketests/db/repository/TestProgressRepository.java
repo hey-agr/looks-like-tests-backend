@@ -14,6 +14,6 @@ import java.util.List;
  */
 @Repository
 public interface TestProgressRepository extends JpaRepository<TestProgress, Long> {
-    @Query("SELECT tp FROM TestProgress tp WHERE tp.test.id = :testId AND tp.user.id = :userId")
-    List<TestProgress> findAllByTestIdAndUserId(@NonNull @Param("testId") Long testId, @NonNull @Param("userId") Long userId);
+    @Query("SELECT tp FROM TestProgress tp WHERE tp.user.id = :userId AND tp.test.id IN (:testIds)")
+    List<TestProgress> findAllByUserIdAndTestIds(@NonNull @Param("userId") Long userId, @NonNull @Param("testIds") Long[] testIds);
 }

@@ -1,10 +1,13 @@
 package ru.agr.backend.looksliketests.db.entity.main;
 
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
+import org.hibernate.Hibernate;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 /**
  * @author Arslan Rabadanov
@@ -15,6 +18,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@FieldNameConstants
 @Entity
 @Table(name = "test_progress", schema = "main")
 public class TestProgress {
@@ -39,4 +43,17 @@ public class TestProgress {
 
     @Column(name = "date_finished")
     private ZonedDateTime dateFinished;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        TestProgress that = (TestProgress) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

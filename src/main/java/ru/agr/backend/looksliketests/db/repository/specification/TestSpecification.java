@@ -28,11 +28,11 @@ public class TestSpecification implements Specification<Test> {
     public Predicate toPredicate(@NonNull Root<Test> root, @NonNull CriteriaQuery<?> query, @NonNull CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
         if (nonNull(filter)) {
-            Optional.ofNullable(filter.getStudentId())
-                    .ifPresent(studentId -> {
+            Optional.ofNullable(filter.getStudentIds())
+                    .ifPresent(studentIds -> {
                         var subQuery = query.subquery(StudentToTestAssignation.class);
                         var subQueryFrom = subQuery.from(StudentToTestAssignation.class);
-                        subQuery.select(subQueryFrom.get("testId")).where(subQueryFrom.get("studentId").in(studentId));
+                        subQuery.select(subQueryFrom.get("testId")).where(subQueryFrom.get("studentId").in(studentIds));
                         predicates.add(criteriaBuilder.in(root.get(Test.Fields.id)).value(subQuery));
                     });
         }

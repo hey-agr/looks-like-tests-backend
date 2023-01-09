@@ -31,16 +31,16 @@ public class Test {
     private String description;
 
     @Column(name = "duration")
-    private Integer duration;
+    private Long duration;
 
     @Column(name = "min_correct_answers")
-    private Integer minCorrectAnswers;
+    private Long minCorrectAnswers;
 
     @Column(name = "need_verification")
     private Boolean needVerification;
 
     @Column(name = "attempts")
-    private Integer attempts;
+    private Long attempts;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "test", cascade = {CascadeType.MERGE, CascadeType.PERSIST})

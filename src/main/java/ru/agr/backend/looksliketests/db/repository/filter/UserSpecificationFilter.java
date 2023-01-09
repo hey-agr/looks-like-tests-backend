@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -11,6 +12,6 @@ import java.util.Set;
  */
 @Value
 @Builder
-public class UserSpecificationFilter {
+public class UserSpecificationFilter implements Serializable {
     Set<UserAuthority.AuthorityName> authorities;
 }
