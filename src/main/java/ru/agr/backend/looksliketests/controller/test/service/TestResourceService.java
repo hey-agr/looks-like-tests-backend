@@ -8,6 +8,7 @@ import ru.agr.backend.looksliketests.controller.resources.StudentTestHistoryColl
 import ru.agr.backend.looksliketests.controller.resources.TestCollectionResource;
 import ru.agr.backend.looksliketests.controller.resources.TestResource;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
+import ru.agr.backend.looksliketests.db.entity.main.StudentAssignedTest;
 import ru.agr.backend.looksliketests.db.entity.main.StudentTestHistory;
 import ru.agr.backend.looksliketests.db.entity.main.Test;
 
@@ -16,7 +17,7 @@ import ru.agr.backend.looksliketests.db.entity.main.Test;
  */
 public interface TestResourceService {
     TestCollectionResource prepareTestsResource(@NonNull Page<Test> testsPage, @NonNull Pageable pageable);
-    StudentTestAssignationCollectionResource prepareStudentTestAssignationsResource(@NonNull User user, @NonNull Page<Test> testsPage, @NonNull Pageable pageable);
+    StudentTestAssignationCollectionResource prepareStudentTestAssignationsResource(@NonNull User user, @NonNull Page<StudentAssignedTest> testsPage, @NonNull Pageable pageable);
     StudentTestHistoryCollectionResource prepareStudentTestHistoryCollectionResource(@NonNull Page<StudentTestHistory> testsPage, @NonNull Pageable pageable);
     TestResource prepareTestResource(@NonNull Test test);
 }
