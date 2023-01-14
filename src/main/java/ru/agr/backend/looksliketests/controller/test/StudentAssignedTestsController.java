@@ -17,11 +17,9 @@ import ru.agr.backend.looksliketests.controller.resources.StudentTestHistoryColl
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
 import ru.agr.backend.looksliketests.service.StudentAssignedTestService;
 import ru.agr.backend.looksliketests.service.StudentTestHistoryService;
-import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.auth.UserService;
 import ru.agr.backend.looksliketests.service.filter.StudentAssignedTestFilter;
 import ru.agr.backend.looksliketests.service.filter.StudentTestHistoryFilter;
-import ru.agr.backend.looksliketests.service.filter.TestFilter;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +32,6 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiVersion.API_V1 + "/students")
 public class StudentAssignedTestsController {
-    private final TestService testService;
     private final StudentTestHistoryService studentTestHistoryService;
     private final TestResourceService testResourceService;
     private final UserService userService;

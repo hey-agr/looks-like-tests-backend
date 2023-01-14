@@ -4,9 +4,7 @@ import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.agr.backend.looksliketests.db.entity.main.StudentAssignedTest;
-import ru.agr.backend.looksliketests.db.entity.main.StudentTestHistory;
 import ru.agr.backend.looksliketests.service.filter.StudentAssignedTestFilter;
-import ru.agr.backend.looksliketests.service.filter.StudentTestHistoryFilter;
 
 /**
  * @author Arslan Rabadanov
