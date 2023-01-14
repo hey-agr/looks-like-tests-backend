@@ -15,7 +15,6 @@ import ru.agr.backend.looksliketests.db.entity.main.Test;
  * @author Arslan Rabadanov
  */
 public interface TestResourceService {
-    void populateTest(@NonNull Test... tests);
     TestCollectionResource prepareTestsResource(@NonNull Page<Test> testsPage, @NonNull Pageable pageable);
     StudentTestAssignationCollectionResource prepareStudentTestAssignationsResource(@NonNull User user, @NonNull Page<Test> testsPage, @NonNull Pageable pageable);
     StudentTestHistoryCollectionResource prepareStudentTestHistoryCollectionResource(@NonNull Page<StudentTestHistory> testsPage, @NonNull Pageable pageable);

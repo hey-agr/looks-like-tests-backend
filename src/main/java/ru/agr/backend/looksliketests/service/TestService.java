@@ -16,4 +16,5 @@ public interface TestService {
     Page<Test> findFiltered(@NonNull TestFilter testFilter, @NonNull Pageable pageable);
     Optional<Test> findById(@NonNull Long id);
     Test save(@NonNull Test test);
+    void populateTest(@NonNull Test... tests);
 }

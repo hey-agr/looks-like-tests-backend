@@ -12,8 +12,6 @@ import ru.agr.backend.looksliketests.service.StudentTestHistoryService;
 import ru.agr.backend.looksliketests.service.filter.StudentTestHistoryFilter;
 import ru.agr.backend.looksliketests.service.filter.StudentTestHistoryFilterMapper;
 
-import java.util.List;
-
 /**
  * @author Arslan Rabadanov
  */

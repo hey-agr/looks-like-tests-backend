@@ -15,13 +15,14 @@ import ru.agr.backend.looksliketests.controller.test.mapper.TestProgressMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestResultMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
-import ru.agr.backend.looksliketests.db.entity.main.*;
-import ru.agr.backend.looksliketests.service.OptionService;
-import ru.agr.backend.looksliketests.service.QuestionService;
+import ru.agr.backend.looksliketests.db.entity.main.StudentTestHistory;
+import ru.agr.backend.looksliketests.db.entity.main.Test;
+import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
+import ru.agr.backend.looksliketests.db.entity.main.TestResult;
 import ru.agr.backend.looksliketests.service.TestProgressService;
 import ru.agr.backend.looksliketests.service.TestResultService;
+import ru.agr.backend.looksliketests.service.TestService;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -32,39 +33,18 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TestResourceServiceImpl implements TestResourceService {
-    private final QuestionService questionService;
-    private final OptionService optionService;
     private final TestMapper testMapper;
     private final TestProgressService testProgressService;
     private final TestResultService testResultService;
     private final TestResultMapper testResultMapper;
     private final TestProgressMapper testProgressMapper;
     private final StudentTestHistoryMapper studentTestHistoryMapper;
-
-    @Override
-    public void populateTest(@NonNull Test... tests) {
-        final var testIds = Arrays.stream(tests)
-                .map(Test::getId)
-                .distinct()
-                .toArray(Long[]::new);
-        final var testQuestions = questionService.findByTestIds(testIds);
-        final var testQuestionsMap = testQuestions.stream()
-                .collect(Collectors.groupingBy(question -> question.getTest().getId()));
-        final var questionIds = testQuestions.stream()
-                .map(Question::getId)
-                .collect(Collectors.toSet());
-        final var questionOptionsMap = optionService.findByQuestionIds(questionIds).stream()
-                .collect(Collectors.groupingBy(option -> option.getQuestion().getId()));
-        testQuestions.forEach(testQuestion ->
-                testQuestion.setOptions(questionOptionsMap.getOrDefault(testQuestion.getId(), null)));
-        Arrays.stream(tests).forEach(test ->
-                test.setQuestions(testQuestionsMap.getOrDefault(test.getId(), null)));
-    }
+    private final TestService testService;
 
     @Override
     public TestCollectionResource prepareTestsResource(@NonNull Page<Test> testsPage, @NonNull Pageable pageable) {
         final var tests = testsPage.getContent();
-        populateTest(tests.toArray(new Test[0]));
+        testService.populateTest(tests.toArray(new Test[0]));
         return TestCollectionResource.builder()
                 .pageNumber(pageable.getPageNumber())
                 .pageSize(pageable.getPageSize())
@@ -80,7 +60,7 @@ public class TestResourceServiceImpl implements TestResourceService {
                                                                                            @NonNull Page<Test> testsPage,
                                                                                            @NonNull Pageable pageable) {
         final var tests = testsPage.getContent();
-        populateTest(tests.toArray(new Test[0]));
+        testService.populateTest(tests.toArray(new Test[0]));
         final var testIds = tests.stream()
                 .map(Test::getId)
                 .distinct()
@@ -138,7 +118,7 @@ public class TestResourceServiceImpl implements TestResourceService {
 
     @Override
     public TestResource prepareTestResource(@NonNull Test test) {
-        populateTest(test);
+        testService.populateTest(test);
         return testMapper.toResource(test);
     }
 }

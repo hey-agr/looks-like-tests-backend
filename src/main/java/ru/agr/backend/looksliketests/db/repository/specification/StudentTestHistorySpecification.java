@@ -5,9 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import ru.agr.backend.looksliketests.db.entity.main.StudentTestHistory;
-import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 import ru.agr.backend.looksliketests.db.repository.filter.StudentTestHistorySpecificationFilter;
-import ru.agr.backend.looksliketests.db.repository.filter.TestProgressSpecificationFilter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
