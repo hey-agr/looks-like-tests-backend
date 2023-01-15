@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info=@Info(
                 title = "Looks Like Tests API",
-                version = "0.1.0",
+                version = "0.7.0",
                 contact = @Contact(
                         name = "Arslan", email = "agrabadanov@gmail.com"
                 ),

@@ -3,8 +3,8 @@ package ru.agr.backend.looksliketests.db.entity.auth;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter

@@ -17,7 +17,7 @@ import ru.agr.backend.looksliketests.controller.test.service.TestValidationServi
 import ru.agr.backend.looksliketests.controller.test.util.TestId;
 import ru.agr.backend.looksliketests.service.TestService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 
 /**

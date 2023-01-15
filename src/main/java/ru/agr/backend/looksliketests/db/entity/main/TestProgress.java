@@ -5,7 +5,7 @@ import lombok.experimental.FieldNameConstants;
 import org.hibernate.Hibernate;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 

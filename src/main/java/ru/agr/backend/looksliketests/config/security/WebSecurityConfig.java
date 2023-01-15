@@ -69,9 +69,9 @@ public class WebSecurityConfig {
    @Bean
    public WebSecurityCustomizer webSecurityCustomizer() {
       return (web) -> web.ignoring()
-              .mvcMatchers(ACTUATOR_WHITELIST)
-              .mvcMatchers(SWAGGER_WHITELIST)
-              .mvcMatchers(HttpMethod.OPTIONS, "/**");
+              .requestMatchers(ACTUATOR_WHITELIST)
+              .requestMatchers(SWAGGER_WHITELIST)
+              .requestMatchers(HttpMethod.OPTIONS, "/**");
    }
 
    @Bean
@@ -95,9 +95,9 @@ public class WebSecurityConfig {
                  .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                  .and()
                  .authorizeHttpRequests()
-                 .mvcMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
-                 .mvcMatchers(ACTUATOR_WHITELIST).permitAll()
-                 .mvcMatchers(SWAGGER_WHITELIST).permitAll()
+                 .requestMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
+                 .requestMatchers(ACTUATOR_WHITELIST).permitAll()
+                 .requestMatchers(SWAGGER_WHITELIST).permitAll()
                  //.mvcMatchers(HttpMethod.POST, ApiVersion.API_V1+"/tests").hasAnyAuthority(adminAuthority)
                  .anyRequest().authenticated()
                  .and()

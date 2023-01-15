@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.7</version>
+        <version>3.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.agr.backend</groupId>
@@ -18,7 +18,7 @@
         <testcontainers.version>1.17.6</testcontainers.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
-        <springdoc.version>1.6.13</springdoc.version>
+        <springdoc.version>2.0.2</springdoc.version>
     </properties>
     <dependencies>
         <!-- SpringBoot -->
@@ -48,16 +48,10 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
+        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-security -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-security</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
         <!-- Database -->
@@ -126,7 +120,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>
@@ -170,5 +163,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

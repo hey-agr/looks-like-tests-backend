@@ -17,7 +17,7 @@ import ru.agr.backend.looksliketests.controller.ApiVersion;
 import ru.agr.backend.looksliketests.controller.auth.dto.JWTToken;
 import ru.agr.backend.looksliketests.controller.auth.dto.LoginDto;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 
 

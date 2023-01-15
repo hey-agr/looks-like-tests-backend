@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
-import javax.validation.constraints.Email;
+import jakarta.validation.constraints.Email;
 
 
 /**

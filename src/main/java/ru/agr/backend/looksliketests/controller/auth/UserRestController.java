@@ -16,7 +16,7 @@ import ru.agr.backend.looksliketests.controller.auth.mapper.UserMergerMapper;
 import ru.agr.backend.looksliketests.controller.resources.UserResource;
 import ru.agr.backend.looksliketests.service.auth.UserService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import static java.util.Objects.nonNull;
 

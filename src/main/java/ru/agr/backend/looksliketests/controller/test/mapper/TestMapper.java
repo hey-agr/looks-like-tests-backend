@@ -8,7 +8,7 @@ import ru.agr.backend.looksliketests.controller.test.dto.CreateTestDto;
 import ru.agr.backend.looksliketests.db.entity.main.StudentAssignedTest;
 import ru.agr.backend.looksliketests.db.entity.main.Test;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import static java.util.Objects.nonNull;
 

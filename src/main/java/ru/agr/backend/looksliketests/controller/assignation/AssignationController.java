@@ -20,7 +20,7 @@ import ru.agr.backend.looksliketests.service.AssignationService;
 import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.auth.UserService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * @author Arslan Rabadanov
