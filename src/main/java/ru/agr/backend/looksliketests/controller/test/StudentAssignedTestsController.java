@@ -42,7 +42,7 @@ public class StudentAssignedTestsController {
                                                                                     @RequestParam(required = false) Boolean isActual,
                                                                                     @AuthenticationPrincipal UserDetails userDetails) {
         final var user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException());
         var filter = StudentAssignedTestFilter.builder()
                 .isActual(isActual)
                 .studentIds(List.of(user.getId()))
@@ -55,7 +55,7 @@ public class StudentAssignedTestsController {
     public ResponseEntity<StudentTestHistoryCollectionResource> getResults(Pageable pageable,
                                                                            @AuthenticationPrincipal UserDetails userDetails) {
         final var user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException());
         final var filter = StudentTestHistoryFilter.builder()
                 .studentIds(Collections.singletonList(user.getId()))
                 .build();

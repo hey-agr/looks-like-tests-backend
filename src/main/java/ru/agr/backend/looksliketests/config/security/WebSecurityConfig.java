@@ -1,5 +1,6 @@
 package ru.agr.backend.looksliketests.config.security;
 
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -81,30 +82,24 @@ public class WebSecurityConfig {
               .build();
    }
 
+   @SneakyThrows
    private void authorizeHttpRequestsConfiguration(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authz) {
-      try {
-         var adminAuthority = UserAuthority.AuthorityName.ADMIN.name();
-
-         authz.and().csrf().disable()
-                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-                 .exceptionHandling()
-                 .authenticationEntryPoint(authenticationErrorHandler)
-                 .accessDeniedHandler(jwtAccessDeniedHandler)
-                 .and()
-                 .sessionManagement()
-                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                 .and()
-                 .authorizeHttpRequests()
-                 .requestMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
-                 .requestMatchers(ACTUATOR_WHITELIST).permitAll()
-                 .requestMatchers(SWAGGER_WHITELIST).permitAll()
-                 //.mvcMatchers(HttpMethod.POST, ApiVersion.API_V1+"/tests").hasAnyAuthority(adminAuthority)
-                 .anyRequest().authenticated()
-                 .and()
-                 .apply(securityConfigurerAdapter());
-      } catch (Exception e) {
-         throw new RuntimeException(e);
-      }
+      authz.and().csrf().disable()
+              .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+              .exceptionHandling()
+              .authenticationEntryPoint(authenticationErrorHandler)
+              .accessDeniedHandler(jwtAccessDeniedHandler)
+              .and()
+              .sessionManagement()
+              .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+              .and()
+              .authorizeHttpRequests()
+              .requestMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
+              .requestMatchers(ACTUATOR_WHITELIST).permitAll()
+              .requestMatchers(SWAGGER_WHITELIST).permitAll()
+              .anyRequest().authenticated()
+              .and()
+              .apply(securityConfigurerAdapter());
    }
 
    private JWTConfigurer securityConfigurerAdapter() {

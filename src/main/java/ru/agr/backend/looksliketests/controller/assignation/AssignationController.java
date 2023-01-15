@@ -44,10 +44,10 @@ public class AssignationController {
             @RequestBody @Valid CreateStudentToTeacherAssignation createStudentToTeacherAssignation) {
         userService.findById(createStudentToTeacherAssignation.getStudentId())
                 .filter(user -> user.getAuthorities().stream().anyMatch(authority -> authority.getName() == STUDENT_AUTHORITY))
-                .orElseThrow(() -> new UserNotFoundException("No found student by id: " + createStudentToTeacherAssignation.getStudentId()));
+                .orElseThrow(() -> new UserNotFoundException(createStudentToTeacherAssignation.getStudentId()));
         userService.findById(createStudentToTeacherAssignation.getTeacherId())
                 .filter(user -> user.getAuthorities().stream().anyMatch(authority -> authority.getName() == TEACHER_AUTHORITY))
-                .orElseThrow(() -> new UserNotFoundException("No found teacher by id: " + createStudentToTeacherAssignation.getTeacherId()));
+                .orElseThrow(() -> new UserNotFoundException(createStudentToTeacherAssignation.getTeacherId()));
         var assignationToSave = studentToTeacherResourceMapper.toEntity(createStudentToTeacherAssignation);
         var savedAssignation = assignationService.save(assignationToSave);
         return ResponseEntity.ok(studentToTeacherResourceMapper.toResource(savedAssignation));
@@ -58,7 +58,7 @@ public class AssignationController {
             @RequestBody @Valid CreateStudentToTestAssignation createStudentToTestAssignation) {
         userService.findById(createStudentToTestAssignation.getStudentId())
                 .filter(user -> user.getAuthorities().stream().anyMatch(authority -> authority.getName() == STUDENT_AUTHORITY))
-                .orElseThrow(() -> new UserNotFoundException("No found student by id: " + createStudentToTestAssignation.getStudentId()));
+                .orElseThrow(() -> new UserNotFoundException(createStudentToTestAssignation.getStudentId()));
         var assignationToSave = studentToTestResourceMapper.toEntity(createStudentToTestAssignation);
         var savedAssignation = assignationService.save(assignationToSave);
         return ResponseEntity.ok(studentToTestResourceMapper.toResource(savedAssignation));

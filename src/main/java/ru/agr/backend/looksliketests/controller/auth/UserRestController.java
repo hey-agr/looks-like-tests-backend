@@ -35,7 +35,7 @@ public class UserRestController {
    @GetMapping
    public ResponseEntity<UserResource> getCurrent() {
       final var user = userService.getUserWithAuthorities()
-              .orElseThrow(() -> new UserNotFoundException("User doesn't exist"));
+              .orElseThrow(() -> new UserNotFoundException());
       return ResponseEntity.ok(userMapper.toUserResource(user));
    }
 
@@ -59,7 +59,7 @@ public class UserRestController {
    @PatchMapping
    public ResponseEntity<UserResource> patchCurrentUser(@RequestBody @Valid UserUpdateDto userUpdateDto) throws DuplicationException {
       var user = userService.getUserWithAuthorities()
-              .orElseThrow(() -> new UserNotFoundException("User doesn't exist"));
+              .orElseThrow(() -> new UserNotFoundException());
       if (nonNull(userUpdateDto.getEmail())) {
          var userByEmail = userService.findByEmail(userUpdateDto.getEmail()).orElse(null);
          if (nonNull(userByEmail) && !userByEmail.getId().equals(user.getId())) {

@@ -37,9 +37,8 @@ public class TestProgressValidationServiceImpl implements TestProgressValidation
                 final var options = question.getOptions().stream()
                         .filter(currentOption -> answer.getOptionIds().contains(currentOption.getId()))
                         .collect(Collectors.toSet());
-                if (!answer.getOptionIds().isEmpty()) {
-                    if (answer.getOptionIds().size() != options.size())
-                        throw new TestProgressValidationException("Not found option ids: " + answer.getOptionIds() + " in the question with id: " + question.getId());
+                if (!answer.getOptionIds().isEmpty() && answer.getOptionIds().size() != options.size()) {
+                    throw new TestProgressValidationException("Not found option ids: " + answer.getOptionIds() + " in the question with id: " + question.getId());
                 }
             } else if (question.getType() == QuestionType.WRITING) {
                 if (Objects.nonNull(answer.getOptionIds()) && !answer.getOptionIds().isEmpty()) {
