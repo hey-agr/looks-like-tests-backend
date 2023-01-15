@@ -1,5 +1,6 @@
 # Looks like tests backend API
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/831a7ee714604f58b2af70c2609e78fd)](https://app.codacy.com/gh/hey-agr/looks-like-tests-backend?utm_source=github.com&utm_medium=referral&utm_content=hey-agr/looks-like-tests-backend&utm_campaign=Badge_Grade_Settings)
+
 Represents an interface for working with tests.
 
 ### Roles: Student, Teacher, Admin
