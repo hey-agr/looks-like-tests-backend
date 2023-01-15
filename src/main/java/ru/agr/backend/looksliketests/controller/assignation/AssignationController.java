@@ -1,5 +1,6 @@
 package ru.agr.backend.looksliketests.controller.assignation;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,8 +20,6 @@ import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 import ru.agr.backend.looksliketests.service.AssignationService;
 import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.auth.UserService;
-
-import jakarta.validation.Valid;
 
 /**
  * @author Arslan Rabadanov

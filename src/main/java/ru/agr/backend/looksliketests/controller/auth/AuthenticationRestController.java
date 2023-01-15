@@ -1,5 +1,6 @@
 package ru.agr.backend.looksliketests.controller.auth;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,6 @@ import ru.agr.backend.looksliketests.config.security.jwt.TokenProvider;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
 import ru.agr.backend.looksliketests.controller.auth.dto.JWTToken;
 import ru.agr.backend.looksliketests.controller.auth.dto.LoginDto;
-
-import jakarta.validation.Valid;
 
 
 

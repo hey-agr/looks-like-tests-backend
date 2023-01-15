@@ -20,7 +20,6 @@ import ru.agr.backend.looksliketests.config.security.jwt.JwtAccessDeniedHandler;
 import ru.agr.backend.looksliketests.config.security.jwt.JwtAuthenticationEntryPoint;
 import ru.agr.backend.looksliketests.config.security.jwt.TokenProvider;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
-import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

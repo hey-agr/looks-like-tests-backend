@@ -1,14 +1,17 @@
 package ru.agr.backend.looksliketests.controller.test.mapper;
 
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.Hibernate;
-import org.mapstruct.*;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Mappings;
 import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationResource;
 import ru.agr.backend.looksliketests.controller.resources.TestResource;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestDto;
 import ru.agr.backend.looksliketests.db.entity.main.StudentAssignedTest;
 import ru.agr.backend.looksliketests.db.entity.main.Test;
-
-import jakarta.validation.constraints.NotNull;
 
 import static java.util.Objects.nonNull;
 

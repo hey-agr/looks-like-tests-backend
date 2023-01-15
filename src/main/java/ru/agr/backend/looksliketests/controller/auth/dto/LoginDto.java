@@ -1,9 +1,8 @@
 package ru.agr.backend.looksliketests.controller.auth.dto;
 
-import lombok.Data;
-
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Data
 public class LoginDto {

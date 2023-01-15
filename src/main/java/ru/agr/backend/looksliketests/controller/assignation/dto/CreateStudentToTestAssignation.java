@@ -1,10 +1,9 @@
 package ru.agr.backend.looksliketests.controller.assignation.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  * @author Arslan Rabadanov
