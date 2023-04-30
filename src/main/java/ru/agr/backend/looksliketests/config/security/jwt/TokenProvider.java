@@ -83,7 +83,7 @@ public class TokenProvider implements InitializingBean {
       if (!authoritiesText.isEmpty()) {
          authorities = Arrays.stream(authoritiesText.split(","))
                          .map(SimpleGrantedAuthority::new)
-                         .collect(Collectors.toList());
+                         .toList();
       }
 
       User principal = new User(claims.getSubject(), "", authorities);

@@ -1,7 +1,6 @@
 package ru.agr.backend.looksliketests.service.auth;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +13,6 @@ import ru.agr.backend.looksliketests.db.repository.auth.UserRepository;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component("userDetailsService")
@@ -42,9 +40,9 @@ public class UserModelDetailsService implements UserDetailsService {
          throw new UserNotActivatedException("User: " + lowercaseLogin + " was not activated");
       }
 
-      List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
+      List<SimpleGrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
               .map(authority -> new SimpleGrantedAuthority(authority.getName().name()))
-              .collect(Collectors.toList());
+              .toList();
 
       return new org.springframework.security.core.userdetails.User(
               user.getUsername(),

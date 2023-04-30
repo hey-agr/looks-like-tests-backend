@@ -61,7 +61,7 @@ public class TestsProgressController {
         final var test = testService.findById(testId)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found test with id="+testId));
         final var user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(UserNotFoundException::new);
         if (!assignationService.isStudentAssignedToTest(user.getId(), testId)) {
             throw new StudentNotAssignedToTestException(userDetails.getUsername(), testId.toString());
         }
@@ -88,7 +88,7 @@ public class TestsProgressController {
         var testProgress = testProgressService.findById(testProgressId)
                 .orElseThrow(() -> new ResourceNotFoundException("Test progress with id =" +testProgressId+" is not found!"));
         final var user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(UserNotFoundException::new);
         if (!testProgress.getUser().getId().equals(user.getId())) {
             throw new IncorrectTestProgressException("Test progress with id: " + testProgressId + " is not started by user with id: " + user.getId());
         }

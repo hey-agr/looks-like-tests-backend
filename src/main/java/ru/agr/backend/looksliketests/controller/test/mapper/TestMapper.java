@@ -6,7 +6,6 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
 import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationResource;
 import ru.agr.backend.looksliketests.controller.resources.TestResource;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestDto;
@@ -20,15 +19,11 @@ import static java.util.Objects.nonNull;
  */
 @Mapper(componentModel = "spring", uses = {QuestionMapper.class})
 public abstract class TestMapper {
-    @Mappings({
-            @Mapping(source = "minCorrectAnswers", target = "minRightAnswers"),
-            @Mapping(source = "needVerification", target = "isNeedVerify")
-    })
+    @Mapping(source = "minCorrectAnswers", target = "minRightAnswers")
+    @Mapping(source = "needVerification", target = "isNeedVerify")
     public abstract TestResource toResource(Test test);
 
-    @Mappings({
-            @Mapping(source = "minRightAnswers", target = "minCorrectAnswers")
-    })
+    @Mapping(source = "minRightAnswers", target = "minCorrectAnswers")
     public abstract Test toEntity(CreateTestDto createTestDto);
 
     @AfterMapping
@@ -48,8 +43,6 @@ public abstract class TestMapper {
         }
     }
 
-    @Mappings({
-            @Mapping(source = "needVerification", target = "isNeedVerify")
-    })
+    @Mapping(source = "needVerification", target = "isNeedVerify")
     public abstract StudentTestAssignationResource toStudentTestAssignedResource(@NotNull StudentAssignedTest studentAssignedTest);
 }

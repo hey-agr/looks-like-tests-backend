@@ -43,7 +43,7 @@ public abstract class UserMapper {
                                 .user(user)
                                 .name(UserAuthority.AuthorityName.valueOf(authorityName.name()))
                                 .build())
-                .collect(Collectors.toList())
+                .toList()
         );
     }
 

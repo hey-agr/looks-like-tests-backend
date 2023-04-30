@@ -4,7 +4,6 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,9 +22,7 @@ public abstract class UserMergerMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
 
-    @Mappings({
-            @Mapping(target = "password", ignore = true)
-    })
+    @Mapping(target = "password", ignore = true)
     public abstract User toEntity(UserUpdateDto userUpdateDto, @MappingTarget User user);
 
     @AfterMapping

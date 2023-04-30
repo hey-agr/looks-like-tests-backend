@@ -30,6 +30,8 @@ import static java.util.Objects.nonNull;
 @RequestMapping(ApiVersion.API_V1+"/user")
 @Validated
 public class UserRestController {
+   private static final String USER_LOGIN_EXISTS_ERROR_MESSAGE = "User with login: '%s' already exists";
+   private static final String USER_EMAIL_EXISTS_ERROR_MESSAGE = "User with email: '%s' already exists";
 
    private final UserService userService;
    private final UserMapper userMapper;
@@ -39,17 +41,17 @@ public class UserRestController {
    @GetMapping
    public ResponseEntity<UserResource> getCurrent() {
       final var user = userService.getUserWithAuthorities()
-              .orElseThrow(() -> new UserNotFoundException());
+              .orElseThrow(UserNotFoundException::new);
       return ResponseEntity.ok(userMapper.toUserResource(user));
    }
 
    @PostMapping
    public ResponseEntity<UserResource> register(@RequestBody @Valid UserCreateDto userCreateDto) throws DuplicationException {
       if (userService.findByUsername(userCreateDto.username()).isPresent()) {
-         throw new DuplicateUsernameException("User with login: '"+userCreateDto.username()+"' already exists");
+         throw new DuplicateUsernameException(String.format(USER_LOGIN_EXISTS_ERROR_MESSAGE, userCreateDto.username()));
       }
       if (nonNull(userCreateDto.email()) && userService.findByEmail(userCreateDto.email()).isPresent()) {
-         throw new DuplicateEmailException("User with email: '"+userCreateDto.email()+"' already exists");
+         throw new DuplicateEmailException(String.format(USER_EMAIL_EXISTS_ERROR_MESSAGE, userCreateDto.email()));
       }
       // user active
       var userToSave = userMapper.toEntity(userCreateDto);
@@ -63,11 +65,11 @@ public class UserRestController {
    @PatchMapping
    public ResponseEntity<UserResource> patchCurrentUser(@RequestBody @Valid UserUpdateDto userUpdateDto) throws DuplicationException {
       var user = userService.getUserWithAuthorities()
-              .orElseThrow(() -> new UserNotFoundException());
+              .orElseThrow(UserNotFoundException::new);
       if (nonNull(userUpdateDto.getEmail())) {
          var userByEmail = userService.findByEmail(userUpdateDto.getEmail()).orElse(null);
          if (nonNull(userByEmail) && !userByEmail.getId().equals(user.getId())) {
-            throw new DuplicateEmailException("User with email: '"+userUpdateDto.getEmail()+"' already exists");
+            throw new DuplicateEmailException(String.format(USER_EMAIL_EXISTS_ERROR_MESSAGE, userUpdateDto.getEmail()));
          }
       }
       var updatedUser = userService.save(userMergerMapper.toEntity(userUpdateDto, user));

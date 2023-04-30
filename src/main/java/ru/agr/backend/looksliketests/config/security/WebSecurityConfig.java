@@ -4,7 +4,7 @@ import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -25,7 +25,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 @Configuration
 public class WebSecurityConfig {
    private final TokenProvider tokenProvider;
@@ -68,7 +68,7 @@ public class WebSecurityConfig {
 
    @Bean
    public WebSecurityCustomizer webSecurityCustomizer() {
-      return (web) -> web.ignoring()
+      return web -> web.ignoring()
               .requestMatchers(ACTUATOR_WHITELIST)
               .requestMatchers(SWAGGER_WHITELIST)
               .requestMatchers(HttpMethod.OPTIONS, "/**");
