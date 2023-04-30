@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,6 +21,7 @@ import static java.util.Objects.nonNull;
  * @author Arslan Rabadanov
  */
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class StudentAssignedTestSpecification implements Specification<StudentAssignedTest> {
     private final StudentAssignedTestSpecificationFilter filter;
 
@@ -32,7 +34,7 @@ public class StudentAssignedTestSpecification implements Specification<StudentAs
                     .ifPresent(predicates::add);
             Optional.ofNullable(filter.getIsActual())
                     .ifPresent(isActual -> {
-                        if (isActual) {
+                        if (Boolean.TRUE.equals(isActual)) {
                             var attemptsPredicate = criteriaBuilder.greaterThan(
                                     root.get(StudentAssignedTest.Fields.attempts),
                                     root.get(StudentAssignedTest.Fields.attemptsCount));

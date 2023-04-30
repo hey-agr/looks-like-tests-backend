@@ -5,6 +5,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,6 +22,7 @@ import java.util.Optional;
  */
 @Builder
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class StudentTestHistorySpecification implements Specification<StudentTestHistory> {
     private final StudentTestHistorySpecificationFilter filter;
 
