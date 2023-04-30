@@ -3,7 +3,6 @@ package ru.agr.backend.looksliketests.controller.test.mapper;
 import lombok.NonNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import ru.agr.backend.looksliketests.controller.resources.TestProgressResource;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
 import ru.agr.backend.looksliketests.db.entity.main.Test;
