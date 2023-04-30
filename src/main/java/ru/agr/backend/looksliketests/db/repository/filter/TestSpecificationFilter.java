@@ -12,5 +12,5 @@ import java.util.List;
 @Value
 @Builder
 public class TestSpecificationFilter implements Serializable {
-    List<Long> studentIds;
+    private List<Long> studentIds;
 }

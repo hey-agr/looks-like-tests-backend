@@ -32,7 +32,7 @@ import java.io.Serializable;
 @IdClass(UserAuthority.UserAuthorityKey.class)
 @Entity
 @Table(name = "user_authority", schema = "auth")
-public class UserAuthority {
+public class UserAuthority implements Serializable {
 
    @Id
    @NotNull
