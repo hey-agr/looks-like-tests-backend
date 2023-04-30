@@ -16,10 +16,8 @@ import java.time.ZonedDateTime;
  */
 @Mapper(componentModel = "spring")
 public interface TestProgressMapper {
-    @Mappings({
-            @Mapping(target = "testId", source = "test.id"),
-            @Mapping(target = "userId", source = "user.id")
-    })
+    @Mapping(target = "testId", source = "test.id")
+    @Mapping(target = "userId", source = "user.id")
     TestProgressResource toResource(TestProgress testProgress);
 
     default TestProgress toEntity(@NonNull Test test, @NonNull User user) {

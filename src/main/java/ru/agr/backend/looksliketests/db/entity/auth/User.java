@@ -19,6 +19,7 @@ import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.Hibernate;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ import java.util.Objects;
 @FieldNameConstants
 @Entity
 @Table(name = "user", schema = "auth")
-public class User {
+public class User implements Serializable {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;

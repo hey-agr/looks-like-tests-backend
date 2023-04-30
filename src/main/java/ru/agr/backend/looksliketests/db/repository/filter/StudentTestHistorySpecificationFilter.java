@@ -3,6 +3,7 @@ package ru.agr.backend.looksliketests.db.repository.filter;
 import lombok.Builder;
 import lombok.Value;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,6 +11,6 @@ import java.util.List;
  */
 @Value
 @Builder
-public class StudentTestHistorySpecificationFilter {
-    List<Long> studentIds;
+public class StudentTestHistorySpecificationFilter implements Serializable {
+    private List<Long> studentIds;
 }

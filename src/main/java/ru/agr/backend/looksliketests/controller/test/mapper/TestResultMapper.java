@@ -9,6 +9,6 @@ import ru.agr.backend.looksliketests.db.entity.main.TestResult;
  * @author Arslan Rabadanov
  */
 @Mapper(componentModel = "spring", uses = TestProgressMapper.class)
-public abstract class TestResultMapper {
-    public abstract TestResultResource toResource(@NonNull TestResult testResult);
+public interface TestResultMapper {
+    TestResultResource toResource(@NonNull TestResult testResult);
 }

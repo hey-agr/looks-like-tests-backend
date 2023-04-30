@@ -111,7 +111,7 @@ public class TestResourceServiceImpl implements TestResourceService {
                 .size(tests.size())
                 .totalSize(studentTestHistoryPage.getTotalElements())
                 .totalPages(studentTestHistoryPage.getTotalPages())
-                .tests(tests.stream().map(studentTestHistoryMapper::toResource).collect(Collectors.toList()))
+                .tests(tests.stream().map(studentTestHistoryMapper::toResource).toList())
                 .build();
     }
 

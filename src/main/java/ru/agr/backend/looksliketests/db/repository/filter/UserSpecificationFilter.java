@@ -13,5 +13,5 @@ import java.util.Set;
 @Value
 @Builder
 public class UserSpecificationFilter implements Serializable {
-    Set<UserAuthority.AuthorityName> authorities;
+    private Set<UserAuthority.AuthorityName> authorities;
 }

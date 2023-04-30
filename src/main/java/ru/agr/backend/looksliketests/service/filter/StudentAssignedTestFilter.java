@@ -12,6 +12,6 @@ import java.util.List;
 @Value
 @Builder
 public class StudentAssignedTestFilter implements Serializable {
-    List<Long> studentIds;
-    Boolean isActual;
+    private List<Long> studentIds;
+    private Boolean isActual;
 }
