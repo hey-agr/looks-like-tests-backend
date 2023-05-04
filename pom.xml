@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.agr.backend</groupId>
     <artifactId>looks-like-tests</artifactId>
-    <version>0.7.2</version>
+    <version>0.7.3</version>
     <name>looks-like-tests</name>
     <description>looks-like-tests</description>
     <properties>

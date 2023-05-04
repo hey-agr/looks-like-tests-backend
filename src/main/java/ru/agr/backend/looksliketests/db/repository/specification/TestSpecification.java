@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,6 +22,7 @@ import static java.util.Objects.nonNull;
  * @author Arslan Rabadanov
  */
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class TestSpecification implements Specification<Test> {
     private final TestSpecificationFilter filter;
 

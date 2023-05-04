@@ -9,10 +9,12 @@ import ru.agr.backend.looksliketests.db.entity.main.Option;
 import ru.agr.backend.looksliketests.utils.SpringPostgresIntegrationTest;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Arslan Rabadanov
