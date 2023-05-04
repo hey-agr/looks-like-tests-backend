@@ -165,6 +165,8 @@ class TestResultServiceTest {
 
     @Test
     void calculateTestResultFinishedTestPassed() {
+        givenTest.setNeedVerification(false);
+
         var givenTestProgress = TestProgress.builder()
                 .id(TEST_PROGRESS_ID)
                 .test(givenTest)
@@ -201,6 +203,8 @@ class TestResultServiceTest {
 
     @Test
     void calculateTestResultFinishedTestFailed() {
+        givenTest.setNeedVerification(false);
+
         var givenTestProgress = TestProgress.builder()
                 .id(TEST_PROGRESS_ID)
                 .test(givenTest)
@@ -268,7 +272,7 @@ class TestResultServiceTest {
 
         var expectedTestResult = TestResult.builder()
                 .testProgressId(TEST_PROGRESS_ID)
-                .testResultStatus(TestResultStatus.FAILED)
+                .testResultStatus(TestResultStatus.PENDING)
                 .expired(true)
                 .pendingAnswersCount(1L)
                 .wrongAnswersCount(1L)
