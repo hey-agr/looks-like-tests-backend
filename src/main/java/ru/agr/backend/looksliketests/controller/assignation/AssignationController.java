@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.agr.backend.looksliketests.config.security.exception.UserNotFoundException;
 import ru.agr.backend.looksliketests.controller.ApiVersion;
 import ru.agr.backend.looksliketests.controller.assignation.dto.CreateStudentToTeacherAssignation;
 import ru.agr.backend.looksliketests.controller.assignation.dto.CreateStudentToTestAssignation;
@@ -18,7 +17,6 @@ import ru.agr.backend.looksliketests.controller.resources.StudentToTeacherAssign
 import ru.agr.backend.looksliketests.controller.resources.StudentToTestAssignationResource;
 import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 import ru.agr.backend.looksliketests.service.AssignationService;
-import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.auth.UserService;
 
 /**
@@ -36,17 +34,12 @@ public class AssignationController {
     private final StudentToTeacherResourceMapper studentToTeacherResourceMapper;
     private final StudentToTestResourceMapper studentToTestResourceMapper;
     private final UserService userService;
-    private final TestService testService;
 
     @PostMapping("/student-to-teacher")
     public ResponseEntity<StudentToTeacherAssignationResource> createStudentToTeacherAssign(
             @RequestBody @Valid CreateStudentToTeacherAssignation createStudentToTeacherAssignation) {
-        userService.findById(createStudentToTeacherAssignation.getStudentId())
-                .filter(user -> user.getAuthorities().stream().anyMatch(authority -> authority.getName() == STUDENT_AUTHORITY))
-                .orElseThrow(() -> new UserNotFoundException(createStudentToTeacherAssignation.getStudentId()));
-        userService.findById(createStudentToTeacherAssignation.getTeacherId())
-                .filter(user -> user.getAuthorities().stream().anyMatch(authority -> authority.getName() == TEACHER_AUTHORITY))
-                .orElseThrow(() -> new UserNotFoundException(createStudentToTeacherAssignation.getTeacherId()));
+        userService.checkIfUsersAuthorityExists(createStudentToTeacherAssignation.getStudentId(), STUDENT_AUTHORITY);
+        userService.checkIfUsersAuthorityExists(createStudentToTeacherAssignation.getTeacherId(), TEACHER_AUTHORITY);
         var assignationToSave = studentToTeacherResourceMapper.toEntity(createStudentToTeacherAssignation);
         var savedAssignation = assignationService.save(assignationToSave);
         return ResponseEntity.ok(studentToTeacherResourceMapper.toResource(savedAssignation));
@@ -55,9 +48,7 @@ public class AssignationController {
     @PostMapping("/student-to-test")
     public ResponseEntity<StudentToTestAssignationResource> createStudentToTestAssign(
             @RequestBody @Valid CreateStudentToTestAssignation createStudentToTestAssignation) {
-        userService.findById(createStudentToTestAssignation.getStudentId())
-                .filter(user -> user.getAuthorities().stream().anyMatch(authority -> authority.getName() == STUDENT_AUTHORITY))
-                .orElseThrow(() -> new UserNotFoundException(createStudentToTestAssignation.getStudentId()));
+        userService.checkIfUsersAuthorityExists(createStudentToTestAssignation.getStudentId(), STUDENT_AUTHORITY);
         var assignationToSave = studentToTestResourceMapper.toEntity(createStudentToTestAssignation);
         var savedAssignation = assignationService.save(assignationToSave);
         return ResponseEntity.ok(studentToTestResourceMapper.toResource(savedAssignation));

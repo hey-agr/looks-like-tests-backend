@@ -6,12 +6,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agr.backend.looksliketests.config.security.SecurityUtils;
+import ru.agr.backend.looksliketests.config.security.exception.UserNotFoundException;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
+import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 import ru.agr.backend.looksliketests.db.repository.auth.UserRepository;
 import ru.agr.backend.looksliketests.db.repository.filter.UserSpecificationFilter;
 import ru.agr.backend.looksliketests.db.repository.specification.UserSpecification;
 
 import java.util.Optional;
+
+import static java.util.Objects.nonNull;
 
 @Service
 @Transactional
@@ -29,8 +33,15 @@ public class UserService {
    }
 
    @Transactional(readOnly = true)
-   public Optional<User> findById(Long id) {
+   public Optional<User> findById(@NonNull Long id) {
       return userRepository.findOneWithAuthoritiesById(id);
+   }
+
+   public boolean checkIfUsersAuthorityExists(@NonNull Long id, @NonNull UserAuthority.AuthorityName authorityName) throws UserNotFoundException {
+      var user = findById(id)
+              .filter(u -> u.getAuthorities().stream().anyMatch(authority -> authority.getName() == authorityName))
+              .orElseThrow(() -> new UserNotFoundException(id));
+      return nonNull(user);
    }
 
    public Optional<User> findByUsername(@NonNull String username) {
@@ -41,7 +52,7 @@ public class UserService {
       return userRepository.findOneWithAuthoritiesByEmail(email);
    }
 
-   public User save(User user) {
+   public User save(@NonNull User user) {
       return userRepository.save(user);
    }
 

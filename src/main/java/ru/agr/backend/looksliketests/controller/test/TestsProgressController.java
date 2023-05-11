@@ -25,7 +25,6 @@ import ru.agr.backend.looksliketests.controller.test.mapper.TestProgressMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestResultMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestProgressValidationService;
 import ru.agr.backend.looksliketests.controller.test.util.TestId;
-import ru.agr.backend.looksliketests.db.entity.main.TestAnswer;
 import ru.agr.backend.looksliketests.service.AssignationService;
 import ru.agr.backend.looksliketests.service.TestAnswerService;
 import ru.agr.backend.looksliketests.service.TestProgressService;
@@ -33,7 +32,7 @@ import ru.agr.backend.looksliketests.service.TestResultService;
 import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.auth.UserService;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Arslan Rabadanov
@@ -58,10 +57,10 @@ public class TestsProgressController {
     public ResponseEntity<TestProgressResource> start(@TestId @PathVariable Long testId,
                                                       @AuthenticationPrincipal UserDetails userDetails)
             throws ResourceNotFoundException, MaxTestAttemptsExceededException, StudentNotAssignedToTestException {
-        final var test = testService.findById(testId)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found test with id="+testId));
         final var user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(UserNotFoundException::new);
+        final var test = testService.findById(testId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found test with id="+testId));
         if (!assignationService.isStudentAssignedToTest(user.getId(), testId)) {
             throw new StudentNotAssignedToTestException(userDetails.getUsername(), testId.toString());
         }
@@ -85,25 +84,23 @@ public class TestsProgressController {
                                                      @RequestBody CreateTestAnswersDto createTestAnswersDto,
                                                      @AuthenticationPrincipal UserDetails userDetails)
             throws ResourceNotFoundException, IncorrectTestProgressException, TestProgressValidationException {
-        var testProgress = testProgressService.findById(testProgressId)
-                .orElseThrow(() -> new ResourceNotFoundException("Test progress with id =" +testProgressId+" is not found!"));
         final var user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(UserNotFoundException::new);
+        final var testProgress = testProgressService.findById(testProgressId)
+                .orElseThrow(() -> new ResourceNotFoundException("Test progress with id =" +testProgressId+" is not found!"));
         if (!testProgress.getUser().getId().equals(user.getId())) {
             throw new IncorrectTestProgressException("Test progress with id: " + testProgressId + " is not started by user with id: " + user.getId());
         }
         testProgressValidationService.validate(testProgress, createTestAnswersDto);
-
-        final var resultAnswers = new ArrayList<TestAnswer>();
-        for (var answer : createTestAnswersDto.getAnswers()) {
-            resultAnswers.addAll(testAnswerMapper.toEntity(testProgress, answer));
-        }
+        final var resultAnswers = createTestAnswersDto.getAnswers().stream()
+                .map(currentAnswer -> testAnswerMapper.toEntity(testProgress, currentAnswer))
+                .flatMap(Collection::stream)
+                .toList();
         testAnswerService.saveAll(resultAnswers);
 
-        testProgress = testProgressService.finishProgress(testProgress);
-
+        final var finishedTestProgress = testProgressService.finishProgress(testProgress);
         var testResult = testResultService.save(
-                testResultService.calculateTestResult(testProgress)
+                testResultService.calculateTestResult(finishedTestProgress)
         );
 
         return ResponseEntity.ok(testResultMapper.toResource(testResult));
