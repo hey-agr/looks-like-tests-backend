@@ -22,6 +22,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -281,5 +283,8 @@ class TestProgressValidationServiceTest {
                 .build();
 
         service.validate(givenTestProgress, givenCreateTestAnswerDto);
+
+        verify(testProgressService, times(1))
+                .isFinished(givenTestProgress);
     }
 }
