@@ -20,7 +20,6 @@ import ru.agr.backend.looksliketests.controller.test.exception.TestValidationExc
 import ru.agr.backend.looksliketests.controller.test.mapper.TestMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
 import ru.agr.backend.looksliketests.controller.test.service.TestValidationService;
-import ru.agr.backend.looksliketests.controller.test.util.TestId;
 import ru.agr.backend.looksliketests.service.TestService;
 
 
@@ -38,7 +37,7 @@ public class TestsController {
     private final TestValidationService testValidationService;
 
     @GetMapping("/{testId}")
-    public ResponseEntity<TestResource> getById(@TestId @PathVariable Long testId) throws ResourceNotFoundException {
+    public ResponseEntity<TestResource> getById(@PathVariable Long testId) throws ResourceNotFoundException {
         final var test = testService.findById(testId)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found test with id="+testId));
         return ResponseEntity.ok(testResourceService.prepareTestResource(test));

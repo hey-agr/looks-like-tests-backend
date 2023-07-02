@@ -15,8 +15,6 @@ import ru.agr.backend.looksliketests.db.repository.specification.UserSpecificati
 
 import java.util.Optional;
 
-import static java.util.Objects.nonNull;
-
 @Service
 @Transactional
 public class UserService {
@@ -39,9 +37,9 @@ public class UserService {
 
    public boolean checkIfUsersAuthorityExists(@NonNull Long id, @NonNull UserAuthority.AuthorityName authorityName) throws UserNotFoundException {
       var user = findById(id)
-              .filter(u -> u.getAuthorities().stream().anyMatch(authority -> authority.getName() == authorityName))
               .orElseThrow(() -> new UserNotFoundException(id));
-      return nonNull(user);
+      return user.getAuthorities().stream()
+              .anyMatch(authority -> authority.getName() == authorityName);
    }
 
    public Optional<User> findByUsername(@NonNull String username) {

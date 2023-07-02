@@ -24,7 +24,7 @@ import ru.agr.backend.looksliketests.controller.test.mapper.TestAnswerMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestProgressMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestResultMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestProgressValidationService;
-import ru.agr.backend.looksliketests.controller.test.util.TestId;
+import ru.agr.backend.looksliketests.controller.validation.TestId;
 import ru.agr.backend.looksliketests.service.AssignationService;
 import ru.agr.backend.looksliketests.service.TestAnswerService;
 import ru.agr.backend.looksliketests.service.TestProgressService;

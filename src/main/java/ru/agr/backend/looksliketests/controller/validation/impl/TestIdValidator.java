@@ -1,10 +1,11 @@
-package ru.agr.backend.looksliketests.controller.test.util;
+package ru.agr.backend.looksliketests.controller.validation.impl;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.agr.backend.looksliketests.db.repository.TestRepository;
+import ru.agr.backend.looksliketests.controller.validation.TestId;
+import ru.agr.backend.looksliketests.service.TestService;
 
 /**
  * @author Arslan Rabadanov
@@ -12,10 +13,11 @@ import ru.agr.backend.looksliketests.db.repository.TestRepository;
 @Component
 @RequiredArgsConstructor
 public class TestIdValidator implements ConstraintValidator<TestId, Long> {
-    private final TestRepository testRepository;
+    private final TestService testService;
 
     @Override
     public boolean isValid(Long value, ConstraintValidatorContext context) {
-        return testRepository.findById(value).isPresent();
+        return testService.findById(value)
+                .isPresent();
     }
 }

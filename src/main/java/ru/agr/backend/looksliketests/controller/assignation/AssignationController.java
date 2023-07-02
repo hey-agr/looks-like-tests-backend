@@ -15,9 +15,7 @@ import ru.agr.backend.looksliketests.controller.assignation.mapper.StudentToTeac
 import ru.agr.backend.looksliketests.controller.assignation.mapper.StudentToTestResourceMapper;
 import ru.agr.backend.looksliketests.controller.resources.StudentToTeacherAssignationResource;
 import ru.agr.backend.looksliketests.controller.resources.StudentToTestAssignationResource;
-import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 import ru.agr.backend.looksliketests.service.AssignationService;
-import ru.agr.backend.looksliketests.service.auth.UserService;
 
 /**
  * @author Arslan Rabadanov
@@ -27,19 +25,13 @@ import ru.agr.backend.looksliketests.service.auth.UserService;
 @RestController
 @RequestMapping(ApiVersion.API_V1 + "/assignations")
 public class AssignationController {
-    private static final UserAuthority.AuthorityName STUDENT_AUTHORITY = UserAuthority.AuthorityName.STUDENT;
-    private static final UserAuthority.AuthorityName TEACHER_AUTHORITY = UserAuthority.AuthorityName.TEACHER;
-
     private final AssignationService assignationService;
     private final StudentToTeacherResourceMapper studentToTeacherResourceMapper;
     private final StudentToTestResourceMapper studentToTestResourceMapper;
-    private final UserService userService;
 
     @PostMapping("/student-to-teacher")
     public ResponseEntity<StudentToTeacherAssignationResource> createStudentToTeacherAssign(
             @RequestBody @Valid CreateStudentToTeacherAssignation createStudentToTeacherAssignation) {
-        userService.checkIfUsersAuthorityExists(createStudentToTeacherAssignation.getStudentId(), STUDENT_AUTHORITY);
-        userService.checkIfUsersAuthorityExists(createStudentToTeacherAssignation.getTeacherId(), TEACHER_AUTHORITY);
         var assignationToSave = studentToTeacherResourceMapper.toEntity(createStudentToTeacherAssignation);
         var savedAssignation = assignationService.save(assignationToSave);
         return ResponseEntity.ok(studentToTeacherResourceMapper.toResource(savedAssignation));
@@ -48,7 +40,6 @@ public class AssignationController {
     @PostMapping("/student-to-test")
     public ResponseEntity<StudentToTestAssignationResource> createStudentToTestAssign(
             @RequestBody @Valid CreateStudentToTestAssignation createStudentToTestAssignation) {
-        userService.checkIfUsersAuthorityExists(createStudentToTestAssignation.getStudentId(), STUDENT_AUTHORITY);
         var assignationToSave = studentToTestResourceMapper.toEntity(createStudentToTestAssignation);
         var savedAssignation = assignationService.save(assignationToSave);
         return ResponseEntity.ok(studentToTestResourceMapper.toResource(savedAssignation));
