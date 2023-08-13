@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface StudentHasAuthorityConstraint {
-    String message() default "Invalid studentId, the found user doesn't have role: STUDENT";
+    String message() default "Invalid studentId, user doesn't have role: STUDENT";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

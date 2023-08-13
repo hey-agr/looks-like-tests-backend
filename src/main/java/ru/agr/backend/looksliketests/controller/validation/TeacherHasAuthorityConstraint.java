@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TeacherHasAuthorityConstraint {
-    String message() default "Invalid teacherId, the found user doesn't have role: TEACHER";
+    String message() default "Invalid teacherId, user doesn't have role: TEACHER";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

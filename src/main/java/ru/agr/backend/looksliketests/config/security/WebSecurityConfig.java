@@ -1,6 +1,5 @@
 package ru.agr.backend.looksliketests.config.security;
 
-import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -8,6 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
-import ru.agr.backend.looksliketests.config.security.jwt.JWTConfigurer;
+import ru.agr.backend.looksliketests.config.security.jwt.JWTFilter;
 import ru.agr.backend.looksliketests.config.security.jwt.JwtAccessDeniedHandler;
 import ru.agr.backend.looksliketests.config.security.jwt.JwtAuthenticationEntryPoint;
 import ru.agr.backend.looksliketests.config.security.jwt.TokenProvider;
@@ -76,32 +76,23 @@ public class WebSecurityConfig {
 
    @Bean
    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-      return http.authorizeHttpRequests(this::authorizeHttpRequestsConfiguration)
+      return http.csrf(AbstractHttpConfigurer::disable)
+              .addFilterBefore(new JWTFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+              .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+              .exceptionHandling(
+                      exceptionHandler -> exceptionHandler.authenticationEntryPoint(authenticationErrorHandler)
+                              .accessDeniedHandler(jwtAccessDeniedHandler)
+              )
+              .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+              .authorizeHttpRequests(WebSecurityConfig::authorizeRequests)
               .httpBasic(withDefaults())
               .build();
    }
 
-   @SneakyThrows
-   private void authorizeHttpRequestsConfiguration(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authz) {
-      authz.and().csrf().disable()
-              .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-              .exceptionHandling()
-              .authenticationEntryPoint(authenticationErrorHandler)
-              .accessDeniedHandler(jwtAccessDeniedHandler)
-              .and()
-              .sessionManagement()
-              .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-              .and()
-              .authorizeHttpRequests()
-              .requestMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
+   private static AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizeRequests(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry requests) {
+      return requests.requestMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
               .requestMatchers(ACTUATOR_WHITELIST).permitAll()
               .requestMatchers(SWAGGER_WHITELIST).permitAll()
-              .anyRequest().authenticated()
-              .and()
-              .apply(securityConfigurerAdapter());
-   }
-
-   private JWTConfigurer securityConfigurerAdapter() {
-      return new JWTConfigurer(tokenProvider);
+              .anyRequest().authenticated();
    }
 }
