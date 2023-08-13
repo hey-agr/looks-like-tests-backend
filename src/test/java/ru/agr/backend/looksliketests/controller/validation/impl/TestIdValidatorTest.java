@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.service.TestService;
 
 import java.util.Optional;
@@ -20,8 +21,8 @@ import static org.mockito.Mockito.when;
 class TestIdValidatorTest {
     private static final Long TEST_ID = 1L;
     private static final Long WRONG_TEST_ID = 2L;
-    private static final ru.agr.backend.looksliketests.db.entity.main.Test TEST =
-            ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+    private static final TestEntity TEST =
+            TestEntity.builder()
                     .id(TEST_ID)
                     .build();
 

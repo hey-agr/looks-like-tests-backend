@@ -18,7 +18,7 @@ public class StudentTestAssignationResource {
     String description;
     Long minCorrectAnswers;
     Long questionsCount;
-    Integer attempts;
+    Long attempts;
     Long duration;
     Boolean isNeedVerify;
     List<TestProgressResource> testProgresses;

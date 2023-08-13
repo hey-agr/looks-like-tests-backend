@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import ru.agr.backend.looksliketests.db.entity.main.Option;
 import ru.agr.backend.looksliketests.db.entity.main.Question;
 import ru.agr.backend.looksliketests.db.entity.main.QuestionType;
+import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.db.repository.TestRepository;
 import ru.agr.backend.looksliketests.db.repository.filter.TestSpecificationFilter;
 import ru.agr.backend.looksliketests.db.repository.specification.TestSpecification;
@@ -59,7 +60,7 @@ class TestServiceTest {
     void findPageable() {
         var givenPageable = Pageable.unpaged();
 
-        var expectedTest = ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+        var expectedTest = TestEntity.builder()
                 .id(TEST_ID)
                 .name("Some test")
                 .build();
@@ -95,7 +96,7 @@ class TestServiceTest {
 
         var expectedSpecification = new TestSpecification(expectedSpecificationFilter);
 
-        var expectedTest = ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+        var expectedTest = TestEntity.builder()
                 .id(TEST_ID)
                 .name("Some test")
                 .build();
@@ -119,7 +120,7 @@ class TestServiceTest {
 
     @Test
     void findById() {
-        var expectedTest = ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+        var expectedTest = TestEntity.builder()
                 .id(TEST_ID)
                 .name("Some test")
                 .build();
@@ -144,7 +145,7 @@ class TestServiceTest {
 
     @Test
     void save() {
-        var givenTest = ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+        var givenTest = TestEntity.builder()
                 .id(TEST_ID)
                 .name("Some test")
                 .build();
@@ -159,7 +160,7 @@ class TestServiceTest {
 
     @Test
     void saveNeedVerification() {
-        var givenTest = ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+        var givenTest = TestEntity.builder()
                 .id(TEST_ID)
                 .name("Some test")
                 .questions(List.of(
@@ -185,7 +186,7 @@ class TestServiceTest {
 
     @Test
     void populateTest() {
-        var givenTest = ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+        var givenTest = TestEntity.builder()
                 .id(TEST_ID)
                 .name("Some test")
                 .needVerification(false)

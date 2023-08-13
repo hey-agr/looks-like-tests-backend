@@ -34,6 +34,8 @@ import ru.agr.backend.looksliketests.service.auth.UserService;
 
 import java.util.Collection;
 
+import static java.util.Objects.isNull;
+
 /**
  * @author Arslan Rabadanov
  */
@@ -88,7 +90,8 @@ public class TestsProgressController {
                 .orElseThrow(UserNotFoundException::new);
         final var testProgress = testProgressService.findById(testProgressId)
                 .orElseThrow(() -> new ResourceNotFoundException("Test progress with id =" +testProgressId+" is not found!"));
-        if (!testProgress.getUser().getId().equals(user.getId())) {
+        if (isNull(testProgress.getUser())
+                || !testProgress.getUser().getId().equals(user.getId())) {
             throw new IncorrectTestProgressException("Test progress with id: " + testProgressId + " is not started by user with id: " + user.getId());
         }
         testProgressValidationService.validate(testProgress, createTestAnswersDto);

@@ -15,11 +15,8 @@ import ru.agr.backend.looksliketests.controller.test.mapper.TestProgressMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestResultMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
-import ru.agr.backend.looksliketests.db.entity.main.StudentAssignedTest;
-import ru.agr.backend.looksliketests.db.entity.main.StudentTestHistory;
-import ru.agr.backend.looksliketests.db.entity.main.Test;
-import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
-import ru.agr.backend.looksliketests.db.entity.main.TestResult;
+import ru.agr.backend.looksliketests.db.entity.main.*;
+import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.service.TestProgressService;
 import ru.agr.backend.looksliketests.service.TestResultService;
 import ru.agr.backend.looksliketests.service.TestService;
@@ -43,9 +40,9 @@ public class TestResourceServiceImpl implements TestResourceService {
     private final TestService testService;
 
     @Override
-    public TestCollectionResource prepareTestsResource(@NonNull Page<Test> testsPage, @NonNull Pageable pageable) {
+    public TestCollectionResource prepareTestsResource(@NonNull Page<TestEntity> testsPage, @NonNull Pageable pageable) {
         final var tests = testsPage.getContent();
-        testService.populateTest(tests.toArray(new Test[0]));
+        testService.populateTest(tests.toArray(new TestEntity[0]));
         return TestCollectionResource.builder()
                 .pageNumber(pageable.getPageNumber())
                 .pageSize(pageable.getPageSize())
@@ -116,8 +113,8 @@ public class TestResourceServiceImpl implements TestResourceService {
     }
 
     @Override
-    public TestResource prepareTestResource(@NonNull Test test) {
-        testService.populateTest(test);
-        return testMapper.toResource(test);
+    public TestResource prepareTestResource(@NonNull TestEntity testEntity) {
+        testService.populateTest(testEntity);
+        return testMapper.toResource(testEntity);
     }
 }

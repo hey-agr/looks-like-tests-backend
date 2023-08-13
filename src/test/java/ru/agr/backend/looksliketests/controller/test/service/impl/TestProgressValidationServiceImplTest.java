@@ -1,4 +1,4 @@
-package ru.agr.backend.looksliketests.controller.test.service;
+package ru.agr.backend.looksliketests.controller.test.service.impl;
 
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,12 +10,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestAnswerDto;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestAnswersDto;
 import ru.agr.backend.looksliketests.controller.test.exception.TestProgressValidationException;
-import ru.agr.backend.looksliketests.controller.test.service.impl.TestProgressValidationServiceImpl;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
-import ru.agr.backend.looksliketests.db.entity.main.Option;
-import ru.agr.backend.looksliketests.db.entity.main.Question;
-import ru.agr.backend.looksliketests.db.entity.main.QuestionType;
-import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
+import ru.agr.backend.looksliketests.db.entity.main.*;
 import ru.agr.backend.looksliketests.service.TestProgressService;
 
 import java.time.ZonedDateTime;
@@ -30,7 +26,7 @@ import static org.mockito.Mockito.when;
  * @author Arslan Rabadanov
  */
 @ExtendWith(MockitoExtension.class)
-class TestProgressValidationServiceTest {
+class TestProgressValidationServiceImplTest {
     private static final Long TEST_ID = 9583L;
     private static final Long TEST_PROGRESS_ID = 1L;
     private static final String FIRST_NAME = "John";
@@ -53,7 +49,7 @@ class TestProgressValidationServiceTest {
     private TestProgressValidationServiceImpl service;
 
     private User givenUser;
-    private ru.agr.backend.looksliketests.db.entity.main.Test givenTest;
+    private TestEntity givenTest;
     private Question givenFirstQuestion;
     private Question givenSecondQuestion;
     private Option givenFirstQuestionFirstOption;
@@ -69,7 +65,7 @@ class TestProgressValidationServiceTest {
                 .activated(true)
                 .build();
 
-        givenTest = ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+        givenTest = TestEntity.builder()
                 .id(TEST_ID)
                 .attempts(2L)
                 .name("Some test")

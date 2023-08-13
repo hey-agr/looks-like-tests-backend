@@ -17,6 +17,7 @@ import ru.agr.backend.looksliketests.controller.resources.StudentToTestAssignati
 import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
 import ru.agr.backend.looksliketests.db.entity.main.StudentToTeacherAssignation;
 import ru.agr.backend.looksliketests.db.entity.main.StudentToTestAssignation;
+import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.service.AssignationService;
 import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.auth.UserService;
@@ -69,7 +70,7 @@ class AssignationControllerTest {
         lenient().when(userService.checkIfUsersAuthorityExists(TEACHER_ID, UserAuthority.AuthorityName.TEACHER))
                 .thenReturn(true);
         lenient().when(testService.findById(TEST_ID))
-                .thenReturn(Optional.of(ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+                .thenReturn(Optional.of(TestEntity.builder()
                         .id(TEST_ID)
                         .build()));
     }

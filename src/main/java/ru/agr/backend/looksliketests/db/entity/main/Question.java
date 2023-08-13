@@ -51,7 +51,7 @@ public class Question {
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "test_id", nullable = false)
-    private Test test;
+    private TestEntity test;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

@@ -13,6 +13,7 @@ import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 /**
@@ -22,6 +23,11 @@ import static java.util.Objects.nonNull;
 public abstract class TestAnswerMapper {
     public List<TestAnswer> toEntity(@NonNull TestProgress testProgress, @NonNull CreateTestAnswerDto createTestAnswerDto) {
         final var resultAnswers = new ArrayList<TestAnswer>();
+        if (isNull(testProgress.getTest())
+                || isNull(testProgress.getTest().getQuestions())
+                || testProgress.getTest().getQuestions().isEmpty()) {
+            return resultAnswers;
+        }
         final var test = testProgress.getTest();
         var questionOpt = test.getQuestions().stream()
                 .filter(q -> q.getId().equals(createTestAnswerDto.getQuestionId()))

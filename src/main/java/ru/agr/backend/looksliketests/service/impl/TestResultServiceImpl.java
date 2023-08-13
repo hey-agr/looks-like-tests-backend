@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agr.backend.looksliketests.db.entity.main.Test;
+import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.db.entity.main.TestAnswer;
 import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 import ru.agr.backend.looksliketests.db.entity.main.TestResult;
@@ -97,13 +97,13 @@ public class TestResultServiceImpl implements TestResultService {
         return testResultRepository.findAllByTestProgressIdIn(testProgressIds);
     }
 
-    private TestResultStatus processTestResultStatus(Test test, boolean expired, long rightAnswersCount) {
-        if (Boolean.TRUE.equals(test.getNeedVerification())) {
+    private TestResultStatus processTestResultStatus(TestEntity testEntity, boolean expired, long rightAnswersCount) {
+        if (Boolean.TRUE.equals(testEntity.getNeedVerification())) {
             return TestResultStatus.PENDING;
         } else if (expired) {
             return TestResultStatus.FAILED;
         } else {
-            return rightAnswersCount >= test.getMinCorrectAnswers()
+            return rightAnswersCount >= testEntity.getMinCorrectAnswers()
                     ? TestResultStatus.PASSED
                     : TestResultStatus.FAILED;
         }

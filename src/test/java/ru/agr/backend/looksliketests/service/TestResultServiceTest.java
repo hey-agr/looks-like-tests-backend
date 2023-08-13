@@ -7,13 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
-import ru.agr.backend.looksliketests.db.entity.main.Option;
-import ru.agr.backend.looksliketests.db.entity.main.Question;
-import ru.agr.backend.looksliketests.db.entity.main.QuestionType;
-import ru.agr.backend.looksliketests.db.entity.main.TestAnswer;
-import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
-import ru.agr.backend.looksliketests.db.entity.main.TestResult;
-import ru.agr.backend.looksliketests.db.entity.main.TestResultStatus;
+import ru.agr.backend.looksliketests.db.entity.main.*;
 import ru.agr.backend.looksliketests.db.repository.TestResultRepository;
 import ru.agr.backend.looksliketests.service.impl.TestResultServiceImpl;
 
@@ -43,7 +37,7 @@ class TestResultServiceTest {
     private static final Long TEST_ANSWER2_ID = 848L;
 
     private User givenUser;
-    private ru.agr.backend.looksliketests.db.entity.main.Test givenTest;
+    private TestEntity givenTest;
     private Question givenFirstQuestion;
     private Question givenSecondQuestion;
     private Option givenFirstQuestionFirstOption;
@@ -69,7 +63,7 @@ class TestResultServiceTest {
                 .activated(true)
                 .build();
 
-        givenTest = ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+        givenTest = TestEntity.builder()
                 .id(TEST_ID)
                 .attempts(2L)
                 .name("Some test")

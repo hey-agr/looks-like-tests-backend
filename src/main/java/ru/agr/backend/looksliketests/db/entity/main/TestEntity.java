@@ -30,7 +30,7 @@ import java.util.Objects;
 @FieldNameConstants
 @Entity
 @Table(name = "test", schema = "main")
-public class Test {
+public class TestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -61,8 +61,8 @@ public class Test {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Test test = (Test) o;
-        return id != null && Objects.equals(id, test.id);
+        TestEntity testEntity = (TestEntity) o;
+        return id != null && Objects.equals(id, testEntity.id);
     }
 
     @Override

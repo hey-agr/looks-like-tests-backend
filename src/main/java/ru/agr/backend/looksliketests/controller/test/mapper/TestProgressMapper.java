@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.agr.backend.looksliketests.controller.resources.TestProgressResource;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
-import ru.agr.backend.looksliketests.db.entity.main.Test;
+import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 
 import java.time.ZonedDateTime;
@@ -19,9 +19,9 @@ public interface TestProgressMapper {
     @Mapping(target = "userId", source = "user.id")
     TestProgressResource toResource(TestProgress testProgress);
 
-    default TestProgress toEntity(@NonNull Test test, @NonNull User user) {
+    default TestProgress toEntity(@NonNull TestEntity testEntity, @NonNull User user) {
         return TestProgress.builder()
-                .test(test)
+                .test(testEntity)
                 .user(user)
                 .dateStarted(ZonedDateTime.now())
                 .build();

@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
+import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 import ru.agr.backend.looksliketests.db.repository.TestProgressRepository;
 import ru.agr.backend.looksliketests.service.impl.TestProgressServiceImpl;
@@ -40,7 +41,7 @@ class TestProgressServiceTest {
     private TestProgressServiceImpl service;
 
     private User givenUser;
-    private ru.agr.backend.looksliketests.db.entity.main.Test givenTest;
+    private TestEntity givenTest;
 
     @BeforeEach
     void setUp() {
@@ -52,7 +53,7 @@ class TestProgressServiceTest {
                 .activated(true)
                 .build();
 
-        givenTest = ru.agr.backend.looksliketests.db.entity.main.Test.builder()
+        givenTest = TestEntity.builder()
                 .attempts(2L)
                 .name("Some test")
                 .description("Some test description")

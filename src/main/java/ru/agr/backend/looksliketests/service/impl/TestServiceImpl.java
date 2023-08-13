@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agr.backend.looksliketests.db.entity.main.Question;
-import ru.agr.backend.looksliketests.db.entity.main.Test;
+import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.db.repository.TestRepository;
 import ru.agr.backend.looksliketests.db.repository.specification.TestSpecification;
 import ru.agr.backend.looksliketests.service.OptionService;
@@ -34,35 +34,35 @@ public class TestServiceImpl implements TestService {
     private final OptionService optionService;
 
     @Override
-    public Page<Test> findPageable(@NonNull Pageable pageable) {
+    public Page<TestEntity> findPageable(@NonNull Pageable pageable) {
         return testRepository.findAll(pageable);
     }
 
     @Override
-    public Page<Test> findFiltered(@NonNull TestFilter testFilter, @NonNull Pageable pageable) {
+    public Page<TestEntity> findFiltered(@NonNull TestFilter testFilter, @NonNull Pageable pageable) {
         final var specificationFilter = testFilterMapper.toTestSpecificationFilter(testFilter);
         final var specification = new TestSpecification(specificationFilter);
         return testRepository.findAll(specification, pageable);
     }
 
     @Override
-    public Optional<Test> findById(@NonNull Long id) {
+    public Optional<TestEntity> findById(@NonNull Long id) {
         return testRepository.findById(id);
     }
 
     @Override
     @Transactional
-    public Test save(@NonNull Test test) {
-        if (nonNull(test.getQuestions())) {
-            test.setNeedVerification(questionService.hasWritingQuestions(test.getQuestions()));
+    public TestEntity save(@NonNull TestEntity testEntity) {
+        if (nonNull(testEntity.getQuestions())) {
+            testEntity.setNeedVerification(questionService.hasWritingQuestions(testEntity.getQuestions()));
         }
-        return testRepository.save(test);
+        return testRepository.save(testEntity);
     }
 
     @Override
-    public void populateTest(@NonNull Test... tests) {
-        final var testIds = Arrays.stream(tests)
-                .map(Test::getId)
+    public void populateTest(@NonNull TestEntity... testEntities) {
+        final var testIds = Arrays.stream(testEntities)
+                .map(TestEntity::getId)
                 .distinct()
                 .toArray(Long[]::new);
         final var testQuestions = questionService.findByTestIds(testIds);
@@ -75,7 +75,7 @@ public class TestServiceImpl implements TestService {
                 .collect(Collectors.groupingBy(option -> option.getQuestion().getId()));
         testQuestions.forEach(testQuestion ->
                 testQuestion.setOptions(questionOptionsMap.getOrDefault(testQuestion.getId(), null)));
-        Arrays.stream(tests).forEach(test ->
+        Arrays.stream(testEntities).forEach(test ->
                 test.setQuestions(testQuestionsMap.getOrDefault(test.getId(), null)));
     }
 }

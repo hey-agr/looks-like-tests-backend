@@ -10,14 +10,14 @@ import ru.agr.backend.looksliketests.controller.resources.TestResource;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
 import ru.agr.backend.looksliketests.db.entity.main.StudentAssignedTest;
 import ru.agr.backend.looksliketests.db.entity.main.StudentTestHistory;
-import ru.agr.backend.looksliketests.db.entity.main.Test;
+import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 
 /**
  * @author Arslan Rabadanov
  */
 public interface TestResourceService {
-    TestCollectionResource prepareTestsResource(@NonNull Page<Test> testsPage, @NonNull Pageable pageable);
+    TestCollectionResource prepareTestsResource(@NonNull Page<TestEntity> testsPage, @NonNull Pageable pageable);
     StudentTestAssignationCollectionResource prepareStudentTestAssignationsResource(@NonNull User user, @NonNull Page<StudentAssignedTest> testsPage, @NonNull Pageable pageable);
     StudentTestHistoryCollectionResource prepareStudentTestHistoryCollectionResource(@NonNull Page<StudentTestHistory> testsPage, @NonNull Pageable pageable);
-    TestResource prepareTestResource(@NonNull Test test);
+    TestResource prepareTestResource(@NonNull TestEntity testEntity);
 }

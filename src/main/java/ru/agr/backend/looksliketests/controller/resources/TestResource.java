@@ -1,6 +1,7 @@
 package ru.agr.backend.looksliketests.controller.resources;
 
 import lombok.Builder;
+import lombok.ToString;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Jacksonized
 @Builder
 @Value
+@ToString
 public class TestResource {
     Long id;
     String name;

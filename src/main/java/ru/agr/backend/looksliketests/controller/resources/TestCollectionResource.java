@@ -2,6 +2,7 @@ package ru.agr.backend.looksliketests.controller.resources;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import ru.agr.backend.looksliketests.controller.resources.base.PageableResource;
@@ -15,6 +16,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Getter
+@ToString
 public class TestCollectionResource extends PageableResource {
     private final List<TestResource> tests;
 }
