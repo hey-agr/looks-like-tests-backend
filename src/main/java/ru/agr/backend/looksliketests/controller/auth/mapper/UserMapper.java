@@ -13,7 +13,6 @@ import ru.agr.backend.looksliketests.controller.auth.dto.UserCreateDto;
 import ru.agr.backend.looksliketests.controller.resources.UserResource;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
 import ru.agr.backend.looksliketests.db.entity.auth.UserAuthority;
-import ru.agr.backend.looksliketests.service.auth.AuthorityService;
 
 import java.util.stream.Collectors;
 
@@ -26,21 +25,20 @@ import static java.util.Objects.nonNull;
 public abstract class UserMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
-    @Autowired
-    protected AuthorityService authorityService;
 
-    @Mappings(
-            @Mapping(target = "password", ignore = true)
-    )
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "activated", ignore = true)
+    @Mapping(target = "authorities", ignore = true)
     public abstract User toEntity(UserCreateDto userCreateDto);
 
     @AfterMapping
-    protected void toEntityAfterMapping(UserCreateDto userCreateDto, @MappingTarget User user) {
-        user.setPassword(passwordEncoder.encode(userCreateDto.password()));
-        user.setAuthorities(userCreateDto.authorities().stream()
+    protected void toEntityAfterMapping(UserCreateDto userCreateDto, @MappingTarget User.UserBuilder user) {
+        user.password(passwordEncoder.encode(userCreateDto.password()));
+        user.authorities(userCreateDto.authorities().stream()
                 .map(authorityName ->
                         UserAuthority.builder()
-                                .user(user)
                                 .name(UserAuthority.AuthorityName.valueOf(authorityName.name()))
                                 .build())
                 .toList()

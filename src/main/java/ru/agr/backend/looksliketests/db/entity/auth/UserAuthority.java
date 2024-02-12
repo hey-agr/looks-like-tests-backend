@@ -45,7 +45,7 @@ public class UserAuthority implements Serializable {
    @ToString.Exclude
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-   protected User user;
+   private User user;
 
    @Builder
    @Getter
@@ -53,9 +53,9 @@ public class UserAuthority implements Serializable {
    @NoArgsConstructor
    @AllArgsConstructor
    public static class UserAuthorityKey implements Serializable {
-      protected User user;
+      private User user;
 
-      protected AuthorityName name;
+      private AuthorityName name;
    }
 
    public enum AuthorityName {

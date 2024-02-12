@@ -4,11 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
-import ru.agr.backend.looksliketests.db.entity.main.TestAnswer;
-import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
-import ru.agr.backend.looksliketests.db.entity.main.TestResult;
-import ru.agr.backend.looksliketests.db.entity.main.TestResultStatus;
+import ru.agr.backend.looksliketests.db.entity.main.*;
 import ru.agr.backend.looksliketests.db.repository.TestResultRepository;
 import ru.agr.backend.looksliketests.service.RightAnswerCalculateService;
 import ru.agr.backend.looksliketests.service.TestAnswerService;
@@ -56,16 +52,23 @@ public class TestResultServiceImpl implements TestResultService {
         final var resultQuestionAnswersMap = testAnswerService.findByTestProgressId(testProgress.getId()).stream()
                 .collect(Collectors.groupingBy(TestAnswer::getQuestion));
 
-        final var questionCount = Long.valueOf(test.getQuestions().size());
-        final var rightAnswersCount = resultQuestionAnswersMap.entrySet().stream()
-                .filter(entry -> rightAnswerCalculateService.isRightAnswer(entry.getKey(), entry.getValue()))
-                .count();
-        final var wrongAnswersCount = resultQuestionAnswersMap.entrySet().stream()
-                .filter(entry -> !entry.getKey().getType().isCheckRequired() && !rightAnswerCalculateService.isRightAnswer(entry.getKey(), entry.getValue()))
-                .count();
-        final var pendingAnswersCount = resultQuestionAnswersMap.keySet().stream()
-                .filter(question -> question.getType().isCheckRequired())
-                .count();
+        final var questionCount = (long) test.getQuestions().size();
+
+        var rightAnswersCount = 0L;
+        var wrongAnswersCount = 0L;
+        var pendingAnswersCount = 0L;
+
+        for (var entry : resultQuestionAnswersMap.entrySet()) {
+            final var isRightAnswer = rightAnswerCalculateService.isRightAnswer(entry.getKey(), entry.getValue());
+            if (isRightAnswer) {
+                rightAnswersCount++;
+            } else if (!entry.getKey().getType().isCheckRequired()) {
+                wrongAnswersCount++;
+            }
+            if (entry.getKey().getType().isCheckRequired()) {
+                pendingAnswersCount++;
+            }
+        }
 
         return TestResult.builder()
                 .testProgressId(testProgress.getId())
@@ -97,7 +100,7 @@ public class TestResultServiceImpl implements TestResultService {
         return testResultRepository.findAllByTestProgressIdIn(testProgressIds);
     }
 
-    private TestResultStatus processTestResultStatus(TestEntity testEntity, boolean expired, long rightAnswersCount) {
+    private TestResultStatus processTestResultStatus(@NonNull TestEntity testEntity, boolean expired, long rightAnswersCount) {
         if (Boolean.TRUE.equals(testEntity.getNeedVerification())) {
             return TestResultStatus.PENDING;
         } else if (expired) {

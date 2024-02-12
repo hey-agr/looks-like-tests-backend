@@ -17,6 +17,7 @@ import java.time.ZonedDateTime;
 public interface TestProgressMapper {
     @Mapping(target = "testId", source = "test.id")
     @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "testResult", ignore = true)
     TestProgressResource toResource(TestProgress testProgress);
 
     default TestProgress toEntity(@NonNull TestEntity testEntity, @NonNull User user) {

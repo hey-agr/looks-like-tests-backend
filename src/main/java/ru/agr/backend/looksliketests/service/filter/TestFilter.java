@@ -11,5 +11,5 @@ import java.util.List;
 @Value
 @Builder
 public class TestFilter {
-    List<Long> studentId;
+    List<Long> studentIds;
 }

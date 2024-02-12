@@ -24,6 +24,8 @@ public abstract class TestMapper {
     public abstract TestResource toResource(TestEntity testEntity);
 
     @Mapping(source = "minRightAnswers", target = "minCorrectAnswers")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "needVerification", constant = "false")
     public abstract TestEntity toEntity(CreateTestDto createTestDto);
 
     @AfterMapping
@@ -44,5 +46,6 @@ public abstract class TestMapper {
     }
 
     @Mapping(source = "needVerification", target = "isNeedVerify")
+    @Mapping(target = "testProgresses", ignore = true)
     public abstract StudentTestAssignationResource toStudentTestAssignedResource(@NotNull StudentAssignedTest studentAssignedTest);
 }

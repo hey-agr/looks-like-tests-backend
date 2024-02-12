@@ -15,5 +15,8 @@ public interface QuestionMapper {
     QuestionResource toQuestionResource(Question question);
 
     @Mapping(source = "answers", target = "options")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "testId", ignore = true)
+    @Mapping(target = "test", ignore = true)
     Question toEntity(CreateQuestionDto createQuestionDto);
 }

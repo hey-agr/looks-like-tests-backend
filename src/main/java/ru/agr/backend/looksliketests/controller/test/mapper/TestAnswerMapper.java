@@ -3,6 +3,7 @@ package ru.agr.backend.looksliketests.controller.test.mapper;
 import lombok.NonNull;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import ru.agr.backend.looksliketests.controller.resources.TestAnswerResource;
 import ru.agr.backend.looksliketests.controller.test.dto.CreateTestAnswerDto;
@@ -60,6 +61,8 @@ public abstract class TestAnswerMapper {
         return resultAnswers;
     }
 
+    @Mapping(target = "testProgressId", source = "testProgress.id")
+    @Mapping(target = "optionId", source = "option.id")
     public abstract TestAnswerResource toResource(TestAnswer testAnswer);
 
     @AfterMapping

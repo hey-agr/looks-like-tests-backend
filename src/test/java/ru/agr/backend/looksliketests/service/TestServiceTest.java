@@ -84,7 +84,7 @@ class TestServiceTest {
     void findFiltered() {
         var givenPageable = Pageable.unpaged();
         var givenFilter = TestFilter.builder()
-                .studentId(List.of(STUDENT1_ID, STUDENT2_ID))
+                .studentIds(List.of(STUDENT1_ID, STUDENT2_ID))
                 .build();
 
         var expectedSpecificationFilter = TestSpecificationFilter.builder()
