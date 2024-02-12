@@ -5,25 +5,32 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.2.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.agr.backend</groupId>
     <artifactId>looks-like-tests</artifactId>
-    <version>0.7.4</version>
+    <version>0.8.0</version>
     <name>looks-like-tests</name>
     <description>looks-like-tests</description>
     <properties>
         <java.version>17</java.version>
-        <testcontainers.version>1.18.3</testcontainers.version>
+        <testcontainers.version>1.19.3</testcontainers.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
-        <springdoc.version>2.2.0</springdoc.version>
+        <springdoc.version>2.3.0</springdoc.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
         <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
-        <native-maven-plugin.version>0.9.24</native-maven-plugin.version>
+        <native-maven-plugin.version>0.9.26</native-maven-plugin.version>
     </properties>
+    <repositories> <!-- !!!!! REMOVE SNAPSHOT REPO IN SPRING BOOT 3.2.3 -->
+        <repository>
+            <id>repository.spring.snapshot</id>
+            <name>Spring Snapshot Repository</name>
+            <url>https://repo.spring.io/snapshot</url>
+        </repository>
+    </repositories>
     <dependencies>
         <!-- SpringBoot -->
         <dependency>
@@ -51,6 +58,18 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+        <!-- !!!!! REMOVE THIS DEPENDENCY IN SPRING BOOT 3.2.3 -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>6.3.0-SNAPSHOT</version>
+        </dependency>
+        <!-- !!!!! REMOVE THIS DEPENDENCY IN SPRING BOOT 3.2.3 -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>3.2.x-3025-SNAPSHOT</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
         <dependency>
