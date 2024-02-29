@@ -10,7 +10,7 @@ import ru.agr.backend.looksliketests.db.entity.main.TestProgress;
 
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestAnswerMapperTest {
     private static final Long TEST_PROGRESS_ID = 765L;

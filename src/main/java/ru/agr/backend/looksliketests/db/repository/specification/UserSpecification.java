@@ -30,10 +30,11 @@ public class UserSpecification implements Specification<User> {
         if (nonNull(filter)) {
             Optional.ofNullable(filter.getAuthorities())
                     .ifPresent(authorityNames -> {
-                        var subQuery = query.subquery(UserAuthority.class);
+                        var subQuery = query.subquery(Long.class);
                         var subQueryFrom = subQuery.from(UserAuthority.class);
-                        subQuery.select(subQueryFrom.get("user").get("id")).where(subQueryFrom.get("name").in(authorityNames));
-                        predicates.add(builder.in(root.get(User.Fields.id)).value(subQuery));
+                        var subQueryNameIn = subQueryFrom.get(UserAuthority.Fields.name).in(authorityNames);
+                        subQuery.select(subQueryFrom.get("user").get(User.Fields.id)).where(subQueryNameIn);
+                        predicates.add(root.get(User.Fields.id).in(subQuery));
                     });
         }
         return builder.and(predicates.toArray(new Predicate[0]));

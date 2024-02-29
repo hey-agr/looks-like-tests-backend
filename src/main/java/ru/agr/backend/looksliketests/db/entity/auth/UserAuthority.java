@@ -1,24 +1,8 @@
 package ru.agr.backend.looksliketests.db.entity.auth;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
@@ -43,7 +27,7 @@ public class UserAuthority implements Serializable {
    @Id
    @EqualsAndHashCode.Exclude
    @ToString.Exclude
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne
    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
    private User user;
 

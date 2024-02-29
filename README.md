@@ -1,7 +1,7 @@
 # Looks like tests backend API
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/831a7ee714604f58b2af70c2609e78fd)](https://app.codacy.com/gh/hey-agr/looks-like-tests-backend?utm_source=github.com&utm_medium=referral&utm_content=hey-agr/looks-like-tests-backend&utm_campaign=Badge_Grade_Settings)
 
-Represents an interface for working with tests.
+## Simple Spring Boot Application
 
 ### Roles: Student, Teacher, Admin
 
@@ -17,4 +17,18 @@ Represents an interface for working with tests.
 #### 2. Option multiply - choose 2 or more right options
 #### 3. Writing - text answer (should be verified by teacher)
 
-#### Spring Boot 3 (Data JPA, Web, Security) / PostgreSQL / Flyway / Swagger / Lombok / Mapstruct
+## How to run application?
+docker-compose up -d
+
+## Swagger
+http://localhost:8090/swagger-ui/index.html
+
+## PgAdmin
+http://localhost:5050/
+
+Username: user@pgadmin.org
+
+Password: admin
+
+
+### Spring Native / Spring Boot 3 (Data JPA, Web, Security) / PostgresSQL / Flyway / Docker / Swagger / Lombok / Mapstruct

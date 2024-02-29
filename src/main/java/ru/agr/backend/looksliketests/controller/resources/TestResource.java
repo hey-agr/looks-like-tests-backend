@@ -1,5 +1,6 @@
 package ru.agr.backend.looksliketests.controller.resources;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.ToString;
 import lombok.Value;
@@ -10,10 +11,11 @@ import java.util.List;
 /**
  * @author Arslan Rabadanov
  */
-@Jacksonized
-@Builder
 @Value
+@Builder
 @ToString
+@Jacksonized
+@AllArgsConstructor
 public class TestResource {
     Long id;
     String name;

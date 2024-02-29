@@ -16,11 +16,10 @@ import ru.agr.backend.looksliketests.service.TestProgressService;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Arslan Rabadanov
@@ -78,7 +77,6 @@ class TestProgressValidationServiceImplTest {
         givenFirstQuestion = Question.builder()
                 .id(QUESTION1_ID)
                 .type(QuestionType.OPTIONS)
-                .testId(TEST_ID)
                 .test(givenTest)
                 .name("How are you doing?")
                 .build();
@@ -86,7 +84,6 @@ class TestProgressValidationServiceImplTest {
         givenFirstQuestionFirstOption = Option.builder()
                 .id(OPTION1_ID)
                 .rightAnswer(true)
-                .questionId(QUESTION1_ID)
                 .question(givenFirstQuestion)
                 .name("I'm fine")
                 .build();
@@ -94,12 +91,11 @@ class TestProgressValidationServiceImplTest {
         givenFirstQuestionSecondOption = Option.builder()
                 .id(OPTION2_ID)
                 .rightAnswer(false)
-                .questionId(QUESTION1_ID)
                 .question(givenFirstQuestion)
                 .name("Not really good")
                 .build();
 
-        givenFirstQuestion.setOptions(List.of(
+        givenFirstQuestion.setOptions(Set.of(
                 givenFirstQuestionFirstOption,
                 givenFirstQuestionSecondOption
         ));
@@ -107,12 +103,11 @@ class TestProgressValidationServiceImplTest {
         givenSecondQuestion = Question.builder()
                 .id(QUESTION2_ID)
                 .type(QuestionType.WRITING)
-                .testId(TEST_ID)
                 .test(givenTest)
                 .name("Where are you from?")
                 .build();
 
-        givenTest.setQuestions(List.of(givenFirstQuestion, givenSecondQuestion));
+        givenTest.setQuestions(Set.of(givenFirstQuestion, givenSecondQuestion));
     }
 
     @Test

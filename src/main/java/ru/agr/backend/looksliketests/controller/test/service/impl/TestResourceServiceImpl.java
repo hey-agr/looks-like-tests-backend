@@ -16,7 +16,6 @@ import ru.agr.backend.looksliketests.controller.test.mapper.TestResultMapper;
 import ru.agr.backend.looksliketests.controller.test.service.TestResourceService;
 import ru.agr.backend.looksliketests.db.entity.auth.User;
 import ru.agr.backend.looksliketests.db.entity.main.*;
-import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.service.TestProgressService;
 import ru.agr.backend.looksliketests.service.TestResultService;
 import ru.agr.backend.looksliketests.service.TestService;

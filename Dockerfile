@@ -11,5 +11,5 @@ RUN ./mvnw native:compile -Pnative -DskipTests
 #
 FROM ubuntu:jammy
 EXPOSE 8080
-COPY --from=build /build/target/looks-like-tests /looks-like-tests
-CMD ["/looks-like-tests"]
+COPY --from=build /build/target/looks-like-tests-backend /looks-like-tests-backend
+CMD ["/looks-like-tests-backend"]

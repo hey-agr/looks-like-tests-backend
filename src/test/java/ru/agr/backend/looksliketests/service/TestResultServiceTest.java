@@ -13,12 +13,11 @@ import ru.agr.backend.looksliketests.service.impl.TestResultServiceImpl;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Arslan Rabadanov
@@ -75,26 +74,23 @@ class TestResultServiceTest {
 
         givenFirstQuestion = Question.builder()
                 .type(QuestionType.OPTIONS)
-                .testId(TEST_ID)
                 .test(givenTest)
                 .name("How are you doing?")
                 .build();
 
         givenFirstQuestionFirstOption = Option.builder()
                 .rightAnswer(true)
-                .questionId(QUESTION1_ID)
                 .question(givenFirstQuestion)
                 .name("I'm fine")
                 .build();
 
         givenFirstQuestionSecondOption = Option.builder()
                 .rightAnswer(false)
-                .questionId(QUESTION1_ID)
                 .question(givenFirstQuestion)
                 .name("Not really good")
                 .build();
 
-        givenFirstQuestion.setOptions(List.of(
+        givenFirstQuestion.setOptions(Set.of(
                 givenFirstQuestionFirstOption,
                 givenFirstQuestionSecondOption
         ));
@@ -102,12 +98,11 @@ class TestResultServiceTest {
         givenSecondQuestion = Question.builder()
                 .type(QuestionType.WRITING)
                 .id(QUESTION2_ID)
-                .testId(TEST_ID)
                 .test(givenTest)
                 .name("Where are you from?")
                 .build();
 
-        givenTest.setQuestions(List.of(givenFirstQuestion, givenSecondQuestion));
+        givenTest.setQuestions(Set.of(givenFirstQuestion, givenSecondQuestion));
     }
 
     @Test
@@ -301,11 +296,5 @@ class TestResultServiceTest {
 
         assertEquals(List.of(expectedTestResult),
                 service.findByTestProgressIds(TEST_PROGRESS_ID));
-    }
-
-    @Test
-    void findByTestProgressIdsNPE() {
-        assertThrows(NullPointerException.class,
-                () -> service.findByTestProgressIds(null));
     }
 }

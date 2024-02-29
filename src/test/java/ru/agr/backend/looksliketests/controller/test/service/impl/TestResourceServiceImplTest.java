@@ -8,12 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationCollectionResource;
-import ru.agr.backend.looksliketests.controller.resources.StudentTestAssignationResource;
-import ru.agr.backend.looksliketests.controller.resources.TestCollectionResource;
-import ru.agr.backend.looksliketests.controller.resources.TestProgressResource;
-import ru.agr.backend.looksliketests.controller.resources.TestResource;
-import ru.agr.backend.looksliketests.controller.resources.TestResultResource;
+import ru.agr.backend.looksliketests.controller.resources.*;
 import ru.agr.backend.looksliketests.controller.test.mapper.StudentTestHistoryMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestMapper;
 import ru.agr.backend.looksliketests.controller.test.mapper.TestProgressMapper;
@@ -29,10 +24,9 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Arslan Rabadanov

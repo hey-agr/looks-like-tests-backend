@@ -10,15 +10,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
-import org.hibernate.Hibernate;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 
 @Getter
@@ -28,6 +27,7 @@ import java.util.Objects;
 @Builder
 @ToString
 @FieldNameConstants
+@EqualsAndHashCode
 @Entity
 @Table(name = "test", schema = "main")
 public class TestEntity {
@@ -54,19 +54,7 @@ public class TestEntity {
     private Long attempts;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "test", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private List<Question> questions;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        TestEntity testEntity = (TestEntity) o;
-        return id != null && Objects.equals(id, testEntity.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
+    private Set<Question> questions;
 }

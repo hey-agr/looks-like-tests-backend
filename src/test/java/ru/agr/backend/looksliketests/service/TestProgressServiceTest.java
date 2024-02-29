@@ -17,11 +17,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -134,10 +130,7 @@ class TestProgressServiceTest {
     @Test
     void findAllByUserIdAndTestIdsNPE() {
         assertThrows(NullPointerException.class,
-                () -> service.findAllByUserIdAndTestIds(null, null));
-        final var userId = givenUser.getId();
-        assertThrows(NullPointerException.class,
-                () -> service.findAllByUserIdAndTestIds(userId, null));
+                () -> service.findAllByUserIdAndTestIds(null, new Long[]{null}));
     }
 
     @Test

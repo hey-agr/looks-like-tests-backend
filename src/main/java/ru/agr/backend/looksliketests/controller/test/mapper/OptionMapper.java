@@ -13,7 +13,6 @@ import ru.agr.backend.looksliketests.db.entity.main.Option;
 public interface OptionMapper {
     OptionResource toOptionResource(Option option);
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "questionId", ignore = true)
     @Mapping(target = "question", ignore = true)
     Option toEntity(CreateOptionDto createOptionDto);
 }

@@ -1,11 +1,7 @@
 package ru.agr.backend.looksliketests.controller.auth.mapper;
 
 import org.hibernate.Hibernate;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserAuthorityName;
@@ -21,7 +17,7 @@ import static java.util.Objects.nonNull;
 /**
  * @author Arslan Rabadanov
  */
-@Mapper(componentModel = "spring", uses = AuthorityMapper.class)
+@Mapper(componentModel = "spring", uses = AuthorityMapper.class, builder = @Builder(disableBuilder = true))
 public abstract class UserMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
@@ -34,12 +30,13 @@ public abstract class UserMapper {
     public abstract User toEntity(UserCreateDto userCreateDto);
 
     @AfterMapping
-    protected void toEntityAfterMapping(UserCreateDto userCreateDto, @MappingTarget User.UserBuilder user) {
-        user.password(passwordEncoder.encode(userCreateDto.password()));
-        user.authorities(userCreateDto.authorities().stream()
+    protected void toEntityAfterMapping(UserCreateDto userCreateDto, @MappingTarget User user) {
+        user.setPassword(passwordEncoder.encode(userCreateDto.password()));
+        user.setAuthorities(userCreateDto.authorities().stream()
                 .map(authorityName ->
                         UserAuthority.builder()
                                 .name(UserAuthority.AuthorityName.valueOf(authorityName.name()))
+                                .user(user)
                                 .build())
                 .toList()
         );
@@ -51,9 +48,9 @@ public abstract class UserMapper {
     public abstract UserResource toUserResource(User user);
 
     @AfterMapping
-    protected void toUserResourceAfterMapping(User user, @MappingTarget UserResource.UserResourceBuilder userResourceBuilder) {
+    protected void toUserResourceAfterMapping(User user, @MappingTarget UserResource userResource) {
         if (nonNull(user.getAuthorities()) && Hibernate.isInitialized(user.getAuthorities())) {
-            userResourceBuilder.authorities(user.getAuthorities().stream()
+            userResource.setAuthorities(user.getAuthorities().stream()
                     .map(userAuthority -> UserAuthorityName.valueOf(userAuthority.getName().name()))
                     .collect(Collectors.toSet()));
         }

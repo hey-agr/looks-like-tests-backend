@@ -22,15 +22,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Arslan Rabadanov
@@ -52,6 +46,8 @@ class TestServiceTest {
     private TestFilterMapper testFilterMapper;
     @Mock
     private OptionService optionService;
+    @Mock
+    private QuestionImageService questionImageService;
 
     @InjectMocks
     private TestServiceImpl service;
@@ -163,13 +159,13 @@ class TestServiceTest {
         var givenTest = TestEntity.builder()
                 .id(TEST_ID)
                 .name("Some test")
-                .questions(List.of(
+                .questions(Set.of(
                         Question.builder().type(QuestionType.WRITING).build()
                 ))
                 .needVerification(false)
                 .build();
 
-        when(questionService.hasWritingQuestions(givenTest.getQuestions()))
+        when(questionService.hasWritingQuestions(givenTest.getQuestions().stream().toList()))
                 .thenReturn(true);
         when(testRepository.save(givenTest))
                 .thenReturn(givenTest);
@@ -195,20 +191,17 @@ class TestServiceTest {
         var givenTestQuestion = Question.builder()
                 .id(QUESTION_ID)
                 .type(QuestionType.OPTIONS)
-                .testId(TEST_ID)
                 .test(givenTest)
                 .build();
 
         var givenFirstOption = Option.builder()
                 .id(OPTION1_ID)
-                .questionId(QUESTION_ID)
                 .question(givenTestQuestion)
                 .name("Yes")
                 .rightAnswer(true)
                 .build();
         var givenSecondOption = Option.builder()
                 .id(OPTION2_ID)
-                .questionId(QUESTION_ID)
                 .question(givenTestQuestion)
                 .name("No")
                 .rightAnswer(false)
@@ -222,14 +215,14 @@ class TestServiceTest {
         service.populateTest(givenTest);
 
         assertNotNull(givenTest.getQuestions());
-        assertEquals(givenTestQuestion, givenTest.getQuestions().get(0));
+        assertEquals(Set.of(givenTestQuestion), givenTest.getQuestions());
         assertNotNull(givenTestQuestion.getOptions());
-        assertEquals(givenTestQuestion.getOptions(), List.of(givenFirstOption, givenSecondOption));
+        assertEquals(givenTestQuestion.getOptions(), Set.of(givenFirstOption, givenSecondOption));
     }
 
     @Test
     void populateTestNPE() {
         assertThrows(NullPointerException.class,
-                () -> service.populateTest(null));
+                () -> service.populateTest(new TestEntity[]{null}));
     }
 }

@@ -1,9 +1,7 @@
 package ru.agr.backend.looksliketests.db.entity.main;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,6 +15,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Getter
 @Setter
@@ -39,12 +39,9 @@ public class Option {
     @Column(name = "right_answer", columnDefinition = "boolean default false")
     private Boolean rightAnswer;
 
-    @Column(name = "question_id", insertable = false, updatable = false)
-    private Long questionId;
-
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "question_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "question_id")
     private Question question;
 }

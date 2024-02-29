@@ -6,17 +6,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.agr.backend.looksliketests.db.entity.main.Option;
 import ru.agr.backend.looksliketests.db.entity.main.Question;
 import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 import ru.agr.backend.looksliketests.db.repository.TestRepository;
 import ru.agr.backend.looksliketests.db.repository.specification.TestSpecification;
 import ru.agr.backend.looksliketests.service.OptionService;
+import ru.agr.backend.looksliketests.service.QuestionImageService;
 import ru.agr.backend.looksliketests.service.QuestionService;
 import ru.agr.backend.looksliketests.service.TestService;
 import ru.agr.backend.looksliketests.service.filter.TestFilter;
 import ru.agr.backend.looksliketests.service.filter.TestFilterMapper;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,6 +36,7 @@ public class TestServiceImpl implements TestService {
     private final QuestionService questionService;
     private final TestFilterMapper testFilterMapper;
     private final OptionService optionService;
+    private final QuestionImageService questionImageService;
 
     @Override
     public Page<TestEntity> findPageable(@NonNull Pageable pageable) {
@@ -54,7 +59,7 @@ public class TestServiceImpl implements TestService {
     @Transactional
     public TestEntity save(@NonNull TestEntity testEntity) {
         if (nonNull(testEntity.getQuestions())) {
-            testEntity.setNeedVerification(questionService.hasWritingQuestions(testEntity.getQuestions()));
+            testEntity.setNeedVerification(questionService.hasWritingQuestions(testEntity.getQuestions().stream().toList()));
         }
         return testRepository.save(testEntity);
     }
@@ -73,9 +78,17 @@ public class TestServiceImpl implements TestService {
                 .collect(Collectors.toSet());
         final var questionOptionsMap = optionService.findByQuestionIds(questionIds).stream()
                 .collect(Collectors.groupingBy(option -> option.getQuestion().getId()));
-        testQuestions.forEach(testQuestion ->
-                testQuestion.setOptions(questionOptionsMap.getOrDefault(testQuestion.getId(), null)));
-        Arrays.stream(testEntities).forEach(test ->
-                test.setQuestions(testQuestionsMap.getOrDefault(test.getId(), null)));
+        final var questionImagesMap = questionImageService.findByQuestionIds(questionIds).stream()
+                .collect(Collectors.groupingBy(questionImage -> questionImage.getQuestion().getId()));
+        testQuestions.forEach(testQuestion -> {
+            var options = questionOptionsMap.getOrDefault(testQuestion.getId(), List.of());
+            testQuestion.setOptions(new HashSet<>(options));
+            var images = questionImagesMap.getOrDefault(testQuestion.getId(), List.of());
+            testQuestion.setImages(new HashSet<>(images));
+        });
+        Arrays.stream(testEntities).forEach(test -> {
+            var questions = testQuestionsMap.getOrDefault(test.getId(), List.of());
+            test.setQuestions(new HashSet<>(questions));
+        });
     }
 }

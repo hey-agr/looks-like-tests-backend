@@ -1,5 +1,6 @@
 package ru.agr.backend.looksliketests.controller.resources;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -11,6 +12,7 @@ import java.util.List;
  */
 @Jacksonized
 @Builder
+@AllArgsConstructor
 @Data
 public class StudentTestAssignationResource {
     Long testId;

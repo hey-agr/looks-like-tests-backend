@@ -1,6 +1,7 @@
 package ru.agr.backend.looksliketests.service.impl;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.agr.backend.looksliketests.db.entity.main.Option;
 import ru.agr.backend.looksliketests.db.repository.OptionRepository;
@@ -14,12 +15,9 @@ import java.util.Set;
  * @author Arslan Rabadanov
  */
 @Service
+@RequiredArgsConstructor
 public class OptionServiceImpl implements OptionService {
     private final OptionRepository optionRepository;
-
-    public OptionServiceImpl(OptionRepository optionRepository) {
-        this.optionRepository = optionRepository;
-    }
 
     @Override
     public List<Option> findByQuestionIds(@NonNull Set<Long> questionIds) {

@@ -9,10 +9,9 @@ import ru.agr.backend.looksliketests.service.impl.RightAnswerCalculateServiceImp
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Arslan Rabadanov
@@ -52,7 +51,7 @@ class RightAnswerCalculateServiceTest {
 
         var givenQuestion = Question.builder()
                 .type(QuestionType.OPTIONS)
-                .options(List.of(givenRightOption, givenWrongOption))
+                .options(Set.of(givenRightOption, givenWrongOption))
                 .build();
 
         var givenAnswers = List.of(
@@ -77,7 +76,7 @@ class RightAnswerCalculateServiceTest {
 
         var givenQuestion = Question.builder()
                 .type(QuestionType.OPTIONS)
-                .options(List.of(givenRightOption, givenWrongOption))
+                .options(Set.of(givenRightOption, givenWrongOption))
                 .build();
 
         var givenAnswers = List.of(
@@ -106,7 +105,7 @@ class RightAnswerCalculateServiceTest {
 
         var givenQuestion = Question.builder()
                 .type(QuestionType.OPTIONS_MULTIPLY)
-                .options(List.of(givenRightOption, givenSecondRightOption, givenWrongOption))
+                .options(Set.of(givenRightOption, givenSecondRightOption, givenWrongOption))
                 .build();
 
         var givenAnswers = List.of(
@@ -138,7 +137,7 @@ class RightAnswerCalculateServiceTest {
 
         var givenQuestion = Question.builder()
                 .type(QuestionType.OPTIONS_MULTIPLY)
-                .options(List.of(givenRightOption, givenSecondRightOption, givenWrongOption))
+                .options(Set.of(givenRightOption, givenSecondRightOption, givenWrongOption))
                 .build();
 
         var givenAnswers = List.of(
@@ -170,7 +169,7 @@ class RightAnswerCalculateServiceTest {
 
         var givenQuestion = Question.builder()
                 .type(QuestionType.OPTIONS_MULTIPLY)
-                .options(List.of(givenRightOption, givenSecondRightOption, givenWrongOption))
+                .options(Set.of(givenRightOption, givenSecondRightOption, givenWrongOption))
                 .build();
 
         var givenAnswers = List.of(

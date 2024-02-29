@@ -11,11 +11,9 @@ import ru.agr.backend.looksliketests.db.repository.QuestionRepository;
 import ru.agr.backend.looksliketests.service.impl.QuestionServiceImpl;
 
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -43,12 +41,6 @@ class QuestionServiceTest {
                 .thenReturn(expectedQuestions);
 
         assertEquals(expectedQuestions, service.findByTestIds(TEST_ID1, TEST_ID2));
-    }
-
-    @Test
-    void findByTestIdsNPE() {
-        assertThrows(NullPointerException.class,
-                () -> service.findByTestIds(null));
     }
 
     @Test

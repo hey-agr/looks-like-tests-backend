@@ -1,7 +1,6 @@
 package ru.agr.backend.looksliketests.controller.resources;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 import ru.agr.backend.looksliketests.controller.auth.dto.UserAuthorityName;
 
 import java.util.Set;
@@ -9,16 +8,18 @@ import java.util.Set;
 /**
  * @author Arslan Rabadanov
  */
-@Value
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
 public class UserResource {
-    Long id;
-    String username;
-    String firstName;
-    String lastName;
-    String middleName;
-    String email;
-    String phone;
-    boolean activated;
-    Set<UserAuthorityName> authorities;
+    private Long id;
+    private String username;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private String email;
+    private String phone;
+    private boolean activated;
+    private Set<UserAuthorityName> authorities;
 }
