@@ -21,7 +21,7 @@
 docker-compose up -d
 
 ## Swagger
-http://localhost:8090/swagger-ui/index.html
+http://localhost:8080/swagger-ui/index.html
 
 ## PgAdmin
 http://localhost:5050/
@@ -30,5 +30,4 @@ Username: user@pgadmin.org
 
 Password: admin
 
-
-### Spring Native / Spring Boot 3 (Data JPA, Web, Security) / PostgresSQL / Flyway / Docker / Swagger / Lombok / Mapstruct
+## Spring Native / Spring Boot 3 (Data JPA, Web, Security) / PostgresSQL / Flyway / Docker / Swagger / Lombok / Mapstruct
