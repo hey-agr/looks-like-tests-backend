@@ -95,4 +95,16 @@ class AssignationServiceTest {
 
         assertFalse(service.isStudentAssignedToTest(STUDENT_ID, TEST_ID));
     }
+
+    @Test
+    void testNullPointerException() {
+        assertThrows(NullPointerException.class,
+                () -> service.save((StudentToTeacherAssignation) null));
+        assertThrows(NullPointerException.class,
+                () -> service.save((StudentToTestAssignation) null));
+        assertThrows(NullPointerException.class,
+                () -> service.isStudentAssignedToTest(null, null));
+        assertThrows(NullPointerException.class,
+                () -> service.isStudentAssignedToTest(STUDENT_ID, null));
+    }
 }

@@ -1,5 +1,6 @@
 package ru.agr.backend.looksliketests.db.repository.specification;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -27,7 +28,7 @@ public class TestSpecification implements Specification<TestEntity> {
     private final TestSpecificationFilter filter;
 
     @Override
-    public Predicate toPredicate(@NonNull Root<TestEntity> root, @NonNull CriteriaQuery<?> query, @NonNull CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(@NonNull Root<TestEntity> root, @Nullable CriteriaQuery<?> query, @NonNull CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
         if (nonNull(filter)) {
             Optional.ofNullable(filter.getStudentIds())

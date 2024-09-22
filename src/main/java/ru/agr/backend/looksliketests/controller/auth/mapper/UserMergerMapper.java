@@ -12,10 +12,10 @@ import static java.util.Objects.nonNull;
  * @author Arslan Rabadanov
  */
 @Mapper(componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR
 )
 public abstract class UserMergerMapper {
-    @Autowired
     protected PasswordEncoder passwordEncoder;
 
     @Mapping(target = "id", ignore = true)

@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
 import ru.agr.backend.looksliketests.db.entity.main.StudentAssignedTest;
 import ru.agr.backend.looksliketests.db.repository.filter.StudentAssignedTestSpecificationFilter;
 
@@ -26,7 +27,7 @@ public class StudentAssignedTestSpecification implements Specification<StudentAs
     private final StudentAssignedTestSpecificationFilter filter;
 
     @Override
-    public Predicate toPredicate(@NonNull Root<StudentAssignedTest> root, @NonNull CriteriaQuery<?> query, @NonNull CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(@NonNull Root<StudentAssignedTest> root, @Nullable CriteriaQuery<?> query, @NonNull CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
         if (nonNull(filter)) {
             Optional.ofNullable(filter.getStudentIds())

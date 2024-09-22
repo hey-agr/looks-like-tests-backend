@@ -1,5 +1,6 @@
 package ru.agr.backend.looksliketests.db.repository.specification;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -25,7 +26,7 @@ public class UserSpecification implements Specification<User> {
     private final UserSpecificationFilter filter;
 
     @Override
-    public Predicate toPredicate(@NonNull Root<User> root, @NonNull CriteriaQuery<?> query, @NonNull CriteriaBuilder builder) {
+    public Predicate toPredicate(@NonNull Root<User> root, @Nullable CriteriaQuery<?> query, @NonNull CriteriaBuilder builder) {
         List<Predicate> predicates = new ArrayList<>();
         if (nonNull(filter)) {
             Optional.ofNullable(filter.getAuthorities())

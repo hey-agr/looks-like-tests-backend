@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   looks-like-tests:
     container_name: backend_container

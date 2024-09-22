@@ -17,11 +17,13 @@ import static java.util.Objects.nonNull;
 /**
  * @author Arslan Rabadanov
  */
-@Mapper(componentModel = "spring", uses = AuthorityMapper.class, builder = @Builder(disableBuilder = true))
+@Mapper(componentModel = "spring",
+        uses = AuthorityMapper.class,
+        builder = @Builder(disableBuilder = true),
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR
+)
 public abstract class UserMapper {
-    @Autowired
     protected PasswordEncoder passwordEncoder;
-
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)

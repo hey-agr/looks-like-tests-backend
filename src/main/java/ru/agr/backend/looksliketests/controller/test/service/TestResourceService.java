@@ -13,6 +13,8 @@ import ru.agr.backend.looksliketests.db.entity.main.StudentTestHistory;
 import ru.agr.backend.looksliketests.db.entity.main.TestEntity;
 
 /**
+ * Service for preparing DTO mappings
+ *
  * @author Arslan Rabadanov
  */
 public interface TestResourceService {
