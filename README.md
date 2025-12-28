@@ -30,4 +30,4 @@ Username: user@pgadmin.org
 
 Password: admin
 
-## Spring Native / Spring Boot 3 (Data JPA, Web, Security) / PostgresSQL / Flyway / Docker / Swagger / Lombok / Mapstruct
+## Java 21, Spring Native / Spring Boot 3 (Data JPA, Web, Security) / PostgresSQL / Flyway / Docker / Swagger / Lombok / Mapstruct

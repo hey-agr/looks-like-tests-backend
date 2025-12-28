@@ -5,26 +5,26 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.5.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.agr.backend</groupId>
     <artifactId>looks-like-tests-backend</artifactId>
-    <version>0.8.1</version>
+    <version>0.8.2</version>
     <name>looks-like-tests</name>
     <description>looks-like-tests</description>
     <properties>
         <java.version>21</java.version>
-        <testcontainers.version>1.20.1</testcontainers.version>
-        <lombok.version>1.18.34</lombok.version>
-        <mapstruct.version>1.6.2</mapstruct.version>
+        <testcontainers.version>1.21.3</testcontainers.version>
+        <lombok.version>1.18.42</lombok.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
-        <springdoc.version>2.6.0</springdoc.version>
-        <sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-        <native-maven-plugin.version>0.10.3</native-maven-plugin.version>
-        <!--  <hibernate.version>6.4.2.Final</hibernate.version> REMOVE IN SPRING BOOT 3.2.4 -->
+        <springdoc.version>2.8.13</springdoc.version>
+        <sonar-maven-plugin.version>5.2.0.4988</sonar-maven-plugin.version>
+        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+        <native-maven-plugin.version>0.11.1</native-maven-plugin.version>
+        <spotbugs-annotations.version>4.9.7</spotbugs-annotations.version>
     </properties>
     <dependencies>
         <!-- SpringBoot -->
@@ -129,7 +129,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
-            <version>4.8.6</version>
+            <version>${spotbugs-annotations.version}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
