@@ -6,6 +6,8 @@ import org.springframework.aot.hint.MemberCategory;
 import org.springframework.aot.hint.TypeReference;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
+import ru.agr.backend.looksliketests.controller.auth.mapper.UserMapper;
+import ru.agr.backend.looksliketests.controller.auth.mapper.UserMergerMapper;
 
 @Component
 public class NativeHints implements RuntimeHintsRegistrar {
@@ -27,6 +29,16 @@ public class NativeHints implements RuntimeHintsRegistrar {
         // Hibernate function array support
         hints.reflection().registerType(
                 TypeReference.of("org.hibernate.dialect.function.array.AbstractArrayContainsFunction"),
+                MemberCategory.values()
+        );
+
+        // MapStruct generated implementations
+        hints.reflection().registerType(
+                TypeReference.of("ru.agr.backend.looksliketests.controller.auth.mapper.UserMapperImpl"),
+                MemberCategory.values()
+        );
+        hints.reflection().registerType(
+                TypeReference.of("ru.agr.backend.looksliketests.controller.auth.mapper.UserMergerMapperImpl"),
                 MemberCategory.values()
         );
 
