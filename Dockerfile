@@ -1,15 +1,15 @@
 #
 # Build stage
 #
-FROM eclipse-temurin:21-jdk AS build
+FROM ghcr.io/graalvm/native-image-community:25 AS build
 WORKDIR /build
 COPY . /build
-RUN ./mvnw package -DskipTests
+RUN ./mvnw native:compile -Pnative -DskipTests
 
 #
 # Run stage
 #
-FROM eclipse-temurin:21-jre
+FROM ubuntu:jammy
 EXPOSE 8080
-COPY --from=build /build/target/looks-like-tests-backend-*.jar /app.jar
-CMD ["java", "-jar", "/app.jar"]
+COPY --from=build /build/target/looks-like-tests-backend /looks-like-tests-backend
+CMD ["/looks-like-tests-backend"]
