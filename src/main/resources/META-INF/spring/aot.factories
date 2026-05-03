@@ -1,0 +1,2 @@
+# Auto-register RuntimeHintsRegistrar for GraalVM native-image
+org.springframework.aot.hint.RuntimeHintsRegistrar=ru.agr.backend.looksliketests.NativeHints

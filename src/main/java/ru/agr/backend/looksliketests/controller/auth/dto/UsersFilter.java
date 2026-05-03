@@ -1,7 +1,7 @@
 package ru.agr.backend.looksliketests.controller.auth.dto;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.Set;
@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * @author Arslan Rabadanov
  */
-@Value
+@Data
 @Jacksonized
 @Builder
 public class UsersFilter {
