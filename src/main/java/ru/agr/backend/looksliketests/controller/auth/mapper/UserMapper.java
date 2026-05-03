@@ -52,8 +52,12 @@ public abstract class UserMapper {
 
     @AfterMapping
     protected void toUserResourceAfterMapping(User user, @MappingTarget UserResource userResource) {
-        if (nonNull(user.getAuthorities()) && Hibernate.isInitialized(user.getAuthorities())) {
-            userResource.setAuthorities(user.getAuthorities().stream()
+        if (nonNull(user.getAuthorities())) {
+            var authorities = user.getAuthorities();
+            if (!Hibernate.isInitialized(authorities)) {
+                Hibernate.initialize(authorities);
+            }
+            userResource.setAuthorities(authorities.stream()
                     .map(userAuthority -> UserAuthorityName.valueOf(userAuthority.getName().name()))
                     .collect(Collectors.toSet()));
         }
