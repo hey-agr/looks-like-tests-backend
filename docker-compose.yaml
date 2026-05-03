@@ -2,6 +2,7 @@ services:
   looks-like-tests:
     container_name: backend_container
     build: .
+    restart: unless-stopped
     ports:
       - "8080:8080"
     networks:
@@ -11,7 +12,8 @@ services:
       - JDBC_DATABASE_USERNAME=${POSTGRES_USER:-postgres}
       - JDBC_DATABASE_PASSWORD=${POSTGRES_PASSWORD:-postgres}
     depends_on:
-      - "postgres"
+      postgres:
+        condition: service_healthy
   postgres:
     container_name: postgres_container
     image: postgres
@@ -27,6 +29,11 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d looksliketests"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4
