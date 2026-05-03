@@ -20,9 +20,10 @@ import static java.util.Objects.nonNull;
 @Mapper(componentModel = "spring",
         uses = AuthorityMapper.class,
         builder = @Builder(disableBuilder = true),
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR
+        injectionStrategy = InjectionStrategy.FIELD
 )
 public abstract class UserMapper {
+    @Autowired
     protected PasswordEncoder passwordEncoder;
 
     @Mapping(target = "id", ignore = true)
